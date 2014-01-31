@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9C58EF92-20DF-426D-BBC3-E06FF9E1969C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DBSetup.Common</RootNamespace>
+    <AssemblyName>DBSetup.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ThirdParty\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ThirdParty\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ThirdParty\Microsoft.SqlServer.Smo.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DICOM\Configuration\CustomSection.cs" />
+    <Compile Include="DICOM\Configuration\Utils.cs" />
+    <Compile Include="DICOM\Data\PS360DICOMTables1.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PS360DICOMTables.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="DICOM\DicomSectionHandler.cs" />
+    <Compile Include="DICOM\Importer.cs" />
+    <Compile Include="Exceptions\ConfigFileException.cs" />
+    <Compile Include="Exceptions\SqlServerException.cs" />
+    <Compile Include="Helpers\GenericWeakReference.cs" />
+    <Compile Include="Helpers\LineParser.cs" />
+    <Compile Include="Helpers\SafeCollection.cs" />
+    <Compile Include="Helpers\SectionBaseExtension.cs" />
+    <Compile Include="Helpers\StringExtension.cs" />
+    <Compile Include="Helpers\SingletonBase.cs" />
+    <Compile Include="Helpers\SqlServerHelper.cs" />
+    <Compile Include="Helpers\TaskExtensions.cs" />
+    <Compile Include="IExecutor.cs" />
+    <Compile Include="ILog.cs" />
+    <Compile Include="IniFileParser.cs" />
+    <Compile Include="IServiceLocator.cs" />
+    <Compile Include="ISqlConnection.cs" />
+    <Compile Include="IState.cs" />
+    <Compile Include="ISqlStatementFactory.cs" />
+    <Compile Include="IVersionService.cs" />
+    <Compile Include="ModelBuilder\BuilderContext.cs" />
+    <Compile Include="ModelBuilder\FullObjectModelBuilder.cs" />
+    <Compile Include="ModelBuilder\IBuilder.cs" />
+    <Compile Include="ModelBuilder\ObjectModelBuilder.cs" />
+    <Compile Include="ModelBuilder\ScriptConsequencyBuilder.cs" />
+    <Compile Include="ModelBuilder\SetupScriptDocument.cs" />
+    <Compile Include="ModelBuilder\SqlStatementsFactory.cs" />
+    <Compile Include="Models\BlobLink.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\DICOMLink.cs" />
+    <Compile Include="Models\FaultSection.cs" />
+    <Compile Include="Models\IniFileLink.cs" />
+    <Compile Include="Models\ISection.cs" />
+    <Compile Include="Models\ISectionHandler.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Models\JavaLink.cs" />
+    <Compile Include="Models\Language.cs" />
+    <Compile Include="Models\SettingsPair.cs" />
+    <Compile Include="Models\SetupType.cs" />
+    <Compile Include="Models\SqlLink.cs" />
+    <Compile Include="Native\Win32.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SectionHandlerFactory.cs" />
+    <Compile Include="Services\NoUIExecutor.cs" />
+    <Compile Include="Services\SimpleIoC.cs" />
+    <Compile Include="Services\VesrionService.cs" />
+    <Compile Include="Statements\DicomDataStatement.cs" />
+    <Compile Include="Statements\IDataStatement.cs" />
+    <Compile Include="Statements\SqlStatement.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="DICOM\Data\PS360DICOMTables.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>PS360DICOMTables1.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DICOM\Files\ABDO.csv" />
+    <None Include="DICOM\Files\ADULTECHO.csv" />
+    <None Include="DICOM\Files\GYN.csv" />
+    <None Include="DICOM\Files\OB - Copy.csv" />
+    <None Include="DICOM\Files\OB.csv" />
+    <None Include="DICOM\Files\VASC-UPPER.csv" />
+    <None Include="DICOM\Files\VASC.csv" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="DICOM\Files\STD_Abdo.xml" />
+    <Content Include="DICOM\Files\STD_AdultEcho.xml" />
+    <Content Include="DICOM\Files\STD_GYN.xml" />
+    <Content Include="DICOM\Files\STD_OB.xml" />
+    <Content Include="DICOM\Files\STD_Vasc.xml" />
+    <Content Include="ThirdParty\Microsoft.SqlServer.ConnectionInfo.dll" />
+    <Content Include="ThirdParty\Microsoft.SqlServer.Management.Sdk.Sfc.dll" />
+    <Content Include="ThirdParty\Microsoft.SqlServer.Smo.dll" />
+    <Content Include="ThirdParty\Microsoft.SqlServer.SqlClrProvider.dll" />
+    <Content Include="ThirdParty\Microsoft.SqlServer.SqlEnum.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DICOM\Data\PS360DICOMTables.dbml.layout">
+      <DependentUpon>PS360DICOMTables.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

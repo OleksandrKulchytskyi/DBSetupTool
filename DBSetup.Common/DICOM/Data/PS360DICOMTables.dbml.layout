@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="PS360DICOMTables">
+  <DataContextMoniker Name="/PS360DICOMTablesDataContext" />
+  <nestedChildShapes>
+    <classShape Id="81918680-bc96-46b5-bdc0-3092faf79583" absoluteBounds="5.375, 1.125, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/PS360DICOMTablesDataContext/MergeField" />
+      <nestedChildShapes>
+        <elementListCompartment Id="39b2e0d9-e4fa-4ae4-8a86-019f9d950dbf" absoluteBounds="5.39, 1.585, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e86a2096-4d67-4ae9-a387-532219220396" absoluteBounds="6.875, 4, 2, 3.3093082682291666">
+      <DataClassMoniker Name="/PS360DICOMTablesDataContext/DICOMMergeField" />
+      <nestedChildShapes>
+        <elementListCompartment Id="73610bb9-df28-4516-90d7-380403313ce4" absoluteBounds="6.89, 4.46, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(7.125 : 2.70359537760417); (7.125 : 4)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/PS360DICOMTablesDataContext/MergeField/MergeField_DICOMMergeField" />
+      <nodes>
+        <classShapeMoniker Id="81918680-bc96-46b5-bdc0-3092faf79583" />
+        <classShapeMoniker Id="e86a2096-4d67-4ae9-a387-532219220396" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="7267e8e2-5547-4d83-a997-328922bcf763" absoluteBounds="2.875, 4.375, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/PS360DICOMTablesDataContext/DICOMSRTemplate" />
+      <nestedChildShapes>
+        <elementListCompartment Id="66cbfc5f-5026-46cd-8fbf-98184fdbac2b" absoluteBounds="2.89, 4.835, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4.875 : 5.45274983723958); (6.875 : 5.45274983723958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/PS360DICOMTablesDataContext/DICOMSRTemplate/DICOMSRTemplate_DICOMMergeField" />
+      <nodes>
+        <classShapeMoniker Id="7267e8e2-5547-4d83-a997-328922bcf763" />
+        <classShapeMoniker Id="e86a2096-4d67-4ae9-a387-532219220396" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="3cb52691-f53a-4567-9b57-db6ce487ac9b" absoluteBounds="1.375, 1.5, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/PS360DICOMTablesDataContext/DICOMSRTemplateType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e6af24ad-0c6b-42bf-ba84-e15b32123e49" absoluteBounds="1.3900000000000001, 1.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.375 : 2.28929768880208); (4.1250005 : 2.28929768880208); (4.1250005 : 4.375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PS360DICOMTablesDataContext/DICOMSRTemplateType/DICOMSRTemplateType_DICOMSRTemplate" />
+      <nodes>
+        <classShapeMoniker Id="3cb52691-f53a-4567-9b57-db6ce487ac9b" />
+        <classShapeMoniker Id="7267e8e2-5547-4d83-a997-328922bcf763" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="5d467f6b-f73e-42aa-9d78-22ac92cbcb5c" absoluteBounds="0.5, 4, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/PS360DICOMTablesDataContext/DICOMDevice" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c7a5f813-fc3e-40a5-ba6b-1a74f8237c7c" absoluteBounds="0.51500000000000012, 4.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.5 : 4.97679768880208); (2.875 : 4.97679768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PS360DICOMTablesDataContext/DICOMDevice/DICOMDevice_DICOMSRTemplate" />
+      <nodes>
+        <classShapeMoniker Id="5d467f6b-f73e-42aa-9d78-22ac92cbcb5c" />
+        <classShapeMoniker Id="7267e8e2-5547-4d83-a997-328922bcf763" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

@@ -1,0 +1,993 @@
+<?xml version="1.0"?>
+<report type="Comprehensive SR">
+	<sopclass uid="1.2.840.10008.5.1.4.1.1.88.33">ComprehensiveSRStorage</sopclass>
+	<modality>SR</modality>
+	<device>
+		<manufacturer>Philips Medical Systems</manufacturer>
+		<model>EPIQ 7C</model>
+		<serial>368300478</serial>
+		<version>EPIQ 7G_1.0.0.2071</version>
+	</device>
+	<patient>
+		<id>42421720130722</id>
+		<name>
+			<last>GYN</last>
+		</name>
+	</patient>
+	<study uid="1.2.840.113663.1500.1.368300478.1.1.20130722.174242.997">
+		<id>20130722.174242</id>
+		<date>2013-07-22</date>
+		<time>17:42:42</time>
+		<accession>
+			<number>CMP_GYN_1</number>
+		</accession>
+	</study>
+	<series uid="1.2.840.113663.1500.1.368300478.7.1.20130722.174242.0">
+		<number>2</number>
+		<date>2013-07-22</date>
+		<time>17:42:42</time>
+	</series>
+	<instance uid="1.2.840.113663.1500.1.368300478.8.1.20130722.174335.972">
+		<number>1</number>
+	</instance>
+	<document>
+		<completion flag="PARTIAL">
+		</completion>
+		<verification flag="UNVERIFIED">
+		</verification>
+		<content>
+			<date>2013-07-22</date>
+			<time>17:43:35</time>
+			<item valType="CONTAINER" flag="SEPARATE">
+				<concept codValue="125000" codScheme="DCM">OB-GYN Ultrasound Procedure Report</concept>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121118" codScheme="DCM">Patient Characteristics</concept>
+					<item valType="TEXT" relType="CONTAINS">
+						<concept codValue="121029" codScheme="DCM">Subject Name</concept>
+						<value>GYN^^^^</value>
+					</item>
+					<item valType="TEXT" relType="CONTAINS">
+						<concept codValue="121030" codScheme="DCM">Subject ID</concept>
+						<value>42421720130722</value>
+					</item>
+					<item valType="DATE" relType="CONTAINS">
+						<concept codValue="T9910-09" codScheme="99PMSBLUS">Exam date</concept>
+						<value>2013-07-22</value>
+					</item>
+					<item valType="DATE" relType="CONTAINS">
+						<concept codValue="T9910-105" codScheme="99PMSBLUS">Study date</concept>
+						<value>2013-07-22</value>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="125011" codScheme="DCM">Pelvis and Uterus</concept>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-83000" codScheme="SRT">Uterus</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11859-6" codScheme="LN">Uterus Height</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11859-6" codScheme="LN">Uterus Height</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11842-2" codScheme="LN">Uterus Length</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11842-2" codScheme="LN">Uterus Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11865-3" codScheme="LN">Uterus Width</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11865-3" codScheme="LN">Uterus Width</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="33192-6" codScheme="LN">Uterus Volume</concept>
+							<value>47710</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11961-0" codScheme="LN">Cervix Length</concept>
+						<value>28</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11961-0" codScheme="LN">Cervix Length</concept>
+						<item valType="CODE" relType="HAS CONCEPT MOD">
+							<concept codValue="121401" codScheme="DCM">Derivation</concept>
+							<value codValue="R-00317" codScheme="SRT">Mean</value>
+						</item>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+						</item>
+						<value>28</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="12145-9" codScheme="LN">Endometrium Thickness</concept>
+						<value>28</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="12145-9" codScheme="LN">Endometrium Thickness</concept>
+						<item valType="CODE" relType="HAS CONCEPT MOD">
+							<concept codValue="121401" codScheme="DCM">Derivation</concept>
+							<value codValue="R-00317" codScheme="SRT">Mean</value>
+						</item>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+						</item>
+						<value>28</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="C12011-03" codScheme="99PMSBLUS">Bladder Height</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>45</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="C12011-01" codScheme="99PMSBLUS">Bladder Length</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>45</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="C12011-02" codScheme="99PMSBLUS">Bladder Width</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>45</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="C12011-07" codScheme="99PMSBLUS">Post Void Bladder Height</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>45</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="C12011-05" codScheme="99PMSBLUS">Post Void Bladder Length</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>45</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="C12011-06" codScheme="99PMSBLUS">Post Void Bladder Width</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>45</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="C12011-04" codScheme="99PMSBLUS">Bladder Volume</concept>
+						<value>47710</value>
+						<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="C12011-08" codScheme="99PMSBLUS">Post Void Bladder Volume</concept>
+						<value>47710</value>
+						<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121070" codScheme="DCM">Findings</concept>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C0E3" codScheme="SRT">Finding Site</concept>
+						<value codValue="T-87600" codScheme="SRT">Ovarian Follicle</value>
+					</item>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C171" codScheme="SRT">Laterality</concept>
+						<value codValue="G-A101" codScheme="SRT">Left</value>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11879-4" codScheme="LN">Number of follicles in left ovary</concept>
+						<value>10</value>
+						<unit codValue="1" codScheme="UCUM">no units</unit>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>1</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>28</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>28</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>11490</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>2</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>28</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>28</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>11490</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>3</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>28</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>28</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>11490</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>4</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>28</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>28</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>11490</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>5</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>47710</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>6</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>47710</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>7</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>47710</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>8</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>47710</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>9</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>47710</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>10</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>28</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>28</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>11490</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121070" codScheme="DCM">Findings</concept>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C0E3" codScheme="SRT">Finding Site</concept>
+						<value codValue="T-87600" codScheme="SRT">Ovarian Follicle</value>
+					</item>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C171" codScheme="SRT">Laterality</concept>
+						<value codValue="G-A100" codScheme="SRT">Right</value>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11880-2" codScheme="LN">Number of follicles in right ovary</concept>
+						<value>10</value>
+						<unit codValue="1" codScheme="UCUM">no units</unit>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>1</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>15</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>15</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>1770</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>2</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>15</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>15</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>1770</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>3</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>15</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>15</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>1770</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>4</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>15</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>15</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>1770</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>5</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>49</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>49</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>61600</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>6</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>49</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>49</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>61600</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>7</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>49</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>49</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>61600</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>8</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>49</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>49</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>61600</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>9</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>49</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>49</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>61600</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125007" codScheme="DCM">Measurement Group</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="12510" codScheme="DCM">Identifier</concept>
+							<value>10</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<value>15</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11793-7" codScheme="LN">Follicle Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>15</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="G-D705" codScheme="SRT">Volume</concept>
+							<value>1770</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121070" codScheme="DCM">Findings</concept>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C0E3" codScheme="SRT">Finding Site</concept>
+						<value codValue="T-87000" codScheme="SRT">Ovary</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-87000" codScheme="SRT">Ovary</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11857-0" codScheme="LN">Left Ovary Height</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11857-0" codScheme="LN">Left Ovary Height</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11840-6" codScheme="LN">Left Ovary Length</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11840-6" codScheme="LN">Left Ovary Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11829-9" codScheme="LN">Left Ovary Width</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11829-9" codScheme="LN">Left Ovary Width</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12164-0" codScheme="LN">Left Ovary Volume</concept>
+							<value>47710</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-87000" codScheme="SRT">Ovary</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11858-8" codScheme="LN">Right Ovary Height</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11858-8" codScheme="LN">Right Ovary Height</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11841-4" codScheme="LN">Right Ovary Length</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11841-4" codScheme="LN">Right Ovary Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11830-7" codScheme="LN">Right Ovary Width</concept>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11830-7" codScheme="LN">Right Ovary Width</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12165-7" codScheme="LN">Right Ovary Volume</concept>
+							<value>47710</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+				</item>
+			</item>
+		</content>
+	</document>
+</report>

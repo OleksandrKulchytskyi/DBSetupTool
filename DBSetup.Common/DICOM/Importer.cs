@@ -1,0 +1,416 @@
+﻿using DBSetup.Common.DICOM.Configuration;
+using DBSetup.Common.DICOM.Data;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
+
+namespace DBSetup.Common.DICOM
+{
+	public class Importer : IDisposable
+	{
+		//DICOM DB context
+		private PS360DICOMTablesDataContext _context = null;
+		//internal logger component
+		private ILog _logger;
+
+		/// <summary>
+		/// Ctor
+		/// </summary>
+		/// <param name="server">DB server name</param>
+		/// <param name="dbName">Name of the database</param>
+		/// <param name="username">SQL user name</param>
+		/// <param name="password">SQL password</param>
+		public Importer(string server, string dbName, string username, string password)
+		{
+			_context = new PS360DICOMTablesDataContext(String.Format("Server={0};Database={1};User Id={2};Password={3}", server, dbName, username, password));
+			_logger = Log.Instance;
+		}
+
+		/// <summary>
+		/// Ctor
+		/// </summary>
+		/// <param name="server">DB server name</param>
+		/// <param name="dbName">Name of the database</param>
+		/// <param name="username">SQL user name</param>
+		/// <param name="password">SQL password</param>
+		/// <param name="logger">Logger instance</param>
+		/// <exception cref="System.ArgumentNullException"></exception>
+		public Importer(string server, string dbName, string username, string password, ILog logger)
+		{
+			if (logger == null)
+				throw new ArgumentNullException("Logger parameter cannot be a null.");
+			_logger = logger;
+			_context = new PS360DICOMTablesDataContext(String.Format("Server={0};Database={1};User Id={2};Password={3}", server, dbName, username, password));
+		}
+
+		/// <summary>
+		/// Processing all csv file records and submit it to the DB
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <param name="inactive"></param>
+		/// <param name="active"></param>
+		/// <param name="dicomMFgroupelement"></param>
+		/// <exception cref="System.IO.IOException"></exception>
+		/// /// <exception cref="System.ArgumentNullException"></exception>
+		public void Process(string filename, bool inactive, bool active, DICOMMergeFieldElements dicomMFgroupelement)
+		{
+			if (string.IsNullOrEmpty(filename))
+				throw new ArgumentNullException("Filename parameter cannot be a null.");
+			if (dicomMFgroupelement == null)
+				throw new ArgumentNullException("dicomMFgroupelement parameter cannot be a null.");
+
+			try
+			{
+				int deviceID = GetDeviceID();
+				if (deviceID == 0)
+				{
+					_logger.Error("Creating the device record in the database.");
+
+					return;
+				}
+				int srTemplateTypeID = GetTemplateTypeID(filename);
+				if (srTemplateTypeID == 0)
+				{
+					_logger.Error("Creating the SR template type record in the database.");
+					return;
+				}
+				int srTemplateID = GetTemplateID(filename, srTemplateTypeID, deviceID, dicomMFgroupelement);
+				if (srTemplateTypeID == 0)
+				{
+					_logger.Error("Creating the SR Template record in the database.");
+					return;
+				}
+
+
+				// loop through the filename, and import the data 
+				bool hasError = false;
+				using (var reader = new StreamReader(filename))
+				{
+					string line;
+					int row = 0;
+					int added = 0;
+					int updated = 0;
+					while ((line = reader.ReadLine()) != null)
+					{
+						// tokenize
+						row++;
+						string[] tok = line.Split(',');
+						if (tok.Length == 13)
+						{
+							// skip the header row
+							if (row > 1)
+							{
+								int DICOMMergeFieldID = Int32.Parse(tok[0]);
+								int MergeFieldID = Int32.Parse(tok[1]);
+								int DICOMSRTemplateID = Int32.Parse(tok[2]);
+								string Name = tok[3];
+								string Description = tok[4];
+								bool IsActive = tok[5].Equals("1");
+								if (inactive)
+								{
+									IsActive = false;
+								}
+								else if (active)
+								{
+									IsActive = true;
+								}
+								string ValueXPath = tok[6];
+								string UnitsXPath = tok[7];
+								string FindingSite = tok[8];
+								string Property = tok[9];
+								string Modifier = tok[10];
+								bool HasOBContext = tok[11].Equals("1");
+								bool HasLateralityContext = tok[12].Equals("1");
+
+								if (Name.Length <= 250 && Description.Length <= 2000)
+								{
+									var recs = _context.DICOMMergeFields.Where(x => x.MergeFieldID == MergeFieldID);
+									if (recs == null || recs.Count() == 0)
+									{
+
+										var mergeField = new MergeField();
+										mergeField.MergeFieldID = MergeFieldID;
+										mergeField.MergeFieldTypeID = 4; // this is a DICOM Merge Field in PS360
+										mergeField.Name = Name;
+										_context.MergeFields.InsertOnSubmit(mergeField);
+
+										var dicomMergeField = new DICOMMergeField();
+										dicomMergeField.MergeFieldID = MergeFieldID;
+										dicomMergeField.DICOMSRTemplateID = srTemplateID;
+										dicomMergeField.Name = Name;
+										dicomMergeField.Description = Description;
+										dicomMergeField.IsActive = IsActive;
+										dicomMergeField.ValueXPath = ValueXPath;
+										dicomMergeField.UnitsXPath = UnitsXPath;
+										dicomMergeField.FindingSite = FindingSite;
+										dicomMergeField.Property = Property;
+										dicomMergeField.Modifier = Modifier;
+										dicomMergeField.HasOBContext = HasOBContext;
+										dicomMergeField.HasLateralityContext = HasLateralityContext;
+										_context.DICOMMergeFields.InsertOnSubmit(dicomMergeField);
+										added++;
+									}
+									else
+									{
+										// update the name, description, or isactive flag only
+										var mf = _context.MergeFields.Where(x => x.MergeFieldID == MergeFieldID).First();
+										mf.Name = Name;
+										mf.Description = Description;
+
+										var dmf = recs.First();
+										dmf.Name = Name;
+										dmf.Description = Description;
+										dmf.IsActive = IsActive;
+										updated++;
+									}
+								}
+								else
+								{
+									_logger.Warn("The Name or Description for the merge field was too long on row: " + row + ", it will be skipped");
+									_logger.Warn("Name: " + Name);
+								}
+							}
+						}
+						else
+						{
+							_logger.Error("Row [" + row + "] is invalid");
+							hasError = true;
+							break;
+						}
+					}
+
+					if (!hasError)
+					{
+						_context.SubmitChanges();
+						_logger.Info((row - 1) + " rows were processed from " + filename);
+						_logger.Info(added + " DICOM Merge Fields were added");
+						_logger.Info(updated + " DICOM Merge Fields were updated");
+					}
+				}
+			}
+			catch (IOException ex)
+			{
+				_logger.Error("Error Occurred", ex);
+			}
+		}
+
+		protected int GetDeviceID()
+		{
+			int result = 0;
+			var devices = _context.DICOMDevices.Where(x => x.Manufacturer.Equals(Utils.GetAppSetting("MANUFACTURER", "Philips Medical Systems")) &&
+				x.Model.Equals(Utils.GetAppSetting("MODEL", "EPIQ 7C")) && x.Version.Equals(Utils.GetAppSetting("VERSION", "EPIQ 7G_1.0.0.2071")));
+
+			if (devices == null || devices.Count() == 0)
+			{
+				var device = new DICOMDevice();
+				device.Manufacturer = Utils.GetAppSetting("MANUFACTURER", "Philips Medical Systems");
+				device.Model = Utils.GetAppSetting("MODEL", "EPIQ 7C");
+				device.Version = Utils.GetAppSetting("VERSION", "EPIQ 7G_1.0.0.2071");
+				_context.DICOMDevices.InsertOnSubmit(device);
+				_context.SubmitChanges();
+				result = device.DICOMDeviceID;
+
+				_logger.Info("Successfully added device record for standard SR measurements.");
+			}
+			else
+			{
+				result = devices.First().DICOMDeviceID;
+				_logger.Info("Found existing device record for standard SR measurements.");
+			}
+
+			return result;
+		}
+
+		protected int GetTemplateTypeID(string filename)
+		{
+			int result = 0;
+			// based on the file name, we will determine if the template is an OB, GYN, Adult Echo, or Vasc
+			if (Path.GetFileName(filename).ToUpper().StartsWith("OB") || Path.GetFileName(filename).ToUpper().StartsWith("GYN"))
+			{
+				var templateTypes = _context.DICOMSRTemplateTypes.Where(x => x.Code.Equals(Utils.GetAppSetting("STD_OB_CODE", "125000")));
+				if (templateTypes == null || templateTypes.Count() == 0)
+				{
+					var templateType = new DICOMSRTemplateType();
+					templateType.Name = Utils.GetAppSetting("STD_OB_TEMP_NAME", "OB-GYN Ultrasound Procedure Report");
+					templateType.Code = Utils.GetAppSetting("STD_OB_CODE", "125000");
+					_context.DICOMSRTemplateTypes.InsertOnSubmit(templateType);
+					_context.SubmitChanges();
+					result = templateType.DICOMSRTemplateTypeID;
+					_logger.Info("Successfully added " + templateType.Name + " SR template record.");
+				}
+				else
+				{
+					result = templateTypes.First().DICOMSRTemplateTypeID;
+					_logger.Info("Found existing " + Utils.GetAppSetting("STD_OB_TEMP_NAME", "OB-GYN Ultrasound Procedure Report") + " SR template record.");
+				}
+			}
+			else if (Path.GetFileName(filename).ToUpper().StartsWith("ADULTECHO"))
+			{
+				var templateTypes = _context.DICOMSRTemplateTypes.Where(x => x.Code.Equals(Utils.GetAppSetting("STD_ADULTECHO_CODE", "125200")));
+				if (templateTypes == null || templateTypes.Count() == 0)
+				{
+					var templateType = new Data.DICOMSRTemplateType();
+					templateType.Name = Utils.GetAppSetting("STD_ADULTECHO_TEMP_NAME", "Adult Echocardiography Procedure Report");
+					templateType.Code = Utils.GetAppSetting("STD_ADULTECHO_CODE", "125200");
+					_context.DICOMSRTemplateTypes.InsertOnSubmit(templateType);
+					_context.SubmitChanges();
+					result = templateType.DICOMSRTemplateTypeID;
+					_logger.Info("Successfully added " + templateType.Name + " SR template record.");
+				}
+				else
+				{
+					result = templateTypes.First().DICOMSRTemplateTypeID;
+					_logger.Info("Found existing " + Utils.GetAppSetting("STD_ADULTECHO_TEMP_NAME", "Adult Echocardiography Procedure Report") + " SR template record.");
+				}
+
+			}
+			else if (Path.GetFileName(filename).ToUpper().StartsWith("VASC") || Path.GetFileName(filename).ToUpper().StartsWith("ABDO"))
+			{
+				var templateTypes = _context.DICOMSRTemplateTypes.Where(x => x.Code.Equals(Utils.GetAppSetting("STD_VASC_CODE", "125100")));
+				if (templateTypes == null || templateTypes.Count() == 0)
+				{
+					var templateType = new DICOMSRTemplateType();
+					templateType.Name = Utils.GetAppSetting("STD_VASC_TEMP_NAME", "Vascular Ultrasound Procedure Report");
+					templateType.Code = Utils.GetAppSetting("STD_VASC_CODE", "125100");
+					_context.DICOMSRTemplateTypes.InsertOnSubmit(templateType);
+					_context.SubmitChanges();
+					result = templateType.DICOMSRTemplateTypeID;
+					_logger.Info("Successfully added " + templateType.Name + " SR template record.");
+				}
+				else
+				{
+					result = templateTypes.First().DICOMSRTemplateTypeID;
+					_logger.Info("Found existing " + Utils.GetAppSetting("STD_VASC_TEMP_NAME", "Vascular Ultrasound Procedure Report") + " SR template record.");
+				}
+			}
+			else
+			{
+				_logger.Error("Filename name is invalid. The filename must start with OB, GYN, AdultEcho, Vasc, or Abdo");
+			}
+
+			return result;
+		}
+
+		protected int GetTemplateID(string filename, int srTemplateID, int deviceID, DICOMMergeFieldElements dicomlist)
+		{
+			int result = 0;
+			string name = String.Empty;
+			string description = String.Empty;
+
+			// make the xml file loaded as a template
+			DICOMSRTemplate templateSR = null;
+
+			// based on the file name, we will determine if the template is an OB, GYN, Adult Echo, or Vasc
+			XDocument xml = new XDocument();
+			if (Utils.GetAppSetting("DICOMMergeFieldGroup_Name_OB", "OB").Equals(dicomlist.Name, StringComparison.OrdinalIgnoreCase))
+			{
+				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_OB_NAME", "Standard SR for OB Measurements")));
+				if (templateSRs == null || templateSRs.Count() == 0)
+				{
+					xml = XDocument.Load(Utils.GetAppSetting("STD_OB_FILE", "STD_OB.xml"));
+					name = Utils.GetAppSetting("STD_OB_NAME", "Standard SR for OB Measurements");
+					description = Utils.GetAppSetting("STD_OB_DESC", "Standard SR for OB Measurements");
+				}
+				else
+				{
+					templateSR = templateSRs.First();
+				}
+			}
+			else if (Path.GetFileName(filename).ToUpper().StartsWith("GYN"))
+			{
+				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_GYN_NAME", "Standard SR for GYN Measurements")));
+				if (templateSRs == null || templateSRs.Count() == 0)
+				{
+					xml = XDocument.Load(Utils.GetAppSetting("STD_GYN_FILE", "STD_GYN.xml"));
+					name = Utils.GetAppSetting("STD_GYN_NAME", "Standard SR for GYN Measurements");
+					description = Utils.GetAppSetting("STD_GYN_DESC", "Standard SR for GYN Measurements");
+				}
+				else
+				{
+					templateSR = templateSRs.First();
+				}
+			}
+			else if (Path.GetFileName(filename).ToUpper().StartsWith("ADULTECHO"))
+			{
+				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_ADULTECHO_NAME", "Standard SR for Adult Echo Measurements")));
+				if (templateSRs == null || templateSRs.Count() == 0)
+				{
+					xml = XDocument.Load(Utils.GetAppSetting("STD_ADULTECHO_FILE", "STD_ADULTECHO.xml"));
+					name = Utils.GetAppSetting("STD_ADULTECHO_NAME", "Standard SR for Adult Echo Measurements");
+					description = Utils.GetAppSetting("STD_ADULTECHO_DESC", "Standard SR for Adult Echo Measurements");
+				}
+				else
+				{
+					templateSR = templateSRs.First();
+				}
+			}
+			else if (Path.GetFileName(filename).ToUpper().StartsWith("VASC"))
+			{
+				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_VASC_NAME", "Standard SR for Vascular Measurements")));
+				if (templateSRs == null || templateSRs.Count() == 0)
+				{
+					xml = XDocument.Load(Utils.GetAppSetting("STD_VASC_FILE", "STD_VASC.xml"));
+					name = Utils.GetAppSetting("STD_VACS_NAME", "Standard SR for Vascular Measurements");
+					description = Utils.GetAppSetting("STD_VACS_DESC", "Standard SR for Vascular Measurements");
+				}
+				else
+				{
+					templateSR = templateSRs.First();
+				}
+			}
+			else if (Path.GetFileName(filename).ToUpper().StartsWith("ABDO"))
+			{
+				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_ABDO_NAME", "Standard SR for Abdominal Measurements")));
+				if (templateSRs == null || templateSRs.Count() == 0)
+				{
+					xml = XDocument.Load(Utils.GetAppSetting("STD_ABDO_FILE", "STD_Abdo.xml"));
+					name = Utils.GetAppSetting("STD_ABDO_NAME", "Standard SR for Abdominal Measurements");
+					description = Utils.GetAppSetting("STD_ABDO_DESC", "Standard SR for Abdominal Measurements");
+				}
+				else
+				{
+					templateSR = templateSRs.First();
+				}
+			}
+			else
+			{
+				_logger.Error("Filename name is invalid. The filename must start with OB, GYN, AdultEcho, Vasc, or Abdo");
+			}
+
+			if (templateSR == null)
+			{
+				templateSR = new DICOMSRTemplate();
+				templateSR.Name = name;
+				templateSR.Description = description;
+				templateSR.CreateDate = DateTime.Now;
+				templateSR.SR = xml.Root;
+				templateSR.DICOMDeviceID = deviceID;
+				templateSR.DICOMSRTemplateTypeID = srTemplateID;
+				_context.DICOMSRTemplates.InsertOnSubmit(templateSR);
+				_context.SubmitChanges(System.Data.Linq.ConflictMode.FailOnFirstConflict);
+				_logger.Info("Successfully registered " + templateSR.Name + " for DICOM Merge Field management.");
+
+			}
+			result = templateSR.DICOMSRTemplateID;
+
+			return result;
+		}
+
+		protected virtual void OnDisposose(bool disposing)
+		{
+			if (_context != null)
+			{
+				_context.Dispose();
+			}
+		}
+
+		public void Dispose()
+		{
+			OnDisposose(true);
+			GC.SuppressFinalize(this);
+		}
+	}
+}

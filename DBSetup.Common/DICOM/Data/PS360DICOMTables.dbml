@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Comm4" Class="PS360DICOMTablesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=Comm4;Integrated Security=True" SettingsObjectName="Nuance.Radiology.DICOM.Importer.Properties.Settings" SettingsPropertyName="Comm4ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.MergeField" Member="MergeFields">
+    <Type Name="MergeField">
+      <Column Name="MergeFieldID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MergeFieldTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(2000)" CanBeNull="true" />
+      <Association Name="MergeField_DICOMMergeField" Member="DICOMMergeFields" ThisKey="MergeFieldID" OtherKey="MergeFieldID" Type="DICOMMergeField" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DICOMMergeField" Member="DICOMMergeFields">
+    <Type Name="DICOMMergeField">
+      <Column Name="DICOMMergeFieldID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MergeFieldID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DICOMSRTemplateID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(2000)" CanBeNull="true" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ValueXPath" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="UnitsXPath" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="FindingSite" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Property" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="Modifier" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="HasOBContext" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="HasLateralityContext" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="MergeField_DICOMMergeField" Member="MergeField" ThisKey="MergeFieldID" OtherKey="MergeFieldID" Type="MergeField" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="DICOMSRTemplate_DICOMMergeField" Member="DICOMSRTemplate" ThisKey="DICOMSRTemplateID" OtherKey="DICOMSRTemplateID" Type="DICOMSRTemplate" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DICOMSRTemplate" Member="DICOMSRTemplates">
+    <Type Name="DICOMSRTemplate">
+      <Column Name="DICOMSRTemplateID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DICOMDeviceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DICOMSRTemplateTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="SR" Type="System.Xml.Linq.XElement" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="DICOMSRTemplate_DICOMMergeField" Member="DICOMMergeFields" ThisKey="DICOMSRTemplateID" OtherKey="DICOMSRTemplateID" Type="DICOMMergeField" />
+      <Association Name="DICOMSRTemplateType_DICOMSRTemplate" Member="DICOMSRTemplateType" ThisKey="DICOMSRTemplateTypeID" OtherKey="DICOMSRTemplateTypeID" Type="DICOMSRTemplateType" IsForeignKey="true" />
+      <Association Name="DICOMDevice_DICOMSRTemplate" Member="DICOMDevice" ThisKey="DICOMDeviceID" OtherKey="DICOMDeviceID" Type="DICOMDevice" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DICOMSRTemplateType" Member="DICOMSRTemplateTypes">
+    <Type Name="DICOMSRTemplateType">
+      <Column Name="DICOMSRTemplateTypeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="DICOMSRTemplateType_DICOMSRTemplate" Member="DICOMSRTemplates" ThisKey="DICOMSRTemplateTypeID" OtherKey="DICOMSRTemplateTypeID" Type="DICOMSRTemplate" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DICOMDevice" Member="DICOMDevices">
+    <Type Name="DICOMDevice">
+      <Column Name="DICOMDeviceID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Manufacturer" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Model" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Version" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Association Name="DICOMDevice_DICOMSRTemplate" Member="DICOMSRTemplates" ThisKey="DICOMDeviceID" OtherKey="DICOMDeviceID" Type="DICOMSRTemplate" />
+    </Type>
+  </Table>
+</Database>

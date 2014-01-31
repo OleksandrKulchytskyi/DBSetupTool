@@ -1,0 +1,2726 @@
+<?xml version="1.0"?>
+<report type="Comprehensive SR">
+	<sopclass uid="1.2.840.10008.5.1.4.1.1.88.33">ComprehensiveSRStorage</sopclass>
+	<modality>SR</modality>
+	<device>
+		<manufacturer>Philips Medical Systems</manufacturer>
+		<model>EPIQ 7C</model>
+		<serial>368300478</serial>
+		<version>EPIQ 7G_1.0.0.2071</version>
+	</device>
+	<patient>
+		<id>41501720130722</id>
+		<name>
+			<last>OB</last>
+		</name>
+	</patient>
+	<study uid="1.2.840.113663.1500.1.368300478.1.1.20130722.175041.645">
+		<id>20130722.175041</id>
+		<date>2013-07-22</date>
+		<time>17:50:41</time>
+		<accession>
+			<number>CMP_OB_1</number>
+		</accession>
+	</study>
+	<series uid="1.2.840.113663.1500.1.368300478.7.1.20130722.175041.647">
+		<number>2</number>
+		<date>2013-07-22</date>
+		<time>17:50:41</time>
+	</series>
+	<instance uid="1.2.840.113663.1500.1.368300478.8.1.20130722.175219.830">
+		<number>1</number>
+	</instance>
+	<document>
+		<completion flag="PARTIAL">
+		</completion>
+		<verification flag="UNVERIFIED">
+		</verification>
+		<content>
+			<date>2013-07-22</date>
+			<time>17:52:19</time>
+			<item valType="CONTAINER" flag="SEPARATE">
+				<concept codValue="125000" codScheme="DCM">OB-GYN Ultrasound Procedure Report</concept>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121118" codScheme="DCM">Patient Characteristics</concept>
+					<item valType="TEXT" relType="CONTAINS">
+						<concept codValue="121029" codScheme="DCM">Subject Name</concept>
+						<value>OB^^^^</value>
+					</item>
+					<item valType="TEXT" relType="CONTAINS">
+						<concept codValue="121030" codScheme="DCM">Subject ID</concept>
+						<value>41501720130722</value>
+					</item>
+					<item valType="DATE" relType="CONTAINS">
+						<concept codValue="T9910-09" codScheme="99PMSBLUS">Exam date</concept>
+						<value>2013-07-22</value>
+					</item>
+					<item valType="DATE" relType="CONTAINS">
+						<concept codValue="T9910-105" codScheme="99PMSBLUS">Study date</concept>
+						<value>2013-07-22</value>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121111" codScheme="DCM">Summary</concept>
+					<item valType="DATE" relType="CONTAINS">
+						<concept codValue="11781-2" codScheme="LN">EDD from average ultrasound age</concept>
+						<value>2014-01-22</value>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11878-6" codScheme="LN">Number of Fetuses</concept>
+						<value>1</value>
+						<unit codValue="1" codScheme="UCUM">no units</unit>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125008" codScheme="DCM">Fetus Summary</concept>
+						<item valType="TEXT" relType="HAS OBS CONTEXT">
+							<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+							<value>1</value>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11727-5" codScheme="LN">Estimated Weight</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121420" codScheme="DCM">Equation</concept>
+								<value codValue="11732-5" codScheme="LN">EFW by AC, BPD, FL, HC, Hadlock 1985</value>
+							</item>
+							<value>103.9</value>
+							<unit codValue="g" codScheme="UCUM" codVersion="1.4">grams</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11948-7" codScheme="LN">Fetal Heart Rate</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>135</value>
+							<unit codValue="{H.B.}/min" codScheme="UCUM" codVersion="1.4">bpm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11888-5" codScheme="LN">Composite Ultrasound Age</concept>
+							<value>95</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="125002" codScheme="DCM">Fetal Biometry</concept>
+					<item valType="TEXT" relType="HAS OBS CONTEXT">
+						<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+						<value>1</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11864-6" codScheme="LN">Transverse Thoracic Diameter</concept>
+							<value>14</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11864-6" codScheme="LN">Transverse Thoracic Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>14</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11979-2" codScheme="LN">Abdominal Circumference</concept>
+							<value>14</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11979-2" codScheme="LN">Abdominal Circumference</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>14</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-22" codScheme="99PMSBLUS">Adrenal Gland Antero-posterior Dimension</concept>
+							<value>14</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-22" codScheme="99PMSBLUS">Adrenal Gland Antero-posterior Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>14</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-21" codScheme="99PMSBLUS">Adrenal Gland Longitudinal Dimension</concept>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-21" codScheme="99PMSBLUS">Adrenal Gland Longitudinal Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-23" codScheme="99PMSBLUS">Adrenal Gland Transverse Dimension</concept>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-23" codScheme="99PMSBLUS">Adrenal Gland Transverse Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11818-2" codScheme="LN">Anterior-Posterior Abdominal Diameter</concept>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11818-2" codScheme="LN">Anterior-Posterior Abdominal Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-07" codScheme="99PMSBLUS">Anterior-Posterior Thoracic Diameter</concept>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-07" codScheme="99PMSBLUS">Anterior-Posterior Thoracic Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-19" codScheme="99PMSBLUS">Bladder Antero-posterior Dimension</concept>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-19" codScheme="99PMSBLUS">Bladder Antero-posterior Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-18" codScheme="99PMSBLUS">Bladder Longitudinal Dimension</concept>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-18" codScheme="99PMSBLUS">Bladder Longitudinal Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-20" codScheme="99PMSBLUS">Bladder Transverse Dimension</concept>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-20" codScheme="99PMSBLUS">Bladder Transverse Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11820-8" codScheme="LN">Biparietal Diameter</concept>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11820-8" codScheme="LN">Biparietal Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121420" codScheme="DCM">Equation</concept>
+								<value codValue="11902-4" codScheme="LN">BPD, Hadlock 1984</value>
+							</item>
+							<value>111.990368</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11863-8" codScheme="LN">Trans Cerebellar Diameter</concept>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11863-8" codScheme="LN">Trans Cerebellar Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121420" codScheme="DCM">Equation</concept>
+								<value codValue="C12013-15" codScheme="99PMSBLUS">TCD, Chitty 1997</value>
+							</item>
+							<value>206.737495265542</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-01" codScheme="99PMSBLUS">Ear length</concept>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-01" codScheme="99PMSBLUS">Ear length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11963-6" codScheme="LN">Femur Length</concept>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11963-6" codScheme="LN">Femur Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121420" codScheme="DCM">Equation</concept>
+								<value codValue="11920-6" codScheme="LN">FL, Hadlock 1984</value>
+							</item>
+							<value>144.7544</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11965-1" codScheme="LN">Foot length</concept>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11965-1" codScheme="LN">Foot length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-02" codScheme="99PMSBLUS">Fetal Trunk Cross Sectional Area</concept>
+							<value>34</value>
+							<unit codValue="mm2" codScheme="UCUM" codVersion="1.4">mm2</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-02" codScheme="99PMSBLUS">Fetal Trunk Cross Sectional Area</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>34</value>
+							<unit codValue="mm2" codScheme="UCUM" codVersion="1.4">mm2</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11984-2" codScheme="LN">Head Circumference</concept>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11984-2" codScheme="LN">Head Circumference</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-28" codScheme="99PMSBLUS">Iliac Crest Dimension</concept>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-28" codScheme="99PMSBLUS">Iliac Crest Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-24" codScheme="99PMSBLUS">Left Lung Diameter</concept>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-24" codScheme="99PMSBLUS">Left Lung Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-23" codScheme="99PMSBLUS">Mandible Diameter</concept>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-23" codScheme="99PMSBLUS">Mandible Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-04" codScheme="99PMSBLUS">Length of middle Phalanx of the 5th Digit</concept>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-04" codScheme="99PMSBLUS">Length of middle Phalanx of the 5th Digit</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-09" codScheme="99PMSBLUS">Heart Area</concept>
+							<value>12</value>
+							<unit codValue="mm2" codScheme="UCUM" codVersion="1.4">mm2</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-09" codScheme="99PMSBLUS">Heart Area</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>12</value>
+							<unit codValue="mm2" codScheme="UCUM" codVersion="1.4">mm2</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-03" codScheme="99PMSBLUS">Heart Circumference</concept>
+							<value>12</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-03" codScheme="99PMSBLUS">Heart Circumference</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>12</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11851-3" codScheme="LN">Occipital-Frontal Diameter</concept>
+							<value>44</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11851-3" codScheme="LN">Occipital-Frontal Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>44</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121424" codScheme="DCM">Table of Values</concept>
+								<value codValue="33544-8" codScheme="LN">OFD, Hansmann 1985</value>
+							</item>
+							<value>116.2</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-14" codScheme="99PMSBLUS">Pelvis Antero-posterior Dimension</concept>
+							<value>36</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-14" codScheme="99PMSBLUS">Pelvis Antero-posterior Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>36</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-13" codScheme="99PMSBLUS">Pelvis Longitudinal Dimension</concept>
+							<value>36</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-13" codScheme="99PMSBLUS">Pelvis Longitudinal Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>36</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-15" codScheme="99PMSBLUS">Pelvis Transverse Dimension</concept>
+							<value>36</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-15" codScheme="99PMSBLUS">Pelvis Transverse Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>36</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-26" codScheme="99PMSBLUS">Post Fossa Dimension</concept>
+							<value>5</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-26" codScheme="99PMSBLUS">Post Fossa Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>5</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-10" codScheme="99PMSBLUS">Renal Antero-posterior Dimension</concept>
+							<value>5</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-10" codScheme="99PMSBLUS">Renal Antero-posterior Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>5</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-09" codScheme="99PMSBLUS">Renal Longitudinal Dimension</concept>
+							<value>46</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-09" codScheme="99PMSBLUS">Renal Longitudinal Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>46</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-12" codScheme="99PMSBLUS">Renal Pelvis Dimension</concept>
+							<value>46</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-12" codScheme="99PMSBLUS">Renal Pelvis Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>46</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-11" codScheme="99PMSBLUS">Renal Transverse Dimension</concept>
+							<value>46</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-11" codScheme="99PMSBLUS">Renal Transverse Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>46</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-25" codScheme="99PMSBLUS">Right Lung Diameter</concept>
+							<value>14</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-25" codScheme="99PMSBLUS">Right Lung Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>14</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-27" codScheme="99PMSBLUS">Scapula Dimension</concept>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-27" codScheme="99PMSBLUS">Scapula Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11862-0" codScheme="LN">Transverse Abdominal Diameter</concept>
+							<value>41</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11862-0" codScheme="LN">Transverse Abdominal Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>41</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121424" codScheme="DCM">Table of Values</concept>
+								<value codValue="33129-8" codScheme="LN">TAD Hansmann, 1979</value>
+							</item>
+							<value>134.75</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11988-3" codScheme="LN">Thoracic Circumference</concept>
+							<value>41</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11988-3" codScheme="LN">Thoracic Circumference</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>41</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-08" codScheme="99PMSBLUS">Transverse Trunk Diameter</concept>
+							<value>41</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12005-08" codScheme="99PMSBLUS">Transverse Trunk Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>41</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121424" codScheme="DCM">Table of Values</concept>
+								<value codValue="C12013-18" codScheme="99PMSBLUS">Transverse Trunk Diameter, Hansmann 1986</value>
+							</item>
+							<value>134.75</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-16" codScheme="99PMSBLUS">Ureter Antero-posterior Dimension</concept>
+							<value>11</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-16" codScheme="99PMSBLUS">Ureter Antero-posterior Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>11</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-17" codScheme="99PMSBLUS">Ureter Transverse Dimension</concept>
+							<value>11</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12011-17" codScheme="99PMSBLUS">Ureter Transverse Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>11</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11824-0" codScheme="LN">BPD area corrected</concept>
+							<value>33.4</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121420" codScheme="DCM">Equation</concept>
+								<value codValue="C12013-14" codScheme="99PMSBLUS">BPDa, Hadlock 1984</value>
+							</item>
+							<value>114.51690992</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12004-01" codScheme="99PMSBLUS">HrtC/TC (Heart Circumference/Thoracic Circumference)</concept>
+							<value>0.29</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-12" codScheme="99PMSBLUS">Ratio of LA Dimension to Aortic Root Diameter</concept>
+							<value>1.5</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="125006" codScheme="DCM">Biophysical Profile</concept>
+					<item valType="TEXT" relType="HAS OBS CONTEXT">
+						<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+						<value>1</value>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11630-1" codScheme="LN">Amniotic Fluid Volume</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>32</value>
+						<unit codValue="{0:2}" codScheme="UCUM">range {0:2}</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11632-7" codScheme="LN">Fetal Breathing</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>42</value>
+						<unit codValue="{0:2}" codScheme="UCUM">range {0:2}</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11631-9" codScheme="LN">Gross Body Movement</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>42</value>
+						<unit codValue="{0:2}" codScheme="UCUM">range {0:2}</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11635-0" codScheme="LN">Fetal Tone</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>34</value>
+						<unit codValue="{0:2}" codScheme="UCUM">range {0:2}</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11634-3" codScheme="LN">Biophysical Profile Sum Score</concept>
+						<value>150</value>
+						<unit codValue="{0:8}" codScheme="UCUM">range {0:8}</unit>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="125004" codScheme="DCM">Fetal Cranium</concept>
+					<item valType="TEXT" relType="HAS OBS CONTEXT">
+						<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+						<value>1</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11860-4" codScheme="LN">Cisterna Magna length</concept>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11860-4" codScheme="LN">Cisterna Magna length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="33070-4" codScheme="LN">Inner Orbital Diameter</concept>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="33070-4" codScheme="LN">Inner Orbital Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12171-5" codScheme="LN">Lateral Ventricle width</concept>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12171-5" codScheme="LN">Lateral Ventricle width</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12146-7" codScheme="LN">Nuchal Fold thickness</concept>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12146-7" codScheme="LN">Nuchal Fold thickness</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11629-3" codScheme="LN">Outer Orbital Diameter</concept>
+							<value>44</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11629-3" codScheme="LN">Outer Orbital Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>44</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121424" codScheme="DCM">Table of Values</concept>
+								<value codValue="C12013-12" codScheme="99PMSBLUS">OOD, Jeanty 1984</value>
+							</item>
+							<value>194</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12007-01" codScheme="99PMSBLUS">Diameter of the First Orbit</concept>
+							<value>44</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12007-01" codScheme="99PMSBLUS">Diameter of the First Orbit</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>44</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12007-02" codScheme="99PMSBLUS">Diameter of the Second Orbit</concept>
+							<value>44</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12007-02" codScheme="99PMSBLUS">Diameter of the Second Orbit</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>44</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="125003" codScheme="DCM">Fetal Long Bones</concept>
+					<item valType="TEXT" relType="HAS OBS CONTEXT">
+						<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+						<value>1</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11962-8" codScheme="LN">Clavicle length</concept>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11962-8" codScheme="LN">Clavicle length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121424" codScheme="DCM">Table of Values</concept>
+								<value codValue="33088-6" codScheme="LN">Clavical length,Yarkoni 1985</value>
+							</item>
+							<value>172</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11964-4" codScheme="LN">Fibula length</concept>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11964-4" codScheme="LN">Fibula length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11966-9" codScheme="LN">Humerus length</concept>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11966-9" codScheme="LN">Humerus length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121424" codScheme="DCM">Table of Values</concept>
+								<value codValue="11936-2" codScheme="LN">Humerus, Jeanty 1984</value>
+							</item>
+							<value>151</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12006-01" codScheme="99PMSBLUS">Nasal Bone Length</concept>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12006-01" codScheme="99PMSBLUS">Nasal Bone Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11967-7" codScheme="LN">Radius length</concept>
+							<value>5</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11967-7" codScheme="LN">Radius length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>5</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11968-5" codScheme="LN">Tibia length</concept>
+							<value>41</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11968-5" codScheme="LN">Tibia length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>41</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121424" codScheme="DCM">Table of Values</concept>
+								<value codValue="11941-2" codScheme="LN">Tibia, Jeanty 1984</value>
+							</item>
+							<value>180</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11969-3" codScheme="LN">Ulna length</concept>
+							<value>33</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11969-3" codScheme="LN">Ulna length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>33</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121424" codScheme="DCM">Table of Values</concept>
+								<value codValue="11944-6" codScheme="LN">Ulna, Jeanty 1984</value>
+							</item>
+							<value>159</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="125009" codScheme="DCM">Early Gestation</concept>
+					<item valType="TEXT" relType="HAS OBS CONTEXT">
+						<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+						<value>1</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11957-8" codScheme="LN">Crown Rump Length</concept>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11957-8" codScheme="LN">Crown Rump Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121420" codScheme="DCM">Equation</concept>
+								<value codValue="11910-7" codScheme="LN">CRL, Hadlock 1992</value>
+							</item>
+							<value>63.8485910753409</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11850-5" codScheme="LN">Gestational Sac Diameter</concept>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11850-5" codScheme="LN">Gestational Sac Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>34</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11850-5" codScheme="LN">Gestational Sac Diameter</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11850-5" codScheme="LN">Gestational Sac Diameter</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11850-5" codScheme="LN">Gestational Sac Diameter</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="33069-6" codScheme="LN">Nuchal Translucency</concept>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="33069-6" codScheme="LN">Nuchal Translucency</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>2</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="33071-2" codScheme="LN">Spine Length</concept>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="33071-2" codScheme="LN">Spine Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>24</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11816-6" codScheme="LN">Yolk Sac length</concept>
+							<value>11</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11816-6" codScheme="LN">Yolk Sac length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>11</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12009-04" codScheme="99PMSBLUS">Mean Sac Diameter</concept>
+							<value>29.3</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18185-9" codScheme="LN">Gestational Age</concept>
+							<item valType="CODE" relType="INFERRED FROM">
+								<concept codValue="121420" codScheme="DCM">Equation</concept>
+								<value codValue="33107-4" codScheme="LN">GS, Nyberg 1992</value>
+							</item>
+							<value>57.1662</value>
+							<unit codValue="d" codScheme="UCUM" codVersion="1.4">days</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="99999" codScheme="99PMSBLUS">Fetal Heart</concept>
+					<item valType="TEXT" relType="HAS OBS CONTEXT">
+						<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+						<value>1</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-21" codScheme="99PMSBLUS">Aortic Annulus Diameter</concept>
+							<value>20</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-21" codScheme="99PMSBLUS">Aortic Annulus Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>20</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18015-8" codScheme="LN">Aortic Root Diameter</concept>
+							<value>20</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18015-8" codScheme="LN">Aortic Root Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>20</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18012-5" codScheme="LN">Ascending Aortic Diameter</concept>
+							<value>20</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18012-5" codScheme="LN">Ascending Aortic Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>20</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18013-3" codScheme="LN">Descending Aortic Diameter</concept>
+							<value>20</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18013-3" codScheme="LN">Descending Aortic Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>20</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-24" codScheme="99PMSBLUS">Ductus Arteriosus Diameter</concept>
+							<value>20</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-24" codScheme="99PMSBLUS">Ductus Arteriosus Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>20</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-08" codScheme="99PMSBLUS">Interventricular Septum Thickness</concept>
+							<value>29</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-08" codScheme="99PMSBLUS">Interventricular Septum Thickness</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>29</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-05" codScheme="99PMSBLUS">Left Atrium Dimension</concept>
+							<value>29</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-05" codScheme="99PMSBLUS">Left Atrium Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>29</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-13" codScheme="99PMSBLUS">Left Atrium Length</concept>
+							<value>29</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-13" codScheme="99PMSBLUS">Left Atrium Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>29</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-14" codScheme="99PMSBLUS">Left Atrium Width</concept>
+							<value>21</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-14" codScheme="99PMSBLUS">Left Atrium Width</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>21</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-04" codScheme="99PMSBLUS">Left Ventricle Dimension</concept>
+							<value>39</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-04" codScheme="99PMSBLUS">Left Ventricle Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>39</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-17" codScheme="99PMSBLUS">Left Ventricle Length</concept>
+							<value>39</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-17" codScheme="99PMSBLUS">Left Ventricle Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>39</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-18" codScheme="99PMSBLUS">Left Ventricle Width</concept>
+							<value>39</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-18" codScheme="99PMSBLUS">Left Ventricle Width</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>39</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-06" codScheme="99PMSBLUS">LV Outflow Tract Diameter</concept>
+							<value>7</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-06" codScheme="99PMSBLUS">LV Outflow Tract Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>7</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18020-8" codScheme="LN">Main Pulmonary Artery Diameter</concept>
+							<value>7</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="18020-8" codScheme="LN">Main Pulmonary Artery Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>7</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-22" codScheme="99PMSBLUS">Mitral Annulus Diameter</concept>
+							<value>7</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-22" codScheme="99PMSBLUS">Mitral Annulus Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>7</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-02" codScheme="99PMSBLUS">Right Atrium Dimension</concept>
+							<value>48</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-02" codScheme="99PMSBLUS">Right Atrium Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>48</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-15" codScheme="99PMSBLUS">Right Atrium Length</concept>
+							<value>48</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-15" codScheme="99PMSBLUS">Right Atrium Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>48</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-16" codScheme="99PMSBLUS">Right Atrium Width</concept>
+							<value>48</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-16" codScheme="99PMSBLUS">Right Atrium Width</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>48</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-01" codScheme="99PMSBLUS">Right Ventricle Dimension</concept>
+							<value>9</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-01" codScheme="99PMSBLUS">Right Ventricle Dimension</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>9</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-19" codScheme="99PMSBLUS">Right Ventricle Length</concept>
+							<value>9</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-19" codScheme="99PMSBLUS">Right Ventricle Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>9</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-20" codScheme="99PMSBLUS">Right Ventricle Width</concept>
+							<value>9</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-20" codScheme="99PMSBLUS">Right Ventricle Width</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>9</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-03" codScheme="99PMSBLUS">RV Outflow Tract Diameter</concept>
+							<value>27</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-03" codScheme="99PMSBLUS">RV Outflow Tract Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>27</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-23" codScheme="99PMSBLUS">Tricuspid Annulus Diameter</concept>
+							<value>27</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-23" codScheme="99PMSBLUS">Tricuspid Annulus Diameter</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>27</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-11" codScheme="99PMSBLUS">Ratio of Aortic Root Diameter to Main PA Diameter</concept>
+							<value>2.9</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-10" codScheme="99PMSBLUS">Ratio of LA Dimension to RA Dimension</concept>
+							<value>0.6</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="125005" codScheme="DCM">Biometry Group</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="P5000-01-09" codScheme="99PMSBLUS">Ratio of LV Dimension to RV Dimension</concept>
+							<value>4.33</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="125011" codScheme="DCM">Pelvis and Uterus</concept>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11961-0" codScheme="LN">Cervix Length</concept>
+						<value>20</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11961-0" codScheme="LN">Cervix Length</concept>
+						<item valType="CODE" relType="HAS CONCEPT MOD">
+							<concept codValue="121401" codScheme="DCM">Derivation</concept>
+							<value codValue="R-00317" codScheme="SRT">Mean</value>
+						</item>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+						</item>
+						<value>20</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="125001" codScheme="DCM">Fetal Biometry Ratios</concept>
+					<item valType="TEXT" relType="HAS OBS CONTEXT">
+						<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+						<value>1</value>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11823-2" codScheme="LN">Cephalic Index</concept>
+						<value>0.73</value>
+						<unit codValue="1" codScheme="UCUM">no units</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11871-1" codScheme="LN">FL/AC</concept>
+						<value>2.43</value>
+						<unit codValue="1" codScheme="UCUM">no units</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11872-9" codScheme="LN">FL/BPD</concept>
+						<value>1.06</value>
+						<unit codValue="1" codScheme="UCUM">no units</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11947-9" codScheme="LN">HC/AC</concept>
+						<value>2.43</value>
+						<unit codValue="1" codScheme="UCUM">no units</unit>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121070" codScheme="DCM">Findings</concept>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C0E3" codScheme="SRT">Finding Site</concept>
+						<value codValue="T-F6800" codScheme="SRT">Embryonic Vascular Structure</value>
+					</item>
+					<item valType="TEXT" relType="HAS OBS CONTEXT">
+						<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+						<value>1</value>
+					</item>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C171" codScheme="SRT">Laterality</concept>
+						<value codValue="G-A101" codScheme="SRT">Left</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-45600" codScheme="SRT">Middle Cerebral Artery</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11653-3" codScheme="LN">End Diastolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>32</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11726-7" codScheme="LN">Peak Systolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>1</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12122-01" codScheme="99PMSBLUS">Doppler Correction Angle</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>41</value>
+							<unit codValue="deg" codScheme="UCUM" codVersion="1.4">deg</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121070" codScheme="DCM">Findings</concept>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C0E3" codScheme="SRT">Finding Site</concept>
+						<value codValue="T-F6800" codScheme="SRT">Embryonic Vascular Structure</value>
+					</item>
+					<item valType="TEXT" relType="HAS OBS CONTEXT">
+						<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+						<value>1</value>
+					</item>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C171" codScheme="SRT">Laterality</concept>
+						<value codValue="G-A100" codScheme="SRT">Right</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-45600" codScheme="SRT">Middle Cerebral Artery</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11653-3" codScheme="LN">End Diastolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>11</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11726-7" codScheme="LN">Peak Systolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>33</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12122-01" codScheme="99PMSBLUS">Doppler Correction Angle</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>51</value>
+							<unit codValue="deg" codScheme="UCUM" codVersion="1.4">deg</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121070" codScheme="DCM">Findings</concept>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C0E3" codScheme="SRT">Finding Site</concept>
+						<value codValue="T-D6007" codScheme="SRT">Pelvic Vascular Structure</value>
+					</item>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C171" codScheme="SRT">Laterality</concept>
+						<value codValue="G-A101" codScheme="SRT">Left</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-46820" codScheme="SRT">Uterine Artery</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11653-3" codScheme="LN">End Diastolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>9</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11726-7" codScheme="LN">Peak Systolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>44</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12122-01" codScheme="99PMSBLUS">Doppler Correction Angle</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>71</value>
+							<unit codValue="deg" codScheme="UCUM" codVersion="1.4">deg</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12023-8" codScheme="LN">Resistivity Index</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>0.8</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121070" codScheme="DCM">Findings</concept>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C0E3" codScheme="SRT">Finding Site</concept>
+						<value codValue="T-D6007" codScheme="SRT">Pelvic Vascular Structure</value>
+					</item>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C171" codScheme="SRT">Laterality</concept>
+						<value codValue="G-A100" codScheme="SRT">Right</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-46820" codScheme="SRT">Uterine Artery</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11653-3" codScheme="LN">End Diastolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>25</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11726-7" codScheme="LN">Peak Systolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>5</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12122-01" codScheme="99PMSBLUS">Doppler Correction Angle</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>46</value>
+							<unit codValue="deg" codScheme="UCUM" codVersion="1.4">deg</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12023-8" codScheme="LN">Resistivity Index</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>-4</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121070" codScheme="DCM">Findings</concept>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C0E3" codScheme="SRT">Finding Site</concept>
+						<value codValue="T-F1300" codScheme="SRT">Amniotic Sac</value>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11625-1" codScheme="LN">Third Quadrant Diameter</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>2</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11626-9" codScheme="LN">Second Quadrant Diameter</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>2</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11623-6" codScheme="LN">Fourth Quadrant Diameter</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>14</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11624-4" codScheme="LN">First Quadrant Diameter</concept>
+						<item valType="CODE" relType="HAS PROPERTIES">
+							<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+							<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+						</item>
+						<value>32</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+					<item valType="NUM" relType="CONTAINS">
+						<concept codValue="11627-7" codScheme="LN">Amniotic Fluid Index</concept>
+						<value>50</value>
+						<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121070" codScheme="DCM">Findings</concept>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C0E3" codScheme="SRT">Finding Site</concept>
+						<value codValue="T-F6800" codScheme="SRT">Embryonic Vascular Structure</value>
+					</item>
+					<item valType="TEXT" relType="HAS OBS CONTEXT">
+						<concept codValue="11951-1" codScheme="LN">Fetus ID</concept>
+						<value>1</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-42000" codScheme="SRT">Aorta</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11653-3" codScheme="LN">End Diastolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>41</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11726-7" codScheme="LN">Peak Systolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>35</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12122-01" codScheme="99PMSBLUS">Doppler Correction Angle</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>55</value>
+							<unit codValue="deg" codScheme="UCUM" codVersion="1.4">deg</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12023-8" codScheme="LN">Resistivity Index</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>-0.17</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-D0765" codScheme="SRT">Descending Aorta</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11653-3" codScheme="LN">End Diastolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>41</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11726-7" codScheme="LN">Peak Systolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>35</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12122-01" codScheme="99PMSBLUS">Doppler Correction Angle</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>55</value>
+							<unit codValue="deg" codScheme="UCUM" codVersion="1.4">deg</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12023-8" codScheme="LN">Resistivity Index</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>-0.17</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="C12141-01" codScheme="99PMSBLUS">Ductus Venosus</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11653-3" codScheme="LN">End Diastolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>16</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11726-7" codScheme="LN">Peak Systolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>5</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12122-01" codScheme="99PMSBLUS">Doppler Correction Angle</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>49</value>
+							<unit codValue="deg" codScheme="UCUM" codVersion="1.4">deg</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12023-8" codScheme="LN">Resistivity Index</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>-2.2</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-42070" codScheme="SRT">Thoracic aorta</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11653-3" codScheme="LN">End Diastolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>34</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11726-7" codScheme="LN">Peak Systolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>39</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12122-01" codScheme="99PMSBLUS">Doppler Correction Angle</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>61</value>
+							<unit codValue="deg" codScheme="UCUM" codVersion="1.4">deg</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12023-8" codScheme="LN">Resistivity Index</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>0.13</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-F1810" codScheme="SRT">Umbilical Artery</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11653-3" codScheme="LN">End Diastolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>45</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11726-7" codScheme="LN">Peak Systolic Velocity</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>13</value>
+							<unit codValue="mm/s" codScheme="UCUM" codVersion="1.4">mm/s</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="C12122-01" codScheme="99PMSBLUS">Doppler Correction Angle</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>55</value>
+							<unit codValue="deg" codScheme="UCUM" codVersion="1.4">deg</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12023-8" codScheme="LN">Resistivity Index</concept>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121411" codScheme="DCM">Most recent value chosen</value>
+							</item>
+							<value>-2.46</value>
+							<unit codValue="1" codScheme="UCUM">no units</unit>
+						</item>
+					</item>
+				</item>
+				<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+					<concept codValue="121070" codScheme="DCM">Findings</concept>
+					<item valType="CODE" relType="HAS CONCEPT MOD">
+						<concept codValue="G-C0E3" codScheme="SRT">Finding Site</concept>
+						<value codValue="T-87000" codScheme="SRT">Ovary</value>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-87000" codScheme="SRT">Ovary</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11857-0" codScheme="LN">Left Ovary Height</concept>
+							<value>21</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11857-0" codScheme="LN">Left Ovary Height</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>21</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11840-6" codScheme="LN">Left Ovary Length</concept>
+							<value>21</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11840-6" codScheme="LN">Left Ovary Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>21</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11829-9" codScheme="LN">Left Ovary Width</concept>
+							<value>21</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11829-9" codScheme="LN">Left Ovary Width</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>21</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12164-0" codScheme="LN">Left Ovary Volume</concept>
+							<value>4850</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+					<item valType="CONTAINER" relType="CONTAINS" flag="SEPARATE">
+						<concept codValue="T-87000" codScheme="SRT">Ovary</concept>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11858-8" codScheme="LN">Right Ovary Height</concept>
+							<value>17</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11858-8" codScheme="LN">Right Ovary Height</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>17</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11841-4" codScheme="LN">Right Ovary Length</concept>
+							<value>17</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11841-4" codScheme="LN">Right Ovary Length</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>17</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11830-7" codScheme="LN">Right Ovary Width</concept>
+							<value>17</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="11830-7" codScheme="LN">Right Ovary Width</concept>
+							<item valType="CODE" relType="HAS CONCEPT MOD">
+								<concept codValue="121401" codScheme="DCM">Derivation</concept>
+								<value codValue="R-00317" codScheme="SRT">Mean</value>
+							</item>
+							<item valType="CODE" relType="HAS PROPERTIES">
+								<concept codValue="121404" codScheme="DCM">Selection Status</concept>
+								<value codValue="121412" codScheme="DCM">Mean value chosen</value>
+							</item>
+							<value>17</value>
+							<unit codValue="mm" codScheme="UCUM" codVersion="1.4">mm</unit>
+						</item>
+						<item valType="NUM" relType="CONTAINS">
+							<concept codValue="12165-7" codScheme="LN">Right Ovary Volume</concept>
+							<value>2570</value>
+							<unit codValue="mm3" codScheme="UCUM" codVersion="1.4">mm3</unit>
+						</item>
+					</item>
+				</item>
+			</item>
+		</content>
+	</document>
+</report>

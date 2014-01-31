@@ -1,0 +1,92 @@
+<project name="DBSetup.Build">
+
+	<property name="build.system" value="..\..\..\Build" />
+	<include buildfile="${build.system}\build.include" />
+
+	<property name="solution" value = "DBSetup.sln" />
+	<property name="solution.name" value = "DBSetup" />
+	<property name="solution.path" value="${solution.root}" />
+	<property name="solution.framework.version" value="4.0" />
+	
+	<property name="vc.system" value="p4" />
+	
+	<!--<property name="solution.setup.project" value="RASSetup" /> -->
+	<!-- <property name="use.devenv" value="true" /> -->
+
+	<property name="assembly.title" value="Nuance DBSetup"/>
+	<property name="assembly.description" value="Nuance DBSetup"/>
+	<property name="assembly.configuration" value=""/>
+	<property name="assembly.culture" value=""/>
+
+	<target name="solution.write.assemblyinfo">
+		<call target="default.write.assemblyinfo" />
+	</target>
+
+	<!--
+	###################################
+	### Standard Targets
+	###################################
+	-->
+	<target name="debug">
+		<property name="build.type" value="Debug" />
+		<echo message="Building ${solution.name} as ${build.type}" />
+		<call target="solution.debug" />
+	</target>
+
+	<target name="release">
+		<property name="build.type" value="Release" />
+		<call target="solution.release" />
+	</target>
+	
+	<target name="clean">
+		<property name="build.type" value="Debug" />
+		<call target="solution.clean" />
+		<property name="build.type" value="Release" />
+		<call target="solution.clean" />
+		
+		<!-- remove the staging files -->
+		<property name="build.type" value="Debug" />		
+		<call target="delete.from.staging" />
+		<property name="build.type" value="Release" />
+		<call target="delete.from.staging" />
+	</target>
+
+	<target name="copy.to.staging">
+		<property name="installer.staging" value="${solution.root}\..\Staging\${solution.name}\${build.type}" />
+		<echo message="Copying files for ${solution} to ${installer.staging}"  />
+		
+		<mkdir dir="${solution.root}\..\Staging\${solution.name}" />
+		<mkdir dir="${installer.staging}" />
+		
+		<echo message="From ${solution.path}\DBSetup\bin\{$build.type} to ${installer.staging}" />
+		<copy todir="${installer.staging}" overwrite="true" if="${build.type=='Debug'}">
+			<fileset basedir="${solution.path}\DBSetup\bin\{$build.type}">
+				<include name="**\*.pdb"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${installer.staging}" overwrite="true" if="${build.type=='Release'}">
+			<fileset basedir="${solution.path}\DBSetup\bin\{$build.type}">
+				<include name="**\*"/>
+			</fileset>
+		</copy>
+		<echo message="Done" />
+	</target>
+	
+	<target name="delete.from.staging">
+		<property name="installer.staging" value="${solution.root}\..\Staging\${solution.name}\${build.type}" />
+		<echo message="Deleting staging files for ${solution}" />
+		
+		<delete if="${directory::exists(installer.staging)}">
+			<fileset basedir="${installer.staging}">
+				<include name="**\*"/>
+			</fileset>
+		</delete>
+
+		<delete dir="${installer.staging}" if="${directory::exists(installer.staging)}" />
+		
+		<echo message="Done" />
+	</target>
+	
+
+</project>

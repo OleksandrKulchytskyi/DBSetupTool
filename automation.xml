@@ -1,0 +1,25 @@
+<Settings>
+	<INI path="D:\DbSetupPS360_2-13-2013\DB\SQLDBSetup.ini"/>
+	<SqlSever>
+		<Database>Comm4</Database>
+		<Server>VINW4S3S85J</Server>
+		<User>sa</User>
+		<Password>Columbia03</Password>
+	</SqlSever>
+	<Setup>
+		<Language>US English</Language>
+		<Type>New PS360 Database</Type>
+		<Overwrite>Y</Overwrite>
+	</Setup>
+	<Procedures>
+		<spHealthSystem>dbo.ps360_CreateHeathSystem</spHealthSystem>
+		<spUser>dbo.PS360_AddSQLUsers</spUser>
+	</Procedures>
+	<Final>
+		<HealthName>Test health Frog</HealthName>
+		<SiteName>Test Frog site</SiteName>
+		<Workflow>Radiology</Workflow>
+		<User>PS360User</User>
+		<Password>ps360$Rad%Pws.Rg%x8a!h</Password>
+	</Final>
+</Settings>

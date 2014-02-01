@@ -260,10 +260,7 @@ namespace DBSetup.Common.ModelBuilder
 
 							SqlLink sql = new SqlLink();
 							string sqlPath = LineParser.GetKeyValueFromString(subName).Value;
-							sqlPath = sqlPath.StartsWith(".\\") ? System.IO.Path.Combine(m_rootFolder, sqlPath) : sqlPath;
-
-							ubnormalIndx = sqlPath.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
-							sqlPath = ubnormalIndx > 1 ? sqlPath.Replace(@"\.\", @"\") : sqlPath;
+							NormalizePath(ref ubnormalIndx, ref sqlPath);
 
 							sql.SqlFilePath = sqlPath;
 							sql.Parent = sectionObject;
@@ -301,7 +298,9 @@ namespace DBSetup.Common.ModelBuilder
 							DICOMLink dicom = new DICOMLink();
 							var dicomPair = LineParser.ParseDicomString(LineParser.GetKeyValueFromString(subName).Value);
 							//TODO: add path concatenation in the DICOM CSV file!!
-							dicom.CSVFilePath = dicomPair.Key;
+							string csvPath = dicomPair.Key;
+							NormalizePath(ref ubnormalIndx, ref csvPath);
+							dicom.CSVFilePath = csvPath;
 							dicom.IsActive = dicomPair.Value.Equals("1");
 							dicom.FileName = fileName;
 							dicom.Parent = sectionObject;
@@ -355,6 +354,14 @@ namespace DBSetup.Common.ModelBuilder
 				}
 				sectionObject.Content = m_filesSectionsData[fileName][secName].GenerateStringFromList();
 			}
+		}
+
+		private void NormalizePath(ref int ubnormalIndx, ref string sqlPath)
+		{
+			sqlPath = sqlPath.StartsWith(".\\") ? System.IO.Path.Combine(m_rootFolder, sqlPath) : sqlPath;
+
+			ubnormalIndx = sqlPath.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
+			sqlPath = ubnormalIndx > 1 ? sqlPath.Replace(@"\.\", @"\") : sqlPath;
 		}
 
 		public List<SectionBase> GetResult()

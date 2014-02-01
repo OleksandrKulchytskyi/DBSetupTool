@@ -198,7 +198,7 @@ namespace DBSetup.Common.Helpers
 				throw new ArgumentNullException("separator");
 
 			int index = line.IndexOf(separator);
-			string filePath = line.Substring(0, offset > 0 ? index - offset : index + 1).TrimEnd();
+			string filePath = line.Substring(0, offset > 0 ? index : index + 1).TrimEnd();
 			string content = line.Substring(offset > 0 ? index + offset : index).TrimStart();
 			return new KeyValuePair<string, string>(filePath, content);
 		}

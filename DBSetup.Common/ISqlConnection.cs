@@ -19,6 +19,17 @@ namespace DBSetup.Common
 
 	public class SqlConnectionSettings : ISqlConnectionSettings
 	{
+		public SqlConnectionSettings()
+		{
+		}
+
+		public SqlConnectionSettings(string server, string database, string user, string password)
+		{
+			ServerName = server; DatabaseName = database;
+			Password = password;
+			UserName = user;
+		}
+
 		public string ServerName { get; set; }
 
 		public string DatabaseName { get; set; }
@@ -33,7 +44,7 @@ namespace DBSetup.Common
 				if (_secure == null)
 					return string.Empty;
 				else
-					return ConvertToUnsecureString( _secure);
+					return ConvertToUnsecureString(_secure);
 			}
 			set
 			{

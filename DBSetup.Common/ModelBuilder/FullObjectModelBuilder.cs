@@ -300,10 +300,12 @@ namespace DBSetup.Common.ModelBuilder
 
 							DICOMLink dicom = new DICOMLink();
 							var dicomPair = LineParser.ParseDicomString(LineParser.GetKeyValueFromString(subName).Value);
+							//TODO: add path concatenation in the DICOM CSV file!!
 							dicom.CSVFilePath = dicomPair.Key;
 							dicom.IsActive = dicomPair.Value.Equals("1");
 							dicom.FileName = fileName;
 							dicom.Parent = sectionObject;
+							dicom.Handler = new DICOM.DicomSectionHandler();
 							sectionObject.Children.Add(dicom);
 							break;
 

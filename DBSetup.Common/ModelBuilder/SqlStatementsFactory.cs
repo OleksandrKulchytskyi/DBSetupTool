@@ -69,6 +69,7 @@ namespace DBSetup.Common.ModelBuilder
 		{
 			bool isError = false;
 			int tryCount = 0;
+			IDataStatement statement;
 			switch (subSection.GetType().Name)
 			{
 				case "SqlLink":
@@ -76,8 +77,10 @@ namespace DBSetup.Common.ModelBuilder
 					{
 						try
 						{
-							list.Add(new SqlDataStatement(System.IO.File.ReadAllText((subSection as SqlLink).SqlFilePath),
-																(subSection as SqlLink).SqlFilePath));
+							statement = new SqlDataStatement(System.IO.File.ReadAllText((subSection as SqlLink).SqlFilePath),
+																(subSection as SqlLink).SqlFilePath);
+							statement.ContentRoot = subSection;
+							list.Add(statement);
 							isError = false;
 						}
 						catch (System.IO.IOException)
@@ -85,7 +88,7 @@ namespace DBSetup.Common.ModelBuilder
 							isError = true;
 							tryCount++;
 						}
-						catch (System.UnauthorizedAccessException)
+						catch (UnauthorizedAccessException)
 						{
 							isError = true;
 							tryCount++;
@@ -95,7 +98,9 @@ namespace DBSetup.Common.ModelBuilder
 					break;
 
 				case "DICOMLink":
-					list.Add(new DicomDataStatement((subSection as DICOMLink).CSVFilePath, (subSection as DICOMLink).IsActive));
+					statement = new DicomDataStatement((subSection as DICOMLink).CSVFilePath, (subSection as DICOMLink).IsActive);
+					statement.ContentRoot = subSection;
+					list.Add(statement);
 					break;
 
 				case "SectionBase":

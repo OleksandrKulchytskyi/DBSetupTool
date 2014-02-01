@@ -233,6 +233,7 @@ namespace DBSetup.Common.ModelBuilder
 							dicom.IsActive = dicomPair.Value.Equals("1");
 							dicom.FileName = m_currentProcessFile;
 							dicom.Parent = sectionObject;
+							dicom.Handler = new DICOM.DicomSectionHandler();
 							sectionObject.Children.Add(dicom);
 							break;
 
@@ -402,6 +403,20 @@ namespace DBSetup.Common.ModelBuilder
 						blob.FileName = m_currentProcessFile;
 						blob.Parent = sectionObject;
 						sectionObject.Children.Add(blob);
+						break;
+
+					case LineType.DICOM:
+						if (!LoadDICOM)
+							break;
+
+						DICOMLink dicom = new DICOMLink();
+						var dicomPair = LineParser.ParseDicomString(LineParser.GetKeyValueFromString(subName).Value);
+						dicom.CSVFilePath = dicomPair.Key;
+						dicom.IsActive = dicomPair.Value.Equals("1");
+						dicom.FileName = m_currentProcessFile;
+						dicom.Parent = sectionObject;
+						dicom.Handler = new DICOM.DicomSectionHandler();
+						sectionObject.Children.Add(dicom);
 						break;
 
 					default:

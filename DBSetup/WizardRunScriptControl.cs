@@ -56,6 +56,9 @@ namespace DBSetup
 		private StateDBSettings _dbSettings;
 		private SqlConnection _sqlConnection;
 
+		private ISqlConnectionSettings _sqlSettings;
+		private string _dbName;
+
 		private bool _isFirstRun = true;
 		private bool IsFirstRun
 		{
@@ -267,6 +270,7 @@ namespace DBSetup
 					StringsContainer.Instance.ConfigScriptAndUserDataMsg.Substring(0, StringsContainer.Instance.ConfigScriptAndUserDataMsg.IndexOf("("))));
 
 			_dbSettings = StateContainer.Instance.GetConcreteInstance<RunScriptState>().DbConSettings;
+			_sqlSettings = new SqlConnectionSettings(_dbSettings.ServerName, _dbName, _dbSettings.UserName, _dbSettings.Password);
 			_mainRunner.Start();
 		}
 
@@ -295,18 +299,6 @@ namespace DBSetup
 			}
 			else
 				ProceedNextStep();
-
-			//if (!this._cts.IsCancellationRequested)
-			//{
-			//	this._cts.Cancel();
-			//	CurrentRunStatus = RunStatus.STOP;
-
-			//	CurrentRunStatus = RunStatus.STOP;
-			//	Program.ISExitRequired = true;
-			//	Application.Exit();
-			//}
-
-			//this.RevertCtrlPlusA();
 		}
 
 		private void ProceedNextStep()
@@ -522,19 +514,14 @@ namespace DBSetup
 					if (_cts.IsCancellationRequested || CurrentRunStatus == RunStatus.TERMINATED)
 						goto Cancel;
 
+					//handle DICOM sections
 					if (_currentStatement.Type == StatementType.Dicom)
 					{
 						ISectionHandler handler = _currentStatement.ContentRoot.Handler;
 						if (handler != null)
 						{
 							handler.Logger = Log.Instance;
-							handler.Parameters = new SqlConnectionSettings()
-							{
-								ServerName = _dbSettings.ServerName,
-								UserName = _dbSettings.UserName,
-								Password = _dbSettings.Password,
-								DatabaseName = "comm4"
-							};
+							handler.Parameters = _sqlSettings;
 							handler.Handle(_currentStatement.ContentRoot);
 						}
 					}
@@ -976,6 +963,7 @@ namespace DBSetup
 			if (settingsDB != null)
 			{
 				DbName = System.IO.Path.GetFileNameWithoutExtension(settingsDB.DbFileName);
+				_dbName = DbName;
 				dbPath = settingsDB.DbFilePath;
 
 				dbSize = settingsDB.DbInitialSize;

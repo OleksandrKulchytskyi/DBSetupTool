@@ -72,7 +72,7 @@ namespace DBSetup.Common.Helpers
 			else if (line.StartsWith("Language=", StringComparison.OrdinalIgnoreCase))
 				return LineType.Language;
 
-			else if (line.StartsWith("DICOM=", StringComparison.OrdinalIgnoreCase) || 
+			else if (line.StartsWith("DICOM=", StringComparison.OrdinalIgnoreCase) ||
 					 line.StartsWith("DICOM =", StringComparison.OrdinalIgnoreCase))
 				return LineType.DICOM;
 
@@ -186,10 +186,10 @@ namespace DBSetup.Common.Helpers
 
 		public static KeyValuePair<string, string> ParseDicomString(string line)
 		{
-			return SplitGeneral(line, ",");
+			return SplitGeneral(line, ",", 1);
 		}
 
-		private static KeyValuePair<string, string> SplitGeneral(string line, string separator)
+		private static KeyValuePair<string, string> SplitGeneral(string line, string separator, int offset = 0)
 		{
 			if (string.IsNullOrEmpty(line) || string.IsNullOrWhiteSpace(line))
 				throw new ArgumentNullException("line");
@@ -198,8 +198,8 @@ namespace DBSetup.Common.Helpers
 				throw new ArgumentNullException("separator");
 
 			int index = line.IndexOf(separator);
-			string filePath = line.Substring(0, index + 1).TrimEnd();
-			string content = line.Substring(index).TrimStart();
+			string filePath = line.Substring(0, offset > 0 ? index - offset : index + 1).TrimEnd();
+			string content = line.Substring(offset > 0 ? index + offset : index).TrimStart();
 			return new KeyValuePair<string, string>(filePath, content);
 		}
 	}

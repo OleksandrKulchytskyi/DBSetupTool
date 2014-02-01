@@ -523,6 +523,7 @@ namespace DBSetup
 							handler.Logger = Log.Instance;
 							handler.Parameters = _sqlSettings;
 							handler.Handle(_currentStatement.ContentRoot);
+							continue;
 						}
 					}
 

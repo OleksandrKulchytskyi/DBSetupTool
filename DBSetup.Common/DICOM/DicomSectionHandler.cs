@@ -33,10 +33,9 @@ namespace DBSetup.Common.DICOM
 
 				List<DICOMMergeFieldElements> DICOMList = MergeFieldUtils.GetCollection();
 
-				foreach (var item in DICOMList)
+				foreach (DICOMMergeFieldElements item in DICOMList)
 				{
-					NormalizePath(item.Csvfilename);
-					NormalizePath(item.Xmlfilename);
+					NormalizePath(item);
 				}
 
 				Importer dicomImporter = null;
@@ -63,13 +62,22 @@ namespace DBSetup.Common.DICOM
 			}
 		}
 
-		private void NormalizePath(string path)
+		private void NormalizePath(DICOMMergeFieldElements item)
 		{
 			string rootFolder = DBSetup.Helpers.ServiceLocator.Instance.GetService<IGlobalState>().GetState<string>("rootPath");
-			path = path.StartsWith(".\\") ? System.IO.Path.Combine(rootFolder, path) : path;
+			string csvPath = item.Csvfilename;
+			string xmlPath = item.Xmlfilename;
+			int ubnormalIndx = 0;
+			
+			csvPath = csvPath.StartsWith(".\\") ? System.IO.Path.Combine(rootFolder, csvPath) : csvPath;
+			ubnormalIndx = csvPath.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
+			csvPath = ubnormalIndx > 1 ? csvPath.Replace(@"\.\", @"\") : csvPath;
+			item.Csvfilename = csvPath;
 
-			int ubnormalIndx = path.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
-			path = ubnormalIndx > 1 ? path.Replace(@"\.\", @"\") : path;
+			xmlPath = xmlPath.StartsWith(".\\") ? System.IO.Path.Combine(rootFolder, xmlPath) : xmlPath;
+			ubnormalIndx = xmlPath.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
+			xmlPath = ubnormalIndx > 1 ? xmlPath.Replace(@"\.\", @"\") : xmlPath;
+			item.Xmlfilename = xmlPath;
 		}
 	}
 }

@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using DBSetup.States;
 using System.IO;
+using DBSetup.Common;
+using DBSetup.Helpers;
 
 namespace DBSetup
 {
@@ -89,6 +91,8 @@ namespace DBSetup
 
 			if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				txtFilePath.Text = fd.FileName;
+
+			ServiceLocator.Instance.GetService<IGlobalState>().SetState<string>("rootPath", System.IO.Path.GetDirectoryName(txtFilePath.Text));
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e)

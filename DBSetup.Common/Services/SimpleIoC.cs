@@ -35,7 +35,7 @@ namespace DBSetup.Helpers
 				{
 					// use reflection to invoke the service
 					ConstructorInfo constructor = servicesType[typeof(T)].GetConstructor(new Type[0]);
-					Debug.Assert(constructor != null, "Cannot find a suitable constructor for " + typeof(T));
+					//Debug.Assert(constructor != null, "Cannot find a suitable constructor for " + typeof(T));
 
 					T service = (T)constructor.Invoke(null);
 					// add the service to the ones that we have already instantiated
@@ -55,6 +55,7 @@ namespace DBSetup.Helpers
 		{
 			servicesType.Add(typeof(IVersionService), typeof(Common.Services.VesrionService));
 			servicesType.Add(typeof(IExecutor), typeof(Common.Services.NoUIExecutor));
+			servicesType.Add(typeof(IGlobalState), typeof(GlobalState));
 		}
 	}
 }

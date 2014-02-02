@@ -255,8 +255,7 @@ namespace DBSetup.Common.ModelBuilder
 							}
 							break;
 						case LineType.SqlLink:
-							if (!LoadSql)
-								break;
+							if (!LoadSql) break;
 
 							SqlLink sql = new SqlLink();
 							string sqlPath = LineParser.GetKeyValueFromString(subName).Value;
@@ -269,8 +268,8 @@ namespace DBSetup.Common.ModelBuilder
 							break;
 
 						case LineType.JavaLink:
-							if (!LoadJava)
-								break;
+							if (!LoadJava) break;
+
 							JavaLink java = new JavaLink();
 							java.JavaFilePath = LineParser.GetKeyValueFromString(subName).Value;
 							java.Parent = sectionObject;
@@ -279,8 +278,8 @@ namespace DBSetup.Common.ModelBuilder
 							break;
 
 						case LineType.BlobLink:
-							if (!LoadBLOB)
-								break;
+							if (!LoadBLOB) break;
+
 							BlobLink blob = new BlobLink();
 							var BlobPair = LineParser.ParseBlobString(LineParser.GetKeyValueFromString(subName).Value);
 							blob.BlobFilePath = BlobPair.Key;
@@ -292,8 +291,7 @@ namespace DBSetup.Common.ModelBuilder
 
 
 						case LineType.DICOM:
-							if (!LoadDICOM)
-								break;
+							if (!LoadDICOM) break;
 
 							DICOMLink dicom = new DICOMLink();
 							var dicomPair = LineParser.ParseDicomString(LineParser.GetKeyValueFromString(subName).Value);

@@ -9,6 +9,18 @@ namespace DBSetup.Common.DICOM
 {
 	public class DicomSectionHandler : ISectionHandler
 	{
+		public object Parameters
+		{
+			get;
+			set;
+		}
+
+		public ILog Logger
+		{
+			get;
+			set;
+		}
+
 		public void Handle(ISection entity)
 		{
 			if (entity == null)
@@ -20,6 +32,13 @@ namespace DBSetup.Common.DICOM
 				ISqlConnectionSettings settings = Parameters as ISqlConnectionSettings;
 
 				List<DICOMMergeFieldElements> DICOMList = MergeFieldUtils.GetCollection();
+
+				foreach (var item in DICOMList)
+				{
+					NormalizePath(item.Csvfilename);
+					NormalizePath(item.Xmlfilename);
+				}
+
 				Importer dicomImporter = null;
 				foreach (var item in DICOMList)
 				{
@@ -44,18 +63,13 @@ namespace DBSetup.Common.DICOM
 			}
 		}
 
-
-		public object Parameters
+		private void NormalizePath(string path)
 		{
-			get;
-			set;
-		}
+			string rootFolder = DBSetup.Helpers.ServiceLocator.Instance.GetService<IGlobalState>().GetState<string>("rootPath");
+			path = path.StartsWith(".\\") ? System.IO.Path.Combine(rootFolder, path) : path;
 
-
-		public ILog Logger
-		{
-			get;
-			set;
+			int ubnormalIndx = path.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
+			path = ubnormalIndx > 1 ? path.Replace(@"\.\", @"\") : path;
 		}
 	}
 }

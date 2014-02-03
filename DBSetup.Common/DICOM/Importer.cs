@@ -1,5 +1,6 @@
 ﻿using DBSetup.Common.DICOM.Configuration;
 using DBSetup.Common.DICOM.Data;
+using DBSetup.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,19 +16,6 @@ namespace DBSetup.Common.DICOM
 		private PS360DICOMTablesDataContext _context = null;
 		//internal logger component
 		private ILog _logger;
-
-		/// <summary>
-		/// Ctor
-		/// </summary>
-		/// <param name="server">DB server name</param>
-		/// <param name="dbName">Name of the database</param>
-		/// <param name="username">SQL user name</param>
-		/// <param name="password">SQL password</param>
-		public Importer(string server, string dbName, string username, string password)
-		{
-			_context = new PS360DICOMTablesDataContext(String.Format("Server={0};Database={1};User Id={2};Password={3}", server, dbName, username, password));
-			_logger = Log.Instance;
-		}
 
 		/// <summary>
 		/// Ctor
@@ -193,7 +181,15 @@ namespace DBSetup.Common.DICOM
 			}
 			catch (IOException ex)
 			{
-				_logger.Error("Error Occurred", ex);
+				ex.Data.Add("DICOM", filename);
+				ex.Data.Add("ISACTIVE", active);
+				throw;
+			}
+			catch (Exception ex)
+			{
+				ex.Data.Add("DICOM", filename);
+				ex.Data.Add("ISACTIVE", active);
+				throw;
 			}
 		}
 
@@ -310,7 +306,7 @@ namespace DBSetup.Common.DICOM
 				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_OB_NAME", "Standard SR for OB Measurements")));
 				if (templateSRs == null || templateSRs.Count() == 0)
 				{
-					xml = XDocument.Load(Utils.GetAppSetting("STD_OB_FILE", "STD_OB.xml"));
+					xml = XDocument.Load(Utils.GetAppSettingAndNormalizePath("STD_OB_FILE", ServiceLocator.Instance, "STD_OB.xml"));
 					name = Utils.GetAppSetting("STD_OB_NAME", "Standard SR for OB Measurements");
 					description = Utils.GetAppSetting("STD_OB_DESC", "Standard SR for OB Measurements");
 				}
@@ -324,7 +320,7 @@ namespace DBSetup.Common.DICOM
 				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_GYN_NAME", "Standard SR for GYN Measurements")));
 				if (templateSRs == null || templateSRs.Count() == 0)
 				{
-					xml = XDocument.Load(Utils.GetAppSetting("STD_GYN_FILE", "STD_GYN.xml"));
+					xml = XDocument.Load(Utils.GetAppSettingAndNormalizePath("STD_GYN_FILE", ServiceLocator.Instance, "STD_GYN.xml"));
 					name = Utils.GetAppSetting("STD_GYN_NAME", "Standard SR for GYN Measurements");
 					description = Utils.GetAppSetting("STD_GYN_DESC", "Standard SR for GYN Measurements");
 				}
@@ -338,7 +334,7 @@ namespace DBSetup.Common.DICOM
 				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_ADULTECHO_NAME", "Standard SR for Adult Echo Measurements")));
 				if (templateSRs == null || templateSRs.Count() == 0)
 				{
-					xml = XDocument.Load(Utils.GetAppSetting("STD_ADULTECHO_FILE", "STD_ADULTECHO.xml"));
+					xml = XDocument.Load(Utils.GetAppSettingAndNormalizePath("STD_ADULTECHO_FILE", ServiceLocator.Instance, "STD_ADULTECHO.xml"));
 					name = Utils.GetAppSetting("STD_ADULTECHO_NAME", "Standard SR for Adult Echo Measurements");
 					description = Utils.GetAppSetting("STD_ADULTECHO_DESC", "Standard SR for Adult Echo Measurements");
 				}
@@ -352,7 +348,7 @@ namespace DBSetup.Common.DICOM
 				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_VASC_NAME", "Standard SR for Vascular Measurements")));
 				if (templateSRs == null || templateSRs.Count() == 0)
 				{
-					xml = XDocument.Load(Utils.GetAppSetting("STD_VASC_FILE", "STD_VASC.xml"));
+					xml = XDocument.Load(Utils.GetAppSettingAndNormalizePath("STD_VASC_FILE", ServiceLocator.Instance, "STD_VASC.xml"));
 					name = Utils.GetAppSetting("STD_VACS_NAME", "Standard SR for Vascular Measurements");
 					description = Utils.GetAppSetting("STD_VACS_DESC", "Standard SR for Vascular Measurements");
 				}
@@ -366,7 +362,7 @@ namespace DBSetup.Common.DICOM
 				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_ABDO_NAME", "Standard SR for Abdominal Measurements")));
 				if (templateSRs == null || templateSRs.Count() == 0)
 				{
-					xml = XDocument.Load(Utils.GetAppSetting("STD_ABDO_FILE", "STD_Abdo.xml"));
+					xml = XDocument.Load(Utils.GetAppSettingAndNormalizePath("STD_ABDO_FILE", ServiceLocator.Instance, "STD_Abdo.xml"));
 					name = Utils.GetAppSetting("STD_ABDO_NAME", "Standard SR for Abdominal Measurements");
 					description = Utils.GetAppSetting("STD_ABDO_DESC", "Standard SR for Abdominal Measurements");
 				}

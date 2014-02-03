@@ -19,6 +19,8 @@ namespace DBSetup.Common
 
 	public class SqlConnectionSettings : ISqlConnectionSettings
 	{
+		private bool _disposed = false;
+
 		public SqlConnectionSettings()
 		{
 		}
@@ -41,6 +43,7 @@ namespace DBSetup.Common
 		{
 			get
 			{
+				CheckDisposeState();
 				if (_secure == null)
 					return string.Empty;
 				else
@@ -48,6 +51,7 @@ namespace DBSetup.Common
 			}
 			set
 			{
+				CheckDisposeState();
 				if (_secure == null)
 					_secure = new SecureString();
 				else _secure.Clear();
@@ -100,12 +104,20 @@ namespace DBSetup.Common
 			return string.Format("Server: {1}{0}Database: {2}{0}User: {3}{0}Password: {4}", Environment.NewLine, ServerName, DatabaseName, UserName, Password);
 		}
 
+		protected void CheckDisposeState()
+		{
+			if (_disposed)
+				throw new ObjectDisposedException("Object is Disposed");
+		}
+
 		public void Dispose()
 		{
+			CheckDisposeState();
 			if (_secure != null && _secure.Length > 0)
 			{
 				_secure.Clear();
 				_secure.Dispose();
+				_disposed = true;
 			}
 		}
 	}

@@ -21,45 +21,70 @@ namespace DBSetup.Common.DICOM
 			set;
 		}
 
-		public void Handle(ISection entity)
+		private Action<string> onStep;
+		private Action<Exception> onError;
+
+		public bool Handle(ISection entity)
 		{
 			if (entity == null)
 				throw new ArgumentNullException("entity parameter cannot be a null.");
 
+			bool result = true;
+
 			if (entity is DICOMLink && Parameters != null && Parameters is ISqlConnectionSettings)
 			{
-				DICOMLink link = entity as DICOMLink;
-				ISqlConnectionSettings settings = Parameters as ISqlConnectionSettings;
-
-				List<DICOMMergeFieldElements> DICOMList = MergeFieldUtils.GetCollection();
-
-				foreach (DICOMMergeFieldElements item in DICOMList)
+				try
 				{
-					NormalizePath(item);
-				}
+					DICOMLink dicomLink = entity as DICOMLink;
+					if (onStep != null)
+						onStep(dicomLink.CSVFilePath);
 
-				Importer dicomImporter = null;
-				foreach (var item in DICOMList)
+					ISqlConnectionSettings settings = Parameters as ISqlConnectionSettings;
+
+					List<DICOMMergeFieldElements> DICOMList = MergeFieldUtils.GetCollection();
+
+					foreach (DICOMMergeFieldElements item in DICOMList)
+					{
+						NormalizePath(item);
+					}
+
+					Importer dicomImporter = null;
+					foreach (var item in DICOMList)
+					{
+						try
+						{
+							dicomImporter = new Importer(settings.ServerName, settings.DatabaseName, settings.UserName, settings.Password, Logger);
+							dicomImporter.Process(dicomLink.CSVFilePath, !dicomLink.IsActive, dicomLink.IsActive, item);
+						}
+						catch (Exception ex)
+						{
+							DispatchOnError(ex);
+							result = false;
+							if (Logger != null)
+								Logger.Error("Error occurred during DICOM import operation.", ex);
+						}
+						finally
+						{
+							if (dicomImporter != null)
+								dicomImporter.Dispose();
+						}
+						//TODO: Omit commnet here if we need to stop execusion in case of Exception.
+						//if (!result) break;
+					}
+				}
+				catch (Exception ex)
 				{
-					try
-					{
-						dicomImporter = new Importer(settings.ServerName, settings.DatabaseName, settings.UserName, settings.Password);
-						dicomImporter.Process(link.CSVFilePath, !link.IsActive, link.IsActive, item);
-					}
-					catch (Exception ex)
-					{
-						if (Logger != null)
-							Logger.Error("Error occurred during DICOM import operation.", ex);
-					}
-					finally
-					{
-						if (dicomImporter != null)
-							dicomImporter.Dispose();
-					}
+					DispatchOnError(ex);
+					result = false;
 				}
-
-				settings.Dispose();
 			}
+			return result;
+		}
+
+		private void DispatchOnError(Exception ex)
+		{
+			if (onError != null)
+				onError(ex);
 		}
 
 		private void NormalizePath(DICOMMergeFieldElements item)
@@ -68,7 +93,7 @@ namespace DBSetup.Common.DICOM
 			string csvPath = item.Csvfilename;
 			string xmlPath = item.Xmlfilename;
 			int ubnormalIndx = 0;
-			
+
 			csvPath = csvPath.StartsWith(".\\") ? System.IO.Path.Combine(rootFolder, csvPath) : csvPath;
 			ubnormalIndx = csvPath.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
 			csvPath = ubnormalIndx > 1 ? csvPath.Replace(@"\.\", @"\") : csvPath;
@@ -78,6 +103,19 @@ namespace DBSetup.Common.DICOM
 			ubnormalIndx = xmlPath.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
 			xmlPath = ubnormalIndx > 1 ? xmlPath.Replace(@"\.\", @"\") : xmlPath;
 			item.Xmlfilename = xmlPath;
+		}
+
+
+		public void OnStepHandler(Action<string> onStep)
+		{
+			if (onStep != null)
+				this.onStep = onStep;
+		}
+
+		public void OnErrorHandler(Action<Exception> onError)
+		{
+			if (onError != null)
+				this.onError = onError;
 		}
 	}
 }

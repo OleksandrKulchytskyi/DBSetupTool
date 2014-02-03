@@ -9,9 +9,12 @@ namespace DBSetup.Common.Models
 	public interface ISectionHandler
 	{
 		object Parameters { get; set; }
-		void Handle(ISection entity);
-
 		ILog Logger { get; set; }
+
+		bool Handle(ISection entity);
+
+		void OnStepHandler(Action<String> onStep);
+		void OnErrorHandler(Action<Exception> onError);
 	}
 
 	public interface ISectionHandlerFactory

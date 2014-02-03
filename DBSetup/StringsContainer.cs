@@ -49,6 +49,10 @@ namespace DBSetup
 
 		public string SqlCurrentStepMsg { get { return _sqlCurrentStep; } }
 
+		private readonly string _dicomCurrentStep = "DICOM={0},{1}";
+
+		public string DICOMCurrentStepMsg { get { return _dicomCurrentStep; } }
+
 		private readonly string _maxTryCountIsExceeded = "You have exceeded the maximum error count.\n\rDo you want to continue work on error(s)?";
 
 		public string MaxTryCountIsExceeded { get { return _maxTryCountIsExceeded; } }

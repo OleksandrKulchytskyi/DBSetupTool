@@ -294,6 +294,8 @@ namespace DBSetup
 				this.Load -= WizardRunScriptControl_Load;
 				rootForm = null;
 
+				if (_sqlSettings != null) _sqlSettings.Dispose();
+
 				Program.ISExitRequired = true;
 				Application.Exit();
 			}
@@ -310,6 +312,9 @@ namespace DBSetup
 			}
 
 			this.RevertCtrlPlusA();
+
+			if (_sqlSettings != null) _sqlSettings.Dispose();
+
 			if (rootForm != null)
 			{
 				if (StateContainer.Instance[6] == null)
@@ -333,7 +338,6 @@ namespace DBSetup
 
 				this.Load -= WizardRunScriptControl_Load;
 				rootForm = null;
-				GC.Collect();
 			}
 		}
 
@@ -522,7 +526,23 @@ namespace DBSetup
 						{
 							handler.Logger = Log.Instance;
 							handler.Parameters = _sqlSettings;
-							handler.Handle(_currentStatement.ContentRoot);
+							handler.OnErrorHandler(OnErrorHandler);
+							handler.OnStepHandler(OnStepHandler);
+							if (handler.Handle(_currentStatement.ContentRoot))
+								txtExecutionLog.ExecAction(() =>
+								{
+									string scriptExecuted = string.Format("Executed: {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+									txtExecutionLog.AppendText(scriptExecuted);
+									Log.Instance.Info(scriptExecuted);
+								});
+							else
+								txtExecutionLog.ExecAction(() =>
+								{
+									string scriptExecuted = string.Format("Executed with error(s): {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+									txtExecutionLog.AppendText(scriptExecuted);
+									Log.Instance.Info(scriptExecuted);
+								});
+
 							continue;
 						}
 					}
@@ -709,6 +729,29 @@ namespace DBSetup
 					GC.Collect();
 				}
 			}//end using SqlConnection
+		}
+
+		private void OnStepHandler(string file)
+		{
+			this.ExecAction(() =>
+			{
+				txtCurrentStep.ExecAction(() => txtCurrentStep.Text = string.Format(StringsContainer.Instance.DICOMCurrentStepMsg,
+																											_currentStatement.DataFile, (_currentStatement as DicomDataStatement).IsActive));
+			});
+		}
+
+		private void OnErrorHandler(Exception ex)
+		{
+			this.ExecAction(() =>
+							{
+								this.ExecAction(() =>
+								{
+									string failMsg = string.Format("Fail: {0} {1} Message: {2}{1}", _currentStatement.DataFile, Environment.NewLine, ex.Message);
+									Log.Instance.Error(failMsg);
+									txtExecutionLog.AppendText(failMsg);
+									MessageBox.Show(rootForm, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+								});
+							});
 		}
 
 		private void ProcessSqlStatements()

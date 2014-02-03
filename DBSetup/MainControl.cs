@@ -16,6 +16,7 @@ namespace DBSetup
 	public partial class MainControl : UserControl
 	{
 		private WizardMain mainForm = null;
+		private IServiceLocator ioc;
 
 		public MainControl()
 		{
@@ -30,6 +31,8 @@ namespace DBSetup
 				mainForm = (TopLevelControl as WizardMain);
 				mainForm.AcceptButton = btnNext;
 			}
+
+			ioc = ServiceLocator.Instance;
 
 			string hostPath = Path.GetDirectoryName(Application.ExecutablePath);
 			if (!string.IsNullOrEmpty(hostPath))
@@ -85,14 +88,16 @@ namespace DBSetup
 
 		private void btnBrowse_Click(object sender, EventArgs e)
 		{
-			FileDialog fd = new OpenFileDialog();
-			fd.InitialDirectory = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-			fd.Filter = "INI files(*.ini)|*.ini";
+			FileDialog openFD = new OpenFileDialog();
+			openFD.InitialDirectory = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+			openFD.CheckFileExists = true;
+			openFD.Filter = "INI files(*.ini)|*.ini";
 
-			if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				txtFilePath.Text = fd.FileName;
-
-			ServiceLocator.Instance.GetService<IGlobalState>().SetState<string>("rootPath", System.IO.Path.GetDirectoryName(txtFilePath.Text));
+			if (openFD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				txtFilePath.Text = openFD.FileName;
+				ioc.GetService<IGlobalState>().SetState<string>("rootPath", System.IO.Path.GetDirectoryName(txtFilePath.Text));
+			}
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e)
@@ -112,9 +117,12 @@ namespace DBSetup
 
 		private void txtFilePath_TextChanged(object sender, EventArgs e)
 		{
-			if (string.IsNullOrEmpty((sender as TextBoxBase).Text) ||
-				string.IsNullOrWhiteSpace((sender as TextBoxBase).Text))
+			string text = (sender as TextBoxBase).Text;
+			if (string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text))
+			{
 				btnNext.Enabled = false;
+				ioc.GetService<IGlobalState>().SetState<string>("rootPath", System.IO.Path.GetDirectoryName(text));
+			}
 			else
 				btnNext.Enabled = true;
 		}

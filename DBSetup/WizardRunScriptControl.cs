@@ -34,7 +34,9 @@ namespace DBSetup
 		private const string _runString = "Run";
 		private const string _stopString = "Stop";
 		private const string _dateTimeFormat = "dd-MM-yyyy hh:mm:ss";
+		private const string _logLocation = @"Log\DbSetupLog.txt";
 		private const int _maxRetriesCount = 5;
+
 
 		//delay after script ends it's execution (ms)
 		private const int scriptSleepTimeout = 60;
@@ -478,7 +480,7 @@ namespace DBSetup
 			builder.MaxPoolSize = 20;
 			builder.Pooling = true;
 
-			IsTriesExceed = false;
+			IsTriesCountExceeded = false;
 
 			using (_sqlConnection = new SqlConnection(builder.ToString()))
 			{
@@ -491,9 +493,8 @@ namespace DBSetup
 						{
 							txtExecutionLog.Clear();
 
-							txtExecutionLog.AppendText(string.Format("Log file: {0} {1} {1}", System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath),
-																									@"Log\DbSetupLog.txt"),
-																									Environment.NewLine));
+							txtExecutionLog.AppendText(string.Format("Log file: {0} {1} {1}", 
+								System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath),_logLocation),Environment.NewLine));
 
 							string compName = string.Format("Computer: {0} {1}", Environment.MachineName, Environment.NewLine);
 							Log.Instance.Info(compName);
@@ -1271,5 +1272,7 @@ namespace DBSetup
 				ProceedNextStep();
 			}
 		}
+
+		public bool IsTriesCountExceeded { get; set; }
 	}
 }

@@ -534,6 +534,7 @@ namespace DBSetup
 						{
 							handler.Logger = Log.Instance;
 							handler.Parameters = _sqlSettings;
+							handler.OnPreHandler(OnPreDicomHandler);
 							handler.OnErrorHandler(OnErrorHandler);
 							handler.OnStepHandler(OnStepHandler);
 							if (handler.Handle(_currentStatement.ContentRoot))
@@ -735,6 +736,16 @@ namespace DBSetup
 					GC.Collect();
 				}
 			}//end using SqlConnection
+		}
+
+		private void OnPreDicomHandler(string arg1, object arg2)
+		{
+			this.ExecAction(() =>
+			{
+				string beginMsg = string.Format("Begin to process DICOM : {0} {1}", arg1, Environment.NewLine);
+				Log.Instance.Error(beginMsg);
+				txtExecutionLog.AppendText(beginMsg);
+			});
 		}
 
 		private void OnStepHandler(string file)

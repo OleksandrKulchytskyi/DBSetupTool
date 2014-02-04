@@ -13,6 +13,7 @@ namespace DBSetup.Common.Models
 
 		bool Handle(ISection entity);
 
+		void OnPreHandler(Action<String, object> onPreHandle);
 		void OnStepHandler(Action<String> onStep);
 		void OnErrorHandler(Action<Exception> onError);
 	}

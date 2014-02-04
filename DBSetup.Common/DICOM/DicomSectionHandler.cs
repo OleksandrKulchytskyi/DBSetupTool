@@ -9,6 +9,10 @@ namespace DBSetup.Common.DICOM
 {
 	public class DicomSectionHandler : ISectionHandler
 	{
+		private Action<string, object> onPreHandle;
+		private Action<string> onStep;
+		private Action<Exception> onError;
+
 		public object Parameters
 		{
 			get;
@@ -20,9 +24,6 @@ namespace DBSetup.Common.DICOM
 			get;
 			set;
 		}
-
-		private Action<string> onStep;
-		private Action<Exception> onError;
 
 		public bool Handle(ISection entity)
 		{
@@ -40,6 +41,8 @@ namespace DBSetup.Common.DICOM
 						onStep(dicomLink.CSVFilePath);
 
 					ISqlConnectionSettings settings = Parameters as ISqlConnectionSettings;
+					if (this.onPreHandle != null)
+						onPreHandle(dicomLink.CSVFilePath, settings);
 
 					List<DICOMMergeFieldElements> DICOMList = MergeFieldUtils.GetCollection();
 
@@ -103,6 +106,12 @@ namespace DBSetup.Common.DICOM
 			ubnormalIndx = xmlPath.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
 			xmlPath = ubnormalIndx > 1 ? xmlPath.Replace(@"\.\", @"\") : xmlPath;
 			item.Xmlfilename = xmlPath;
+		}
+
+		public void OnPreHandler(Action<String, object> onPreHandle)
+		{
+			if (onPreHandle != null)
+				this.onPreHandle = onPreHandle;
 		}
 
 

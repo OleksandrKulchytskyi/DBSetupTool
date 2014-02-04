@@ -1,11 +1,12 @@
 ﻿using DBSetup.Common;
 using DBSetup.Common.Helpers;
+using DBSetup.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace DBSetup.Helpers
+namespace DBSetup.Common
 {
 	public class ServiceLocator : SingletonBase<ServiceLocator>, IServiceLocator
 	{
@@ -56,6 +57,7 @@ namespace DBSetup.Helpers
 			servicesType.Add(typeof(IVersionService), typeof(Common.Services.VesrionService));
 			servicesType.Add(typeof(IExecutor), typeof(Common.Services.NoUIExecutor));
 			servicesType.Add(typeof(IGlobalState), typeof(GlobalState));
+			servicesType.Add(typeof(ISectionHandlerFactory), typeof(SectionHandlerFactory));
 		}
 	}
 }

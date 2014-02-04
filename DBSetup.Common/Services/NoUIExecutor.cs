@@ -2,7 +2,7 @@
 using DBSetup.Common.ModelBuilder;
 using DBSetup.Common.Models;
 using DBSetup.Common.Statements;
-using DBSetup.Helpers;
+using DBSetup.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -299,11 +299,11 @@ namespace DBSetup.Common.Services
 			if (databaseConfig == null)
 				throw new ArgumentNullException("databaseConfig");
 
-			var dbName = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals("Name", StringComparison.OrdinalIgnoreCase));
-			_dbFileName = dbName == null ? string.Empty : dbName.SettingValue;
+			var dbName = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals("Name", StringComparison.OrdinalIgnoreCase));
+			_dbFileName = dbName == null ? string.Empty : dbName.Value;
 
-			var dbSize = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals("DataDeviceSize", StringComparison.OrdinalIgnoreCase));
-			_initialSize = dbSize == null ? string.Empty : dbSize.SettingValue;
+			var dbSize = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals("DataDeviceSize", StringComparison.OrdinalIgnoreCase));
+			_initialSize = dbSize == null ? string.Empty : dbSize.Value;
 
 			int size;
 			if (Int32.TryParse(_initialSize, out size))
@@ -311,8 +311,8 @@ namespace DBSetup.Common.Services
 				_growth = (size + 1).ToString();
 			}
 
-			var logSize = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals("LogDeviceSize", StringComparison.OrdinalIgnoreCase));
-			_logInitialSize = logSize == null ? string.Empty : logSize.SettingValue;
+			var logSize = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals("LogDeviceSize", StringComparison.OrdinalIgnoreCase));
+			_logInitialSize = logSize == null ? string.Empty : logSize.Value;
 
 			if (Int32.TryParse(_logInitialSize, out size))
 			{
@@ -322,11 +322,11 @@ namespace DBSetup.Common.Services
 					_logGrowth = (size - 1).ToString();
 			}
 
-			var dataDevice = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals("DataDevice", StringComparison.OrdinalIgnoreCase));
-			_dbLocation = dataDevice == null ? string.Empty : System.IO.Path.ChangeExtension(dataDevice.SettingValue, "mdf");
+			var dataDevice = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals("DataDevice", StringComparison.OrdinalIgnoreCase));
+			_dbLocation = dataDevice == null ? string.Empty : System.IO.Path.ChangeExtension(dataDevice.Value, "mdf");
 
-			var logDevice = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals("LogDevice", StringComparison.OrdinalIgnoreCase));
-			_logLocation = logDevice == null ? string.Empty : System.IO.Path.ChangeExtension(logDevice.SettingValue, "ldf");
+			var logDevice = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals("LogDevice", StringComparison.OrdinalIgnoreCase));
+			_logLocation = logDevice == null ? string.Empty : System.IO.Path.ChangeExtension(logDevice.Value, "ldf");
 
 			if (!string.IsNullOrEmpty(_logLocation))
 				_logName = System.IO.Path.GetFileNameWithoutExtension(_logLocation);
@@ -633,52 +633,52 @@ namespace DBSetup.Common.Services
 				if (_sqlServerVesrion.IndexOf("2012", StringComparison.Ordinal) == -1)
 				{
 					ChangePairValue(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-									x => x.SettingKey.Equals("SelectIntoBulkCopy", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'select into/bulkcopy', " + (pair == null ? "false" : pair.SettingValue));
+									x => x.Key.Equals("SelectIntoBulkCopy", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'select into/bulkcopy', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					ChangePairValue(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-												x => x.SettingKey.Equals("ColumnsNullByDefault", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'ANSI null default', " + (pair == null ? "false" : pair.SettingValue));
+												x => x.Key.Equals("ColumnsNullByDefault", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'ANSI null default', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					ChangePairValue(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-												x => x.SettingKey.Equals("TruncateLogOnCheckpoint", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'trunc. log on chkpt.', " + (pair == null ? "false" : pair.SettingValue));
+												x => x.Key.Equals("TruncateLogOnCheckpoint", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'trunc. log on chkpt.', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					ChangePairValue(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-																						x => x.SettingKey.Equals("SingleUser", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'single user', " + (pair == null ? "false" : pair.SettingValue));
+																						x => x.Key.Equals("SingleUser", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'single user', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					ChangePairValue(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-																						x => x.SettingKey.Equals("DBOUseOnly", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'dbo use only', " + (pair == null ? "false" : pair.SettingValue));
+																						x => x.Key.Equals("DBOUseOnly", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'dbo use only', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					ChangePairValue(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-																					x => x.SettingKey.Equals("ReadOnly", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'read only', " + (pair == null ? "false" : pair.SettingValue));
+																					x => x.Key.Equals("ReadOnly", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'read only', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					buffer.Append("USE " + DbName); buffer.Append("\nGO\n");
 
 					ChangePairValueOnOff(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("Arithabort", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("Arithabort", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET ARITHABORT {0} \n GO \n", pair == null ? "ON" : pair.SettingValue);
+					buffer.AppendFormat("SET ARITHABORT {0} \n GO \n", pair == null ? "ON" : pair.Value);
 
 					ChangePairValueOnOff(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("quoted_identifier", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("quoted_identifier", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET QUOTED_IDENTIFIER {0}", pair == null ? "OFF" : pair.SettingValue);
+					buffer.AppendFormat("SET QUOTED_IDENTIFIER {0}", pair == null ? "OFF" : pair.Value);
 					buffer.Append("\nGO\n");
 
 					ChangePairValueOnOff(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("ansi_nulls", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("ansi_nulls", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET ANSI_NULLS {0}", pair == null ? "OFF" : pair.SettingValue);
+					buffer.AppendFormat("SET ANSI_NULLS {0}", pair == null ? "OFF" : pair.Value);
 					buffer.Append("\nGO\n");
 				}
 
@@ -688,53 +688,53 @@ namespace DBSetup.Common.Services
 
 				else
 				{
-					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals(
+					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals(
 																											"SelectIntoBulkCopy", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET RECOVERY {1} \nGO\n", DbName,
-						(pair == null ? "SIMPLE" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "SIMPLE" : "FULL")));
+						(pair == null ? "SIMPLE" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "SIMPLE" : "FULL")));
 
 					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-									x => x.SettingKey.Equals("ColumnsNullByDefault", StringComparison.OrdinalIgnoreCase));
+									x => x.Key.Equals("ColumnsNullByDefault", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET ANSI_NULL_DEFAULT {1} \nGO\n", DbName,
-						(pair == null ? "ON" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "OFF" : "ON")));
+						(pair == null ? "ON" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "OFF" : "ON")));
 
-					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals(
+					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals(
 																											"TruncateLogOnCheckpoint", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET RECOVERY {1} \nGO\n", DbName,
-						(pair == null ? "FULL" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "FULL" : "SIMPLE")));
+						(pair == null ? "FULL" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "FULL" : "SIMPLE")));
 
-					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals(
+					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals(
 																											"SingleUser", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET {1} \nGO\n", DbName,
-						(pair == null ? "SIMPLE" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "SINGLE_USER" : "MULTI_USER")));
+						(pair == null ? "SIMPLE" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "SINGLE_USER" : "MULTI_USER")));
 
-					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals(
+					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals(
 																											"DBOUseOnly", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET {1} \nGO\n", DbName,
-						(pair == null ? "MULTI_USER" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "MULTI_USER" : "RESTRICTED_USER")));
+						(pair == null ? "MULTI_USER" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "MULTI_USER" : "RESTRICTED_USER")));
 
-					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals(
+					pair = _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals(
 																					"ReadOnly", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET {1} \nGO\n", DbName,
-						(pair == null ? "READ_WRITE" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "READ_WRITE" : "READ_ONLY")));
+						(pair == null ? "READ_WRITE" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "READ_WRITE" : "READ_ONLY")));
 
 					buffer.Append("USE " + DbName + "\nGO\n");
 
 					ChangePairValueOnOff(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("Arithabort", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("Arithabort", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET ARITHABORT {0} \n GO \n", pair == null ? "ON" : pair.SettingValue);
+					buffer.AppendFormat("SET ARITHABORT {0} \n GO \n", pair == null ? "ON" : pair.Value);
 
 					ChangePairValueOnOff(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("quoted_identifier", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("quoted_identifier", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET QUOTED_IDENTIFIER {0}", pair == null ? "OFF" : pair.SettingValue);
+					buffer.AppendFormat("SET QUOTED_IDENTIFIER {0}", pair == null ? "OFF" : pair.Value);
 					buffer.Append("\nGO\n");
 
 					ChangePairValueOnOff(ref pair, _dbSettings.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("ansi_nulls", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("ansi_nulls", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET ANSI_NULLS {0}", pair == null ? "OFF" : pair.SettingValue);
+					buffer.AppendFormat("SET ANSI_NULLS {0}", pair == null ? "OFF" : pair.Value);
 					buffer.Append("\nGO\n");
 				}
 
@@ -751,9 +751,9 @@ namespace DBSetup.Common.Services
 				changedPair = pair;
 				return;
 			}
-			if (pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) != -1 ||
-				pair.SettingValue.IndexOf("no", StringComparison.OrdinalIgnoreCase) != -1)
-				pair.SettingValue = (pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) != -1 ? "true" : "false");
+			if (pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) != -1 ||
+				pair.Value.IndexOf("no", StringComparison.OrdinalIgnoreCase) != -1)
+				pair.Value = (pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) != -1 ? "true" : "false");
 
 			changedPair = pair;
 		}
@@ -765,9 +765,9 @@ namespace DBSetup.Common.Services
 				changedPair = pair;
 				return;
 			}
-			if (pair.SettingValue.IndexOf("on", StringComparison.OrdinalIgnoreCase) != -1 ||
-				pair.SettingValue.IndexOf("off", StringComparison.OrdinalIgnoreCase) != -1)
-				pair.SettingValue = (pair.SettingValue.IndexOf("on", StringComparison.OrdinalIgnoreCase) != -1 ? "on" : "off");
+			if (pair.Value.IndexOf("on", StringComparison.OrdinalIgnoreCase) != -1 ||
+				pair.Value.IndexOf("off", StringComparison.OrdinalIgnoreCase) != -1)
+				pair.Value = (pair.Value.IndexOf("on", StringComparison.OrdinalIgnoreCase) != -1 ? "on" : "off");
 
 			changedPair = pair;
 		}

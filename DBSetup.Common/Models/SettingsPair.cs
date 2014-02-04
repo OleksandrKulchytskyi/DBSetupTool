@@ -11,13 +11,13 @@ namespace DBSetup.Common.Models
 			: base()
 		{
 			Text = "Configuration settings";
-			SettingKey = string.Empty;
-			SettingValue = string.Empty;
+			Key = string.Empty;
+			Value = string.Empty;
 		}
 
-		public string SettingKey { get; set; }
+		public string Key { get; set; }
 
-		public string SettingValue { get; set; }
+		public string Value { get; set; }
 
 		public override bool Equals(object obj)
 		{
@@ -29,8 +29,8 @@ namespace DBSetup.Common.Models
 
 			if (obj is SettingsPair)
 			{
-				return (this.SettingKey.Equals((obj as SettingsPair).SettingKey, StringComparison.OrdinalIgnoreCase)
-						&& this.SettingValue.Equals((obj as SettingsPair).SettingValue, StringComparison.OrdinalIgnoreCase));
+				return (this.Key.Equals((obj as SettingsPair).Key, StringComparison.OrdinalIgnoreCase)
+						&& this.Value.Equals((obj as SettingsPair).Value, StringComparison.OrdinalIgnoreCase));
 			}
 
 			return false;
@@ -38,12 +38,12 @@ namespace DBSetup.Common.Models
 
 		public override int GetHashCode()
 		{
-			return SettingValue.GetHashCode() + SettingKey.GetHashCode();
+			return Value.GetHashCode() + Key.GetHashCode();
 		}
 
 		public override string ToString()
 		{
-			return string.Format("{0}={1}", SettingKey, SettingValue);
+			return string.Format("{0}={1}", Key, Value);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using DBSetup.Common.DICOM.Configuration;
 using DBSetup.Common.DICOM.Data;
-using DBSetup.Helpers;
+using DBSetup.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,8 +12,10 @@ namespace DBSetup.Common.DICOM
 {
 	public class Importer : IDisposable
 	{
+		private bool disposed = false;
+
 		//DICOM DB context
-		private PS360DICOMTablesDataContext _context = null;
+		private PS360DICOMTablesDataContext _context;
 		//internal logger component
 		private ILog _logger;
 
@@ -50,13 +52,14 @@ namespace DBSetup.Common.DICOM
 			if (dicomMFgroupelement == null)
 				throw new ArgumentNullException("dicomMFgroupelement parameter cannot be a null.");
 
+			ThrowIfDisposed();
+
 			try
 			{
 				int deviceID = GetDeviceID();
 				if (deviceID == 0)
 				{
 					_logger.Error("Creating the device record in the database.");
-
 					return;
 				}
 				int srTemplateTypeID = GetTemplateTypeID(filename);
@@ -71,7 +74,6 @@ namespace DBSetup.Common.DICOM
 					_logger.Error("Creating the SR Template record in the database.");
 					return;
 				}
-
 
 				// loop through the filename, and import the data 
 				bool hasError = false;
@@ -118,14 +120,13 @@ namespace DBSetup.Common.DICOM
 									var recs = _context.DICOMMergeFields.Where(x => x.MergeFieldID == MergeFieldID);
 									if (recs == null || recs.Count() == 0)
 									{
-
-										var mergeField = new MergeField();
+										MergeField mergeField = new MergeField();
 										mergeField.MergeFieldID = MergeFieldID;
 										mergeField.MergeFieldTypeID = 4; // this is a DICOM Merge Field in PS360
 										mergeField.Name = Name;
 										_context.MergeFields.InsertOnSubmit(mergeField);
 
-										var dicomMergeField = new DICOMMergeField();
+										DICOMMergeField dicomMergeField = new DICOMMergeField();
 										dicomMergeField.MergeFieldID = MergeFieldID;
 										dicomMergeField.DICOMSRTemplateID = srTemplateID;
 										dicomMergeField.Name = Name;
@@ -144,11 +145,11 @@ namespace DBSetup.Common.DICOM
 									else
 									{
 										// update the name, description, or isactive flag only
-										var mf = _context.MergeFields.Where(x => x.MergeFieldID == MergeFieldID).First();
+										MergeField mf = _context.MergeFields.Where(x => x.MergeFieldID == MergeFieldID).First();
 										mf.Name = Name;
 										mf.Description = Description;
 
-										var dmf = recs.First();
+										DICOMMergeField dmf = recs.First();
 										dmf.Name = Name;
 										dmf.Description = Description;
 										dmf.IsActive = IsActive;
@@ -201,7 +202,7 @@ namespace DBSetup.Common.DICOM
 
 			if (devices == null || devices.Count() == 0)
 			{
-				var device = new DICOMDevice();
+				DICOMDevice device = new DICOMDevice();
 				device.Manufacturer = Utils.GetAppSetting("MANUFACTURER", "Philips Medical Systems");
 				device.Model = Utils.GetAppSetting("MODEL", "EPIQ 7C");
 				device.Version = Utils.GetAppSetting("VERSION", "EPIQ 7G_1.0.0.2071");
@@ -229,7 +230,7 @@ namespace DBSetup.Common.DICOM
 				var templateTypes = _context.DICOMSRTemplateTypes.Where(x => x.Code.Equals(Utils.GetAppSetting("STD_OB_CODE", "125000")));
 				if (templateTypes == null || templateTypes.Count() == 0)
 				{
-					var templateType = new DICOMSRTemplateType();
+					DICOMSRTemplateType templateType = new DICOMSRTemplateType();
 					templateType.Name = Utils.GetAppSetting("STD_OB_TEMP_NAME", "OB-GYN Ultrasound Procedure Report");
 					templateType.Code = Utils.GetAppSetting("STD_OB_CODE", "125000");
 					_context.DICOMSRTemplateTypes.InsertOnSubmit(templateType);
@@ -248,7 +249,7 @@ namespace DBSetup.Common.DICOM
 				var templateTypes = _context.DICOMSRTemplateTypes.Where(x => x.Code.Equals(Utils.GetAppSetting("STD_ADULTECHO_CODE", "125200")));
 				if (templateTypes == null || templateTypes.Count() == 0)
 				{
-					var templateType = new Data.DICOMSRTemplateType();
+					DICOMSRTemplateType templateType = new Data.DICOMSRTemplateType();
 					templateType.Name = Utils.GetAppSetting("STD_ADULTECHO_TEMP_NAME", "Adult Echocardiography Procedure Report");
 					templateType.Code = Utils.GetAppSetting("STD_ADULTECHO_CODE", "125200");
 					_context.DICOMSRTemplateTypes.InsertOnSubmit(templateType);
@@ -268,7 +269,7 @@ namespace DBSetup.Common.DICOM
 				var templateTypes = _context.DICOMSRTemplateTypes.Where(x => x.Code.Equals(Utils.GetAppSetting("STD_VASC_CODE", "125100")));
 				if (templateTypes == null || templateTypes.Count() == 0)
 				{
-					var templateType = new DICOMSRTemplateType();
+					DICOMSRTemplateType templateType = new DICOMSRTemplateType();
 					templateType.Name = Utils.GetAppSetting("STD_VASC_TEMP_NAME", "Vascular Ultrasound Procedure Report");
 					templateType.Code = Utils.GetAppSetting("STD_VASC_CODE", "125100");
 					_context.DICOMSRTemplateTypes.InsertOnSubmit(templateType);
@@ -397,16 +398,22 @@ namespace DBSetup.Common.DICOM
 
 		protected virtual void OnDisposose(bool disposing)
 		{
-			if (_context != null)
-			{
+			if (_context != null && disposing)
 				_context.Dispose();
-			}
 		}
 
 		public void Dispose()
 		{
+			ThrowIfDisposed();
+
 			OnDisposose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		private void ThrowIfDisposed()
+		{
+			if (disposed)
+				throw new ObjectDisposedException("Importer has benn disposed. Cannot access to the disposed object.");
 		}
 	}
 }

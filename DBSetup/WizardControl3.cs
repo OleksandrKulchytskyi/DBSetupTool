@@ -226,11 +226,11 @@ namespace DBSetup
 			if (databaseConfig == null)
 				throw new ArgumentNullException("databaseConfig");
 
-			var dbName = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals("Name", StringComparison.OrdinalIgnoreCase));
-			txtDbFileName.Text = dbName == null ? string.Empty : dbName.SettingValue;
+			var dbName = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals("Name", StringComparison.OrdinalIgnoreCase));
+			txtDbFileName.Text = dbName == null ? string.Empty : dbName.Value;
 
-			var dbSize = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals("DataDeviceSize", StringComparison.OrdinalIgnoreCase));
-			txtInitialSize.Text = dbSize == null ? string.Empty : dbSize.SettingValue;
+			var dbSize = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals("DataDeviceSize", StringComparison.OrdinalIgnoreCase));
+			txtInitialSize.Text = dbSize == null ? string.Empty : dbSize.Value;
 
 			int size;
 			if (Int32.TryParse(txtInitialSize.Text, out size))
@@ -238,8 +238,8 @@ namespace DBSetup
 				txtGrowth.Text = (size + 1).ToString();
 			}
 
-			var logSize = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals("LogDeviceSize", StringComparison.OrdinalIgnoreCase));
-			txtLogInitialSize.Text = logSize == null ? string.Empty : logSize.SettingValue;
+			var logSize = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals("LogDeviceSize", StringComparison.OrdinalIgnoreCase));
+			txtLogInitialSize.Text = logSize == null ? string.Empty : logSize.Value;
 
 			if (Int32.TryParse(txtLogInitialSize.Text, out size))
 			{
@@ -249,11 +249,11 @@ namespace DBSetup
 					txtLogGrowth.Text = (size - 1).ToString();
 			}
 
-			var dataDevice = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals("DataDevice", StringComparison.OrdinalIgnoreCase));
-			txtDbLocation.Text = dataDevice == null ? string.Empty : System.IO.Path.ChangeExtension(dataDevice.SettingValue, "mdf");
+			var dataDevice = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals("DataDevice", StringComparison.OrdinalIgnoreCase));
+			txtDbLocation.Text = dataDevice == null ? string.Empty : System.IO.Path.ChangeExtension(dataDevice.Value, "mdf");
 
-			var logDevice = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals("LogDevice", StringComparison.OrdinalIgnoreCase));
-			txtLogFileLocation.Text = logDevice == null ? string.Empty : System.IO.Path.ChangeExtension(logDevice.SettingValue, "ldf");
+			var logDevice = databaseConfig.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals("LogDevice", StringComparison.OrdinalIgnoreCase));
+			txtLogFileLocation.Text = logDevice == null ? string.Empty : System.IO.Path.ChangeExtension(logDevice.Value, "ldf");
 
 			if (!string.IsNullOrEmpty(txtLogFileLocation.Text))
 				txtDBLogName.Text = System.IO.Path.GetFileNameWithoutExtension(txtLogFileLocation.Text);

@@ -89,7 +89,7 @@ namespace DBSetup.Common.DICOM
 
 		private void NormalizePath(DICOMMergeFieldElements item)
 		{
-			string rootFolder = DBSetup.Helpers.ServiceLocator.Instance.GetService<IGlobalState>().GetState<string>("rootPath");
+			string rootFolder = DBSetup.Common.ServiceLocator.Instance.GetService<IGlobalState>().GetState<string>("rootPath");
 			string csvPath = item.Csvfilename;
 			string xmlPath = item.Xmlfilename;
 			int ubnormalIndx = 0;

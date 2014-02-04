@@ -17,13 +17,15 @@ namespace DBSetup.Common.ModelBuilder
 		private readonly string[] ReadOnlySections = new string[] { "Languages", "Setup Configuration", "SQL Server Configurations", "SetupConfig", "Database Configuration" };
 		string m_currentLanguage = string.Empty; //Language of current branch of tree
 
-		private List<SectionBase> m_RootSections = null; //The list of tree view objects - the source for tree view
-		private List<SectionBase> m_UnusedSections = null;//List of tree view objects,that wasn't used in object tree
-		private List<string> m_filesToOpen = null;
+		private ISectionHandlerFactory handlersFactory;
+
+		private List<SectionBase> _rootSections; //The list of tree view objects - the source for tree view
+		private List<SectionBase> _unusedSections;//List of tree view objects,that wasn't used in object tree
+		private List<string> _filesToOpen;
 		private Dictionary<string, List<string>> m_unhandledsections;
-		private string m_rootFolder = null;
-		private string m_rootOpenedFile = null;
-		private Dictionary<string, Dictionary<string, List<string>>> m_filesSectionsData = null;
+		private string _rootFolder;
+		private string _rootOpenedFile;
+		private Dictionary<string, Dictionary<string, List<string>>> m_filesSectionsData;
 
 		#region Loading properties
 		/// <summary>
@@ -55,12 +57,13 @@ namespace DBSetup.Common.ModelBuilder
 		public FullModelBuilder()
 		{
 			m_filesSectionsData = new Dictionary<string, Dictionary<string, List<string>>>();
-			m_filesToOpen = new List<string>();
+			_filesToOpen = new List<string>();
 			if (FaultSectionsList == null)
 				FaultSectionsList = new List<FaultSection>();
 
 			SetBuildAll();
 			LoadComments = false;
+			handlersFactory = DBSetup.Common.ServiceLocator.Instance.GetService<ISectionHandlerFactory>();
 		}
 
 		public void SetBuildAll()
@@ -80,11 +83,11 @@ namespace DBSetup.Common.ModelBuilder
 				throw new System.IO.FileNotFoundException("This file is not found on the machine", filePath);
 
 			m_filesSectionsData[filePath] = IniFileParser.GetSectionsDictionary(filePath);
-			m_rootOpenedFile = filePath;
+			_rootOpenedFile = filePath;
 
-			m_rootFolder = System.IO.Path.GetDirectoryName(filePath);
+			_rootFolder = System.IO.Path.GetDirectoryName(filePath);
 			m_unhandledsections = new Dictionary<string, List<string>>(m_filesSectionsData[filePath]);
-			m_filesToOpen.Add(filePath);
+			_filesToOpen.Add(filePath);
 		}
 
 		public List<FaultSection> FaultSectionsList
@@ -96,17 +99,17 @@ namespace DBSetup.Common.ModelBuilder
 		public void Build()
 		{
 			//Initialize sections list object
-			if (m_RootSections != null && m_RootSections.Count > 0)
-			{ m_RootSections.Clear(); m_RootSections = null; }
+			if (_rootSections != null && _rootSections.Count > 0)
+			{ _rootSections.Clear(); _rootSections = null; }
 
-			m_RootSections = new List<SectionBase>();
+			_rootSections = new List<SectionBase>();
 
-			if (m_UnusedSections != null && m_UnusedSections.Count > 0)
-			{ m_UnusedSections.Clear(); m_UnusedSections = null; }
+			if (_unusedSections != null && _unusedSections.Count > 0)
+			{ _unusedSections.Clear(); _unusedSections = null; }
 
-			m_UnusedSections = new List<SectionBase>();
+			_unusedSections = new List<SectionBase>();
 
-			foreach (string secName in m_filesSectionsData[m_rootOpenedFile].Keys)
+			foreach (string secName in m_filesSectionsData[_rootOpenedFile].Keys)
 			{
 				//Do not build tree for section that was already added as a child
 				if (!m_unhandledsections.ContainsKey(secName))
@@ -123,42 +126,42 @@ namespace DBSetup.Common.ModelBuilder
 				}
 				//Initialize section
 				SectionBase section = new SectionBase() { Text = secName, Children = new List<SectionBase>(), Parent = null };
-				section.FileName = m_rootOpenedFile;
+				section.FileName = _rootOpenedFile;
 
 				//check for section which must be ReadOnly
 				if (ReadOnlySections.Any(x => secName.Contains(x)))
 					section.ReadOnly = true;
-				if (m_filesSectionsData[m_rootOpenedFile][secName].Any(x => x.Contains("ActiveSection=")))
+				if (m_filesSectionsData[_rootOpenedFile][secName].Any(x => x.Contains("ActiveSection=")))
 					section.ReadOnly = true;
 
 				//Build section object tree
-				BuildChildren(m_rootOpenedFile, section.Text, section);
+				BuildChildren(_rootOpenedFile, section.Text, section);
 				//Remove all the childs of sections, that could be added earlier to collection
 				foreach (SectionBase sb in section.Children)
-					if (m_RootSections.Contains(sb)) m_RootSections.Remove(sb);
+					if (_rootSections.Contains(sb)) _rootSections.Remove(sb);
 
 				//Add only root sections to final collection, otherwise add section to unused section collection
 				if (section.Text.Contains(c_Languages) || section.Text.Contains(c_SetupConfigurations))
-					m_RootSections.Add(section); //Add section to final sections collection
+					_rootSections.Add(section); //Add section to final sections collection
 				else
 				{
 					section.ReadOnly = false;
-					m_UnusedSections.Add(section);
+					_unusedSections.Add(section);
 				}
 			}
 
 			//If there are one or more unused section - add them to final sections collections as unused
-			if (m_UnusedSections.Count > 0)
+			if (_unusedSections.Count > 0)
 			{
 				SectionBase sb = new SectionBase()
 				{
 					Parent = null,
 					Content = "All unused sections",
 					Text = "Unused Sections",
-					FileName = m_rootOpenedFile,
-					Children = m_UnusedSections
+					FileName = _rootOpenedFile,
+					Children = _unusedSections
 				};
-				m_RootSections.Add(sb);
+				_rootSections.Add(sb);
 			}
 		}
 
@@ -171,8 +174,8 @@ namespace DBSetup.Common.ModelBuilder
 		{
 			if (!m_filesSectionsData.ContainsKey(fileName))
 			{
-				if (!m_filesToOpen.Contains(fileName))
-					m_filesToOpen.Add(fileName);
+				if (!_filesToOpen.Contains(fileName))
+					_filesToOpen.Add(fileName);
 
 				m_filesSectionsData[fileName] = IniFileParser.GetSectionsDictionary(fileName);
 			}
@@ -190,7 +193,8 @@ namespace DBSetup.Common.ModelBuilder
 
 					//the next scoe of code defines the type of child object which will be added to object tree
 					//Fot sectionLink object we should recursively call BuildChildren() until last child will be found
-					switch (LineParser.getLineType(subName))
+					LineType typeOfLine = LineParser.getLineType(subName);
+					switch (typeOfLine)
 					{
 						case LineType.Language:
 							Language language = new Language();
@@ -295,25 +299,22 @@ namespace DBSetup.Common.ModelBuilder
 
 							DICOMLink dicom = new DICOMLink();
 							var dicomPair = LineParser.ParseDicomString(LineParser.GetKeyValueFromString(subName).Value);
-							//TODO: add path concatenation in the DICOM CSV file!!
 							string csvPath = dicomPair.Key;
 							NormalizePath(ref ubnormalIndx, ref csvPath);
 							dicom.CSVFilePath = csvPath;
 							dicom.IsActive = dicomPair.Value.Equals("1");
 							dicom.FileName = fileName;
 							dicom.Parent = sectionObject;
-							dicom.Handler = new DICOM.DicomSectionHandler();
+							dicom.Handler =handlersFactory.CreateByType(typeOfLine, null, null);
+							//dicom.Handler = new DICOM.DicomSectionHandler();
 							sectionObject.Children.Add(dicom);
 							break;
 
 						case LineType.IniLink:
 							var pair = LineParser.ParseIniString(LineParser.GetKeyValueFromString(subName).Value);
 							string iniSecName = pair.Value;
-							string iniPath = pair.Key.StartsWith(".\\") ? System.IO.Path.Combine(m_rootFolder, pair.Key) : pair.Key;
-
-							//perform file path normalization
-							ubnormalIndx = iniPath.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
-							iniPath = ubnormalIndx > 1 ? iniPath.Replace(@"\.\", @"\") : iniPath;
+							string iniPath = pair.Key;
+							NormalizePath(ref ubnormalIndx, ref iniPath);
 
 							SectionBase iniSection = new SectionBase();
 							iniSection.Parent = sectionObject;
@@ -340,8 +341,8 @@ namespace DBSetup.Common.ModelBuilder
 							{
 								SettingsPair setPair = new SettingsPair();
 								var keyValPair = LineParser.GetKeyValueFromString(subName);
-								setPair.SettingKey = keyValPair.Key;
-								setPair.SettingValue = keyValPair.Value;
+								setPair.Key = keyValPair.Key;
+								setPair.Value = keyValPair.Value;
 								sectionObject.Children.Add(setPair);
 							}
 							break;
@@ -354,19 +355,19 @@ namespace DBSetup.Common.ModelBuilder
 			}
 		}
 
-		private void NormalizePath(ref int ubnormalIndx, ref string sqlPath)
+		private void NormalizePath(ref int ubnormalIndx, ref string filePath)
 		{
-			sqlPath = sqlPath.StartsWith(".\\") ? System.IO.Path.Combine(m_rootFolder, sqlPath) : sqlPath;
+			filePath = filePath.StartsWith(".\\") ? System.IO.Path.Combine(_rootFolder, filePath) : filePath;
 
-			ubnormalIndx = sqlPath.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
-			sqlPath = ubnormalIndx > 1 ? sqlPath.Replace(@"\.\", @"\") : sqlPath;
+			ubnormalIndx = filePath.IndexOf(@"\.\", StringComparison.OrdinalIgnoreCase);
+			filePath = ubnormalIndx > 1 ? filePath.Replace(@"\.\", @"\") : filePath;
 		}
 
 		public List<SectionBase> GetResult()
 		{
-			return m_RootSections;
+			return _rootSections;
 		}
 
-		public List<string> GetFilesToOpen() { return m_filesToOpen; }
+		public List<string> GetFilesToOpen() { return _filesToOpen; }
 	}
 }

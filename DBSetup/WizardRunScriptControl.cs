@@ -21,7 +21,13 @@ namespace DBSetup
 		RUNNING = 1,
 		STEPSOURCE = 2,
 		STEPSTATEMENT = 3,
+		/// <summary>
+		/// Errored state
+		/// </summary>
 		ERROR = 4,
+		/// <summary>
+		/// User terminated execution
+		/// </summary>
 		TERMINATED = 5,
 		CONTINUE = 6,
 		CANCELLED = 7,
@@ -31,6 +37,7 @@ namespace DBSetup
 
 	public partial class WizardRunScriptControl : UserControl
 	{
+		//wizard's constants
 		private const string _runString = "Run";
 		private const string _stopString = "Stop";
 		private const string _dateTimeFormat = "dd-MM-yyyy hh:mm:ss";
@@ -46,14 +53,14 @@ namespace DBSetup
 		//forced to set this parameter to infinite timeout
 		private const int sqlCommandTimeout = 0;
 
-		private WizardMain rootForm = null;
-		private IDataStatement _currentStatement = null;
+		private WizardMain rootForm;
+		private IDataStatement _currentStatement;
 		private bool _requireUserInteruption = false;
 		private bool _isExceptionalState = false;
 
 		private int _statementIndex = -1;
 		private int _SqlPartIndex = -1;
-		private string[] _SQLToBeExecuted = null;
+		private string[] _SQLToBeExecuted;
 
 		private StateDBSettings _dbSettings;
 		private SqlConnection _sqlConnection;
@@ -226,7 +233,7 @@ namespace DBSetup
 		private readonly object _lockObj;
 		private readonly CancellationTokenSource _cts; // cancellation source
 		private ManualResetEvent _signalEvent;
-		private Thread _mainRunner = null; //main execution thread
+		private Thread _mainRunner; //main execution thread
 
 		//ctor
 		public WizardRunScriptControl()
@@ -257,7 +264,7 @@ namespace DBSetup
 
 			var mainTask = Task.Factory.StartNew<List<IDataStatement>>(GenerateStatements);
 
-			this.DisableCtrlPlusA();//.groupBox1.DisableCtrlPlusA();
+			this.DisableCtrlPlusA();
 
 			mainTask.RegisterFaultedHandler(OnMainError, TaskScheduler.FromCurrentSynchronizationContext());
 			mainTask.RegisterSucceededHandler(OnMainSucceed, TaskScheduler.FromCurrentSynchronizationContext());
@@ -493,8 +500,8 @@ namespace DBSetup
 						{
 							txtExecutionLog.Clear();
 
-							txtExecutionLog.AppendText(string.Format("Log file: {0} {1} {1}", 
-								System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath),_logLocation),Environment.NewLine));
+							txtExecutionLog.AppendText(string.Format("Log file: {0} {1} {1}",
+								System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), _logLocation), Environment.NewLine));
 
 							string compName = string.Format("Computer: {0} {1}", Environment.MachineName, Environment.NewLine);
 							Log.Instance.Info(compName);
@@ -510,7 +517,7 @@ namespace DBSetup
 				for (int i = 0; i < StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements.Count; i++)
 				{
 					if (CurrentRunStatus == RunStatus.CONTINUE)
-						i--; //returns to the exceptional state and try to re-execute from last saved point
+						i--; //returns to the exceptional state and try to re-execute from the last saved point
 
 					_statementIndex = i;
 					_currentStatement = StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements[i];
@@ -589,8 +596,8 @@ namespace DBSetup
 
 					do
 					{
-						if (_cts.IsCancellationRequested)
-							break;
+						if (_cts.IsCancellationRequested) break;
+
 						try
 						{
 							while ((_requireUserInteruption && CurrentRunStatus == RunStatus.ERROR && !IsFirstRun))
@@ -599,8 +606,7 @@ namespace DBSetup
 								_signalEvent.WaitOne();
 							}
 
-							if (_cts.IsCancellationRequested)
-								break;
+							if (_cts.IsCancellationRequested) break;
 
 							if (_SQLToBeExecuted != null && _SqlPartIndex != -1 &&
 								CurrentRunStatus != RunStatus.ERROR && _isExceptionalState)
@@ -680,8 +686,7 @@ namespace DBSetup
 
 					GC.Collect();
 
-					if (_cts.IsCancellationRequested)
-						break;
+					if (_cts.IsCancellationRequested) break;
 				}// end for loop statement
 
 				if (CurrentRunStatus != RunStatus.TERMINATED)
@@ -1102,52 +1107,52 @@ namespace DBSetup
 				if (StateContainer.Instance.GetConcreteInstance<SqlServerReportState>().SQLVersion.IndexOf("2012", StringComparison.Ordinal) == -1)
 				{
 					ChangePairValue(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-									x => x.SettingKey.Equals("SelectIntoBulkCopy", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'select into/bulkcopy', " + (pair == null ? "false" : pair.SettingValue));
+									x => x.Key.Equals("SelectIntoBulkCopy", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'select into/bulkcopy', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					ChangePairValue(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-												x => x.SettingKey.Equals("ColumnsNullByDefault", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'ANSI null default', " + (pair == null ? "false" : pair.SettingValue));
+												x => x.Key.Equals("ColumnsNullByDefault", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'ANSI null default', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					ChangePairValue(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-												x => x.SettingKey.Equals("TruncateLogOnCheckpoint", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'trunc. log on chkpt.', " + (pair == null ? "false" : pair.SettingValue));
+												x => x.Key.Equals("TruncateLogOnCheckpoint", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'trunc. log on chkpt.', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					ChangePairValue(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-																						x => x.SettingKey.Equals("SingleUser", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'single user', " + (pair == null ? "false" : pair.SettingValue));
+																						x => x.Key.Equals("SingleUser", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'single user', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					ChangePairValue(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-																						x => x.SettingKey.Equals("DBOUseOnly", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'dbo use only', " + (pair == null ? "false" : pair.SettingValue));
+																						x => x.Key.Equals("DBOUseOnly", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'dbo use only', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					ChangePairValue(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-																					x => x.SettingKey.Equals("ReadOnly", StringComparison.OrdinalIgnoreCase)));
-					buffer.Append("exec sp_dboption " + DbName + ", 'read only', " + (pair == null ? "false" : pair.SettingValue));
+																					x => x.Key.Equals("ReadOnly", StringComparison.OrdinalIgnoreCase)));
+					buffer.Append("exec sp_dboption " + DbName + ", 'read only', " + (pair == null ? "false" : pair.Value));
 					buffer.Append("\nGO\n");
 
 					buffer.Append("USE " + DbName); buffer.Append("\nGO\n");
 
 					ChangePairValueOnOff(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("Arithabort", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("Arithabort", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET ARITHABORT {0} \n GO \n", pair == null ? "ON" : pair.SettingValue);
+					buffer.AppendFormat("SET ARITHABORT {0} \n GO \n", pair == null ? "ON" : pair.Value);
 
 					ChangePairValueOnOff(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("quoted_identifier", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("quoted_identifier", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET QUOTED_IDENTIFIER {0}", pair == null ? "OFF" : pair.SettingValue);
+					buffer.AppendFormat("SET QUOTED_IDENTIFIER {0}", pair == null ? "OFF" : pair.Value);
 					buffer.Append("\nGO\n");
 
 					ChangePairValueOnOff(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("ansi_nulls", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("ansi_nulls", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET ANSI_NULLS {0}", pair == null ? "OFF" : pair.SettingValue);
+					buffer.AppendFormat("SET ANSI_NULLS {0}", pair == null ? "OFF" : pair.Value);
 					buffer.Append("\nGO\n");
 				}
 
@@ -1157,53 +1162,53 @@ namespace DBSetup
 
 				else
 				{
-					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals(
+					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals(
 																											"SelectIntoBulkCopy", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET RECOVERY {1} \nGO\n", DbName,
-						(pair == null ? "SIMPLE" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "SIMPLE" : "FULL")));
+						(pair == null ? "SIMPLE" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "SIMPLE" : "FULL")));
 
 					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-									x => x.SettingKey.Equals("ColumnsNullByDefault", StringComparison.OrdinalIgnoreCase));
+									x => x.Key.Equals("ColumnsNullByDefault", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET ANSI_NULL_DEFAULT {1} \nGO\n", DbName,
-						(pair == null ? "ON" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "OFF" : "ON")));
+						(pair == null ? "ON" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "OFF" : "ON")));
 
-					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals(
+					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals(
 																											"TruncateLogOnCheckpoint", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET RECOVERY {1} \nGO\n", DbName,
-						(pair == null ? "FULL" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "FULL" : "SIMPLE")));
+						(pair == null ? "FULL" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "FULL" : "SIMPLE")));
 
-					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals(
+					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals(
 																											"SingleUser", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET {1} \nGO\n", DbName,
-						(pair == null ? "SIMPLE" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "SINGLE_USER" : "MULTI_USER")));
+						(pair == null ? "SIMPLE" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "SINGLE_USER" : "MULTI_USER")));
 
-					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals(
+					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals(
 																											"DBOUseOnly", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET {1} \nGO\n", DbName,
-						(pair == null ? "MULTI_USER" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "MULTI_USER" : "RESTRICTED_USER")));
+						(pair == null ? "MULTI_USER" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "MULTI_USER" : "RESTRICTED_USER")));
 
-					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(x => x.SettingKey.Equals(
+					pair = settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(x => x.Key.Equals(
 																					"ReadOnly", StringComparison.OrdinalIgnoreCase));
 					buffer.Append(string.Format("ALTER DATABASE {0} SET {1} \nGO\n", DbName,
-						(pair == null ? "READ_WRITE" : pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "READ_WRITE" : "READ_ONLY")));
+						(pair == null ? "READ_WRITE" : pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) == -1 ? "READ_WRITE" : "READ_ONLY")));
 
 					buffer.Append("USE " + DbName + "\nGO\n");
 
 					ChangePairValueOnOff(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("Arithabort", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("Arithabort", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET ARITHABORT {0} \n GO \n", pair == null ? "ON" : pair.SettingValue);
+					buffer.AppendFormat("SET ARITHABORT {0} \n GO \n", pair == null ? "ON" : pair.Value);
 
 					ChangePairValueOnOff(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("quoted_identifier", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("quoted_identifier", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET QUOTED_IDENTIFIER {0}", pair == null ? "OFF" : pair.SettingValue);
+					buffer.AppendFormat("SET QUOTED_IDENTIFIER {0}", pair == null ? "OFF" : pair.Value);
 					buffer.Append("\nGO\n");
 
 					ChangePairValueOnOff(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
-													x => x.SettingKey.Equals("ansi_nulls", StringComparison.OrdinalIgnoreCase)));
+													x => x.Key.Equals("ansi_nulls", StringComparison.OrdinalIgnoreCase)));
 
-					buffer.AppendFormat("SET ANSI_NULLS {0}", pair == null ? "OFF" : pair.SettingValue);
+					buffer.AppendFormat("SET ANSI_NULLS {0}", pair == null ? "OFF" : pair.Value);
 					buffer.Append("\nGO\n");
 				}
 
@@ -1220,9 +1225,9 @@ namespace DBSetup
 				changedPair = pair;
 				return;
 			}
-			if (pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) != -1 ||
-				pair.SettingValue.IndexOf("no", StringComparison.OrdinalIgnoreCase) != -1)
-				pair.SettingValue = (pair.SettingValue.IndexOf("yes", StringComparison.OrdinalIgnoreCase) != -1 ? "true" : "false");
+			if (pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) != -1 ||
+				pair.Value.IndexOf("no", StringComparison.OrdinalIgnoreCase) != -1)
+				pair.Value = (pair.Value.IndexOf("yes", StringComparison.OrdinalIgnoreCase) != -1 ? "true" : "false");
 
 			changedPair = pair;
 		}
@@ -1234,9 +1239,9 @@ namespace DBSetup
 				changedPair = pair;
 				return;
 			}
-			if (pair.SettingValue.IndexOf("on", StringComparison.OrdinalIgnoreCase) != -1 ||
-				pair.SettingValue.IndexOf("off", StringComparison.OrdinalIgnoreCase) != -1)
-				pair.SettingValue = (pair.SettingValue.IndexOf("on", StringComparison.OrdinalIgnoreCase) != -1 ? "on" : "off");
+			if (pair.Value.IndexOf("on", StringComparison.OrdinalIgnoreCase) != -1 ||
+				pair.Value.IndexOf("off", StringComparison.OrdinalIgnoreCase) != -1)
+				pair.Value = (pair.Value.IndexOf("on", StringComparison.OrdinalIgnoreCase) != -1 ? "on" : "off");
 
 			changedPair = pair;
 		}
@@ -1259,7 +1264,7 @@ namespace DBSetup
 				{
 					_mainRunner.Abort();
 				}
-				catch (Exception ex) { if (ex != null) { } }
+				catch { }
 			}
 		}
 

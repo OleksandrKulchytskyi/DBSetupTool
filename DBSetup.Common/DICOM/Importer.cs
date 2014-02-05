@@ -302,6 +302,7 @@ namespace DBSetup.Common.DICOM
 
 			// based on the file name, we will determine if the template is an OB, GYN, Adult Echo, or Vasc
 			XDocument xml = new XDocument();
+
 			if (Utils.GetAppSetting("DICOMMergeFieldGroup_Name_OB", "OB").Equals(dicomlist.Name, StringComparison.OrdinalIgnoreCase))
 			{
 				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_OB_NAME", "Standard SR for OB Measurements")));
@@ -316,7 +317,7 @@ namespace DBSetup.Common.DICOM
 					templateSR = templateSRs.First();
 				}
 			}
-			else if (Path.GetFileName(filename).ToUpper().StartsWith("GYN"))
+			else if (Path.GetFileName(filename).IndexOf("GYN", StringComparison.OrdinalIgnoreCase) != -1)
 			{
 				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_GYN_NAME", "Standard SR for GYN Measurements")));
 				if (templateSRs == null || templateSRs.Count() == 0)
@@ -330,7 +331,7 @@ namespace DBSetup.Common.DICOM
 					templateSR = templateSRs.First();
 				}
 			}
-			else if (Path.GetFileName(filename).ToUpper().StartsWith("ADULTECHO"))
+			else if (Path.GetFileName(filename).IndexOf("ADULTECHO", StringComparison.OrdinalIgnoreCase) != -1)
 			{
 				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_ADULTECHO_NAME", "Standard SR for Adult Echo Measurements")));
 				if (templateSRs == null || templateSRs.Count() == 0)
@@ -344,7 +345,7 @@ namespace DBSetup.Common.DICOM
 					templateSR = templateSRs.First();
 				}
 			}
-			else if (Path.GetFileName(filename).ToUpper().StartsWith("VASC"))
+			else if (Path.GetFileName(filename).IndexOf("VASC", StringComparison.OrdinalIgnoreCase) != -1)
 			{
 				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_VASC_NAME", "Standard SR for Vascular Measurements")));
 				if (templateSRs == null || templateSRs.Count() == 0)
@@ -358,7 +359,7 @@ namespace DBSetup.Common.DICOM
 					templateSR = templateSRs.First();
 				}
 			}
-			else if (Path.GetFileName(filename).ToUpper().StartsWith("ABDO"))
+			else if (Path.GetFileName(filename).IndexOf("ABDO", StringComparison.OrdinalIgnoreCase) != -1)
 			{
 				var templateSRs = _context.DICOMSRTemplates.Where(x => x.Name.Equals(Utils.GetAppSetting("STD_ABDO_NAME", "Standard SR for Abdominal Measurements")));
 				if (templateSRs == null || templateSRs.Count() == 0)
@@ -383,7 +384,10 @@ namespace DBSetup.Common.DICOM
 				templateSR.Name = name;
 				templateSR.Description = description;
 				templateSR.CreateDate = DateTime.Now;
-				templateSR.SR = xml.Root;
+				XElement sr = xml.Root;
+				//if (sr == null)
+				//	sr = new XElement("report");
+				templateSR.SR = sr;
 				templateSR.DICOMDeviceID = deviceID;
 				templateSR.DICOMSRTemplateTypeID = srTemplateID;
 				_context.DICOMSRTemplates.InsertOnSubmit(templateSR);

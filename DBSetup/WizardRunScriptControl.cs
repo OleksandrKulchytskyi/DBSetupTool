@@ -687,8 +687,6 @@ namespace DBSetup
 							Log.Instance.Info(scriptExecuted);
 						});
 
-					GC.Collect();
-
 					if (_cts.IsCancellationRequested) break;
 				}// end for loop statement
 

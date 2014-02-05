@@ -31,7 +31,9 @@ namespace DBSetup
 		TERMINATED = 5,
 		CONTINUE = 6,
 		CANCELLED = 7,
-
+		/// <summary>
+		/// Execution completed
+		/// </summary>
 		FINISHED = 8
 	}
 
@@ -745,6 +747,7 @@ namespace DBSetup
 				string beginMsg = string.Format("Begin to process DICOM : {0} {1}", arg1, Environment.NewLine);
 				Log.Instance.Error(beginMsg);
 				txtExecutionLog.AppendText(beginMsg);
+				txtScriptToRun.Text = string.Empty;
 			});
 		}
 

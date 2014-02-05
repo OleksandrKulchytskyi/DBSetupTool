@@ -763,15 +763,12 @@ namespace DBSetup
 		private void OnErrorHandler(Exception ex)
 		{
 			this.ExecAction(() =>
-							{
-								this.ExecAction(() =>
-								{
-									string failMsg = string.Format("Fail: {0} {1} Message: {2}{1}", _currentStatement.DataFile, Environment.NewLine, ex.Message);
-									Log.Instance.Error(failMsg);
-									txtExecutionLog.AppendText(failMsg);
-									MessageBox.Show(rootForm, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-								});
-							});
+			{
+				string failMsg = string.Format("Fail: {0} {1} Message: {2}{1}", _currentStatement.DataFile, Environment.NewLine, ex.Message);
+				Log.Instance.Error(failMsg);
+				txtExecutionLog.AppendText(failMsg);
+				MessageBox.Show(rootForm, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			});
 		}
 
 		private void ProcessSqlStatements()

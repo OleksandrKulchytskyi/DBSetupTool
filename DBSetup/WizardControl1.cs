@@ -13,7 +13,7 @@ namespace DBSetup
 {
 	public partial class WizardControl1 : UserControl
 	{
-		private WizardMain mainForm = null;
+		private WizardMain mainForm;
 
 		public WizardControl1()
 		{

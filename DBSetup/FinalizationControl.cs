@@ -24,11 +24,10 @@ namespace DBSetup
 		private const string _ps360UserPwd = "pPS360UserPwd";
 		private readonly string _FinalSection = ConfigurationManager.AppSettings["finalSection"];
 
-		private WizardMain rootControl = null;
-		private SqlConnection _sqlConn = null;
-		private StateDBSettings _dbSettings = null;
+		private WizardMain rootControl;
+		private SqlConnection _sqlConn;
+		private StateDBSettings _dbSettings;
 		private volatile uint _initialized = 0;
-		private volatile uint _hasError = 0;
 
 		private volatile uint _isSiteSuccess = 0;
 		private volatile uint _isUserSuccess = 0;
@@ -95,8 +94,6 @@ namespace DBSetup
 
 		private void OnSuccess()
 		{
-			_hasError = 0;
-
 			if (_isSiteSuccess == 1 && _isUserSuccess == 1)
 				this.ExecAction(() => btnFinish.Text = _exitBtnText);
 
@@ -109,7 +106,6 @@ namespace DBSetup
 
 		private void OnError(Exception ex)
 		{
-			_hasError = 1;
 			if (ex != null)
 			{
 				var castedExc = (ex is AggregateException) == true ? (ex as AggregateException).Flatten().InnerException : ex;
@@ -191,7 +187,6 @@ namespace DBSetup
 
 		private void PerformWorkflow()
 		{
-			_hasError = 0;
 			SqlCommand command = null;
 			if (_isSiteSuccess == 0)
 			{

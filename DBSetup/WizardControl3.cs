@@ -16,11 +16,11 @@ namespace DBSetup
 	public partial class WizardControl3 : UserControl
 	{
 		private const string _chckSettingsMsg = "Please, check the correctness of settings file.";
-		private WizardMain rootControl = null;
-		private GenericWeakReference<List<SectionBase>> _parsingResWeak = null;
-		private IVersionService versionService = null;
+		private WizardMain rootControl;
+		private GenericWeakReference<List<SectionBase>> _parsingResWeak;
+		private IVersionService versionService;
 		private int _latestComm4Version = -1;
-		private FullModelBuilder _fullBuilder = null;
+		private FullModelBuilder _fullBuilder;
 		private DbSetupType _setupType = DbSetupType.None;
 
 		public WizardControl3()

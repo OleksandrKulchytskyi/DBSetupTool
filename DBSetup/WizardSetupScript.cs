@@ -10,8 +10,8 @@ namespace DBSetup
 {
 	public partial class WizardSetupScript : UserControl
 	{
-		private WizardMain rootForm = null;
-		private SetupScriptDocument _setupDocument = null;
+		private WizardMain rootForm;
+		private SetupScriptDocument _setupDocument;
 		private ScriptConsequencyBuilder builder;
 
 		public WizardSetupScript()

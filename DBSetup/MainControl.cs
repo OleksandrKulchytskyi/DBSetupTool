@@ -15,7 +15,7 @@ namespace DBSetup
 {
 	public partial class MainControl : UserControl
 	{
-		private WizardMain mainForm = null;
+		private WizardMain mainForm;
 		private IServiceLocator ioc;
 
 		public MainControl()

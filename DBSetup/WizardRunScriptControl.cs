@@ -745,7 +745,7 @@ namespace DBSetup
 			this.ExecAction(() =>
 			{
 				string beginMsg = string.Format("Begin to process DICOM : {0} {1}", arg1, Environment.NewLine);
-				Log.Instance.Error(beginMsg);
+				Log.Instance.Info(beginMsg);
 				txtExecutionLog.AppendText(beginMsg);
 				txtScriptToRun.Text = string.Empty;
 			});

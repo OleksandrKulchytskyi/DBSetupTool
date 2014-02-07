@@ -12,6 +12,8 @@ namespace DBSetup.Common.DICOM
 		private Action<string, object> onPreHandle;
 		private Action<string> onStep;
 		private Action<Exception> onError;
+		private Action<string, string, object> onEntryProcessed;
+
 
 		public object Parameters
 		{
@@ -125,6 +127,12 @@ namespace DBSetup.Common.DICOM
 		{
 			if (onError != null)
 				this.onError = onError;
+		}
+
+		public void OnEntryProcessed(Action<string, string, object> onProcessed)
+		{
+			if (onProcessed != null)
+				this.onEntryProcessed = onProcessed;
 		}
 	}
 }

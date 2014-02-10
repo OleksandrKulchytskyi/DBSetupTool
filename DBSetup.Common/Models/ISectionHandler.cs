@@ -20,8 +20,8 @@ namespace DBSetup.Common.Models
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="onProcessed">Action on entry has been processed (action, file, state)</param>
-		void OnEntryProcessed(Action<string, string, object> onProcessed);
+		/// <param name="onProcessing">Action on entry has been processed (action that is performing, file that is currently processing, state)</param>
+		void OnEntryProcessing(Action<string, string, object> onProcessing);
 	}
 
 	public interface ISectionHandlerFactory

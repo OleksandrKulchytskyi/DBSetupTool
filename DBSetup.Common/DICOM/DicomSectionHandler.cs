@@ -59,6 +59,8 @@ namespace DBSetup.Common.DICOM
 						try
 						{
 							dicomImporter = new Importer(settings.ServerName, settings.DatabaseName, settings.UserName, settings.Password, Logger);
+							dicomImporter.OperationsDelayTime = 50;
+							dicomImporter.SetOnEntryProcessing(onEntryProcessed);
 							dicomImporter.Process(dicomLink.CSVFilePath, !dicomLink.IsActive, dicomLink.IsActive, item);
 						}
 						catch (Exception ex)
@@ -129,7 +131,7 @@ namespace DBSetup.Common.DICOM
 				this.onError = onError;
 		}
 
-		public void OnEntryProcessed(Action<string, string, object> onProcessed)
+		public void OnEntryProcessing(Action<string, string, object> onProcessed)
 		{
 			if (onProcessed != null)
 				this.onEntryProcessed = onProcessed;

@@ -539,6 +539,7 @@ namespace DBSetup
 							handler.OnPreHandler(OnPreDicomHandler);
 							handler.OnErrorHandler(OnErrorHandler);
 							handler.OnStepHandler(OnStepHandler);
+							handler.OnEntryProcessing(OnDicomEntryProcessing);
 							if (handler.Handle(_currentStatement.ContentRoot))
 								txtExecutionLog.ExecAction(() =>
 								{
@@ -736,6 +737,18 @@ namespace DBSetup
 					GC.Collect();
 				}
 			}//end using SqlConnection
+		}
+
+		private void OnDicomEntryProcessing(string action, string file, object state)
+		{
+			this.ExecAction(() =>
+			{
+				if (action.IndexOf("Processing", StringComparison.OrdinalIgnoreCase) != -1 && state != null)
+					txtScriptToRun.Text = (state as string);
+				else
+					txtScriptToRun.Text = action;
+
+			});
 		}
 
 		private void OnPreDicomHandler(string arg1, object arg2)

@@ -19,6 +19,13 @@ namespace DBSetup.Common.DICOM
 		//internal logger component
 		private ILog _logger;
 
+		private Action<string, string, object> entryProcessing;
+
+		/// <summary>
+		/// Delay between Importer operations in seconds.
+		/// </summary>
+		public int OperationsDelayTime { get; set; }
+
 		/// <summary>
 		/// Ctor
 		/// </summary>
@@ -62,12 +69,17 @@ namespace DBSetup.Common.DICOM
 					_logger.Error("Creating the device record in the database.");
 					return;
 				}
+
+				System.Threading.Thread.Sleep(OperationsDelayTime);
+
 				int srTemplateTypeID = GetTemplateTypeID(filename);
 				if (srTemplateTypeID == 0)
 				{
 					_logger.Error("Creating the SR template type record in the database.");
 					return;
 				}
+				System.Threading.Thread.Sleep(OperationsDelayTime);
+
 				int srTemplateID = GetTemplateID(filename, srTemplateTypeID, deviceID, dicomMFgroupelement);
 				if (srTemplateTypeID == 0)
 				{
@@ -79,10 +91,12 @@ namespace DBSetup.Common.DICOM
 				bool hasError = false;
 				using (var reader = new StreamReader(filename))
 				{
+					OnActionProcessing("Reading CSV content header.", filename, null);
 					string line;
 					int row = 0;
 					int added = 0;
 					int updated = 0;
+					int time = OperationsDelayTime - 10;
 					while ((line = reader.ReadLine()) != null)
 					{
 						// tokenize
@@ -93,6 +107,9 @@ namespace DBSetup.Common.DICOM
 							// skip the header row
 							if (row > 1)
 							{
+								OnActionProcessing("Processing CSV line.", filename, line.Substring(0, 40));
+								System.Threading.Thread.Sleep(time < 0 ? 10 : time);
+
 								int DICOMMergeFieldID = Int32.Parse(tok[0]);
 								int MergeFieldID = Int32.Parse(tok[1]);
 								int DICOMSRTemplateID = Int32.Parse(tok[2]);
@@ -200,6 +217,8 @@ namespace DBSetup.Common.DICOM
 			var devices = _context.DICOMDevices.Where(x => x.Manufacturer.Equals(Utils.GetAppSetting("MANUFACTURER", "Philips Medical Systems")) &&
 				x.Model.Equals(Utils.GetAppSetting("MODEL", "EPIQ 7C")) && x.Version.Equals(Utils.GetAppSetting("VERSION", "EPIQ 7G_1.0.0.2071")));
 
+			OnActionProcessing("Retrieving Device ID", null, null);
+
 			if (devices == null || devices.Count() == 0)
 			{
 				DICOMDevice device = new DICOMDevice();
@@ -224,6 +243,7 @@ namespace DBSetup.Common.DICOM
 		protected int GetTemplateTypeID(string filename)
 		{
 			int result = 0;
+			OnActionProcessing("Retrieving TemplateTypeID", filename, null);
 			// based on the file name, we will determine if the template is an OB, GYN, Adult Echo, or Vasc
 			if (Path.GetFileName(filename).ToUpper().StartsWith("OB") || Path.GetFileName(filename).ToUpper().StartsWith("GYN"))
 			{
@@ -302,6 +322,8 @@ namespace DBSetup.Common.DICOM
 
 			// based on the file name, we will determine if the template is an OB, GYN, Adult Echo, or Vasc
 			XDocument xml = new XDocument();
+
+			OnActionProcessing("Retrieving TemplateID", filename, null);
 
 			if (Utils.GetAppSetting("DICOMMergeFieldGroup_Name_OB", "OB").Equals(dicomlist.Name, StringComparison.OrdinalIgnoreCase))
 			{
@@ -412,6 +434,20 @@ namespace DBSetup.Common.DICOM
 
 			OnDisposose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		public void SetOnEntryProcessing(Action<string, string, object> onEntryProcessing)
+		{
+			if (onEntryProcessing != null)
+				entryProcessing = onEntryProcessing;
+		}
+
+		private void OnActionProcessing(string action, string file, object state)
+		{
+			if (this.entryProcessing != null)
+			{
+				entryProcessing(action, file, state);
+			}
 		}
 
 		private void ThrowIfDisposed()

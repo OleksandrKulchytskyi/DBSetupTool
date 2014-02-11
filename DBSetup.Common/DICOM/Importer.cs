@@ -422,20 +422,6 @@ namespace DBSetup.Common.DICOM
 			return result;
 		}
 
-		protected virtual void OnDisposose(bool disposing)
-		{
-			if (_context != null && disposing)
-				_context.Dispose();
-		}
-
-		public void Dispose()
-		{
-			ThrowIfDisposed();
-
-			OnDisposose(true);
-			GC.SuppressFinalize(this);
-		}
-
 		public void SetOnEntryProcessing(Action<string, string, object> onEntryProcessing)
 		{
 			if (onEntryProcessing != null)
@@ -455,5 +441,20 @@ namespace DBSetup.Common.DICOM
 			if (disposed)
 				throw new ObjectDisposedException("Importer has benn disposed. Cannot access to the disposed object.");
 		}
+
+		protected virtual void OnDisposose(bool disposing)
+		{
+			if (_context != null && disposing)
+				_context.Dispose();
+		}
+
+		public void Dispose()
+		{
+			ThrowIfDisposed();
+
+			OnDisposose(true);
+			GC.SuppressFinalize(this);
+		}
+
 	}
 }

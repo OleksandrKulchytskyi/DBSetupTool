@@ -1,8 +1,0 @@
-D:\MyProj\github\DBSetupTool\DBSetup.Common\bin\Debug\DBSetup.Common.dll.config
-D:\MyProj\github\DBSetupTool\DBSetup.Common\bin\Debug\DBSetup.Common.dll
-D:\MyProj\github\DBSetupTool\DBSetup.Common\bin\Debug\DBSetup.Common.pdb
-D:\MyProj\github\DBSetupTool\DBSetup.Common\bin\Debug\log4net.dll
-D:\MyProj\github\DBSetupTool\DBSetup.Common\bin\Debug\log4net.xml
-D:\MyProj\github\DBSetupTool\DBSetup.Common\obj\Debug\DBSetup.Common.csprojResolveAssemblyReference.cache
-D:\MyProj\github\DBSetupTool\DBSetup.Common\obj\Debug\DBSetup.Common.dll
-D:\MyProj\github\DBSetupTool\DBSetup.Common\obj\Debug\DBSetup.Common.pdb

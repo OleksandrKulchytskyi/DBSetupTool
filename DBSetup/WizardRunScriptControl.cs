@@ -528,6 +528,7 @@ namespace DBSetup
 					if (_cts.IsCancellationRequested || CurrentRunStatus == RunStatus.TERMINATED)
 						goto Cancel;
 
+					#region new handling mechanism
 					//handle DICOM sections
 					if (!IsFirstRun && _currentStatement.Type == StatementType.Dicom)
 					{
@@ -538,7 +539,7 @@ namespace DBSetup
 							handler.Parameters = _sqlSettings;
 							handler.OnPreHandler(OnPreDicomHandler);
 							handler.OnErrorHandler(OnErrorHandler);
-							handler.OnStepHandler(OnStepHandler);
+							handler.OnStepHandler(OnDicomStepHandler);
 							handler.OnEntryProcessing(OnDicomEntryProcessing);
 							if (handler.Handle(_currentStatement.ContentRoot))
 								txtExecutionLog.ExecAction(() =>
@@ -558,6 +559,7 @@ namespace DBSetup
 							continue;
 						}
 					}
+					//handle SQL section
 					else if (!IsFirstRun && _currentStatement.Type == StatementType.Sql)
 					{
 						_isHadlerFirstlyInvoked = true;
@@ -589,6 +591,7 @@ namespace DBSetup
 						_signalEvent.Reset();
 						continue;
 					}
+					#endregion
 
 					if (!IsFirstRun && _currentStatement != null && _statementIndex > 0)
 					{
@@ -757,11 +760,6 @@ namespace DBSetup
 			}//end using SqlConnection
 		}
 
-		private void OnPreSqlStage(string arg1, object arg2)
-		{
-			txtScriptToRun.ExecAction(() => txtScriptToRun.Text = arg1);
-		}
-
 		private void WaitForUserInputIfNeeded()
 		{
 			//if user has stopped execution and it is not a first run or execution mode is on step over source just wait for user input
@@ -778,6 +776,12 @@ namespace DBSetup
 				DisableScriptEditing(false);
 				_signalEvent.WaitOne(); //waits for user input
 			}
+		}
+
+		#region SQL handler callbacks
+		private void OnPreSqlStage(string arg1, object arg2)
+		{
+			txtScriptToRun.ExecAction(() => txtScriptToRun.Text = arg1);
 		}
 
 		private void OnSQLStep(string state)
@@ -827,8 +831,10 @@ namespace DBSetup
 
 			txtScriptToRun.ExecAction(() => edited = txtScriptToRun.Text);
 			return edited;
-		}
+		} 
+		#endregion
 
+		#region DICOM handler callbacks
 		private void OnDicomEntryProcessing(string action, string file, object state)
 		{
 			this.ExecAction(() =>
@@ -852,7 +858,7 @@ namespace DBSetup
 			});
 		}
 
-		private void OnStepHandler(string file)
+		private void OnDicomStepHandler(string file)
 		{
 			this.ExecAction(() =>
 			{
@@ -874,7 +880,8 @@ namespace DBSetup
 			});
 
 			return result;
-		}
+		} 
+		#endregion
 
 		private void ProcessSqlStatements()
 		{

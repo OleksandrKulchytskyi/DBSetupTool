@@ -1,0 +1,10 @@
+D:\MyProj\github\DBSetupTool\DbSetup.UnitTest\bin\Debug\DbSetup.UnitTest.dll.config
+D:\MyProj\github\DBSetupTool\DbSetup.UnitTest\bin\Debug\DbSetup.UnitTest.dll
+D:\MyProj\github\DBSetupTool\DbSetup.UnitTest\bin\Debug\DbSetup.UnitTest.pdb
+D:\MyProj\github\DBSetupTool\DbSetup.UnitTest\bin\Debug\DBSetup.Common.dll
+D:\MyProj\github\DBSetupTool\DbSetup.UnitTest\bin\Debug\log4net.dll
+D:\MyProj\github\DBSetupTool\DbSetup.UnitTest\bin\Debug\DBSetup.Common.pdb
+D:\MyProj\github\DBSetupTool\DbSetup.UnitTest\bin\Debug\log4net.xml
+D:\MyProj\github\DBSetupTool\DbSetup.UnitTest\obj\Debug\DbSetup.UnitTest.csprojResolveAssemblyReference.cache
+D:\MyProj\github\DBSetupTool\DbSetup.UnitTest\obj\Debug\DbSetup.UnitTest.dll
+D:\MyProj\github\DBSetupTool\DbSetup.UnitTest\obj\Debug\DbSetup.UnitTest.pdb

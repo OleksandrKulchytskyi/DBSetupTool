@@ -24,6 +24,7 @@ namespace DBSetup.Common
 				case DBSetup.Common.Helpers.LineType.SectionLink:
 					break;
 				case DBSetup.Common.Helpers.LineType.SqlLink:
+					handler = new SQLSectionHandler();
 					break;
 				case DBSetup.Common.Helpers.LineType.Text:
 					break;
@@ -39,12 +40,17 @@ namespace DBSetup.Common
 					break;
 				case DBSetup.Common.Helpers.LineType.DICOM:
 					handler = new DicomSectionHandler();
-					handler.Logger = logger;
-					handler.Parameters = parameters;
 					break;
 				default:
 					break;
 			}
+
+			if (handler != null)
+			{
+				handler.Logger = logger;
+				handler.Parameters = parameters;
+			}
+
 			return handler;
 		}
 	}

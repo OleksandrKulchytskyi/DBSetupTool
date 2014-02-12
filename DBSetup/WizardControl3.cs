@@ -498,7 +498,10 @@ namespace DBSetup
 				(StateContainer.Instance[3] as DbSetupState).SelectedLanguage = (cmbLanguage.SelectedItem as Language);
 
 			if (cmbSetupType.SelectedItem != null && cmbSetupType.SelectedItem is SectionBase)
+			{
 				(StateContainer.Instance[3] as DbSetupState).SelectedSetupType = (cmbSetupType.SelectedItem as SectionBase);
+				ServiceLocator.Instance.GetService<IGlobalState>().SetState<SectionBase>("setupType", (cmbSetupType.SelectedItem as SectionBase));
+			}
 
 			if (cmbGrowthType.SelectedItem != null && (cmbGrowthType.SelectedItem as string).Equals("mb", StringComparison.OrdinalIgnoreCase))
 				(StateContainer.Instance[3] as DbSetupState).DbGrowthType = GrowthType.MB;

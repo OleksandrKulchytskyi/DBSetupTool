@@ -46,7 +46,6 @@ namespace DBSetup
 		private const string _logLocation = @"Log\DbSetupLog.txt";
 		private const int _maxRetriesCount = 5;
 
-
 		//delay after script ends it's execution (ms)
 		private const int scriptSleepTimeout = 60;
 
@@ -59,6 +58,7 @@ namespace DBSetup
 		private IDataStatement _currentStatement;
 		private bool _requireUserInteruption = false;
 		private bool _isExceptionalState = false;
+		private bool _isHadlerFirstlyInvoked = false;
 
 		private int _statementIndex = -1;
 		private int _SqlPartIndex = -1;
@@ -529,7 +529,7 @@ namespace DBSetup
 						goto Cancel;
 
 					//handle DICOM sections
-					if (_currentStatement.Type == StatementType.Dicom)
+					if (!IsFirstRun && _currentStatement.Type == StatementType.Dicom)
 					{
 						ISectionHandler handler = _currentStatement.ContentRoot.Handler;
 						if (handler != null)
@@ -558,6 +558,32 @@ namespace DBSetup
 							continue;
 						}
 					}
+					else if (!IsFirstRun && _currentStatement.Type == StatementType.Sql)
+					{
+						_isHadlerFirstlyInvoked = true;
+						ISectionHandler handler = _currentStatement.ContentRoot.Handler;
+						handler.Logger = Log.Instance;
+						handler.Parameters = new Tuple<SqlConnection, IDataStatement>(_sqlConnection, _currentStatement);
+						handler.OnStepHandler(OnSQLStep);
+						handler.OnPreHandler(OnPreSqlStage);
+						handler.OnErrorHandler(OnSqlError);
+						//CurrentRunStatus = RunStatus.RUNNING;
+						if (handler.Handle(_currentStatement.ContentRoot))
+						{
+
+						}
+						else
+						{
+							txtExecutionLog.ExecAction(() =>
+							{
+								string scriptExecuted = string.Format("Executed with error(s): {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+								txtExecutionLog.AppendText(scriptExecuted);
+								Log.Instance.Info(scriptExecuted);
+							});
+						}
+						_signalEvent.Reset();
+						continue;
+					}
 
 					if (!IsFirstRun && _currentStatement != null && _statementIndex > 0)
 					{
@@ -581,20 +607,7 @@ namespace DBSetup
 							});
 					}//end if case, when it's not a first run and statement greater than 0
 
-					//if user has stopped execution and it is not a first run or execution mode is on step over source just wait for user input
-					if ((CurrentRunStatus == RunStatus.STOPPED && !IsFirstRun) ||
-							(CurrentRunStatus != RunStatus.RUNNING && CurrentRunStatus != RunStatus.ERROR &&
-							 CurrentRunStatus != RunStatus.STEPSTATEMENT && CurrentRunStatus == RunStatus.STEPSOURCE))
-					{
-						this.ExecAction(() =>
-						{
-							if (btnRun.Text.IndexOf(_stopString, StringComparison.OrdinalIgnoreCase) >= 0)
-								btnRun.Text = _runString;
-						});
-						DisableStepsAndChangeRun(false, true);
-						DisableScriptEditing(false);
-						_signalEvent.WaitOne(); //waits for user input
-					}
+					WaitForUserInputIfNeeded();
 
 					if (_cts.IsCancellationRequested) break;
 
@@ -739,6 +752,78 @@ namespace DBSetup
 			}//end using SqlConnection
 		}
 
+		private void OnPreSqlStage(string arg1, object arg2)
+		{
+			txtScriptToRun.ExecAction(() => txtScriptToRun.Text = arg1);
+		}
+
+		private void WaitForUserInputIfNeeded()
+		{
+			//if user has stopped execution and it is not a first run or execution mode is on step over source just wait for user input
+			if ((CurrentRunStatus == RunStatus.STOPPED && !IsFirstRun) ||
+					(CurrentRunStatus != RunStatus.RUNNING && CurrentRunStatus != RunStatus.ERROR &&
+					 CurrentRunStatus != RunStatus.STEPSTATEMENT && CurrentRunStatus == RunStatus.STEPSOURCE))
+			{
+				this.ExecAction(() =>
+				{
+					if (btnRun.Text.IndexOf(_stopString, StringComparison.OrdinalIgnoreCase) >= 0)
+						btnRun.Text = _runString;
+				});
+				DisableStepsAndChangeRun(false, true);
+				DisableScriptEditing(false);
+				_signalEvent.WaitOne(); //waits for user input
+			}
+		}
+
+		private void OnSQLStep(string state)
+		{
+			string[] data = state.Split(',');
+			txtCurrentStep.ExecAction(() =>
+				txtCurrentStep.Text = string.Format(StringsContainer.Instance.SqlCurrentStepMsg, data[0], data[1], data[2]));
+
+			if (_isHadlerFirstlyInvoked && CurrentRunStatus == RunStatus.STEPSOURCE)
+			{
+				WaitForUser();
+				_isHadlerFirstlyInvoked = false;
+			}
+			else if (CurrentRunStatus == RunStatus.STEPSTATEMENT)
+			{
+				_signalEvent.Reset();
+				WaitForUser();
+			}
+		}
+
+		private void WaitForUser(bool wait = true)
+		{
+			this.ExecAction(() =>
+			{
+				if (btnRun.Text.IndexOf(_stopString, StringComparison.OrdinalIgnoreCase) >= 0)
+					btnRun.Text = _runString;
+			});
+			DisableStepsAndChangeRun(false, true);
+			DisableScriptEditing(false);
+			if (wait)
+				_signalEvent.WaitOne();
+		}
+
+		private object OnSqlError(Exception exc, object state)
+		{
+			string edited = null;
+			_signalEvent.Reset();
+			WaitForUser(false);
+			this.ExecAction(() =>
+			{
+				string failMsg = string.Format("Fail: {0} {1} Message: {2}{1}", _currentStatement.DataFile, Environment.NewLine, exc.Message);
+				Log.Instance.Error(failMsg);
+				txtExecutionLog.AppendText(failMsg);
+				MessageBox.Show(rootForm, exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			});
+			_signalEvent.WaitOne();
+
+			txtScriptToRun.ExecAction(() => edited = txtScriptToRun.Text);
+			return edited;
+		}
+
 		private void OnDicomEntryProcessing(string action, string file, object state)
 		{
 			this.ExecAction(() =>
@@ -771,15 +856,19 @@ namespace DBSetup
 			});
 		}
 
-		private void OnErrorHandler(Exception ex)
+		private object OnErrorHandler(Exception ex, object state)
 		{
+			object result = null;
 			this.ExecAction(() =>
 			{
 				string failMsg = string.Format("Fail: {0} {1} Message: {2}{1}", _currentStatement.DataFile, Environment.NewLine, ex.Message);
 				Log.Instance.Error(failMsg);
 				txtExecutionLog.AppendText(failMsg);
 				MessageBox.Show(rootForm, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
 			});
+
+			return result;
 		}
 
 		private void ProcessSqlStatements()

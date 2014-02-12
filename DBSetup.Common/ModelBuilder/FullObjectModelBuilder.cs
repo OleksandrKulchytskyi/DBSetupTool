@@ -268,6 +268,7 @@ namespace DBSetup.Common.ModelBuilder
 							sql.SqlFilePath = sqlPath;
 							sql.Parent = sectionObject;
 							sql.FileName = fileName;
+							sql.Handler = handlersFactory.CreateByType(typeOfLine, null, null);
 							sectionObject.Children.Add(sql);
 							break;
 

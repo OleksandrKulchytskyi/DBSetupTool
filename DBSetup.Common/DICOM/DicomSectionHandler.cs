@@ -11,9 +11,9 @@ namespace DBSetup.Common.DICOM
 	{
 		private Action<string, object> onPreHandle;
 		private Action<string> onStep;
-		private Action<Exception> onError;
-		private Action<string, string, object> onEntryProcessed;
+		private Func<Exception, object, object> onError;
 
+		private Action<string, string, object> onEntryProcessed;
 
 		public object Parameters
 		{
@@ -65,8 +65,9 @@ namespace DBSetup.Common.DICOM
 						}
 						catch (Exception ex)
 						{
-							DispatchOnError(ex);
-							result = false;
+							object state = DispatchOnError(ex, null);
+							if (state == null)
+								result = false;
 							if (Logger != null)
 								Logger.Error("Error occurred during DICOM import operation.", ex);
 						}
@@ -81,17 +82,20 @@ namespace DBSetup.Common.DICOM
 				}
 				catch (Exception ex)
 				{
-					DispatchOnError(ex);
+					object state = DispatchOnError(ex, null);
 					result = false;
 				}
 			}
 			return result;
 		}
 
-		private void DispatchOnError(Exception ex)
+		private object DispatchOnError(Exception ex, object state)
 		{
 			if (onError != null)
-				onError(ex);
+			{
+				return onError(ex, state);
+			}
+			return null;
 		}
 
 		private void NormalizePath(DICOMMergeFieldElements item)
@@ -125,16 +129,22 @@ namespace DBSetup.Common.DICOM
 				this.onStep = onStep;
 		}
 
-		public void OnErrorHandler(Action<Exception> onError)
+		public void OnErrorHandler(Func<Exception, object, object> onErrorHandler)
 		{
-			if (onError != null)
-				this.onError = onError;
+			if (onErrorHandler != null)
+				this.onError = onErrorHandler;
 		}
 
 		public void OnEntryProcessing(Action<string, string, object> onProcessed)
 		{
 			if (onProcessed != null)
 				this.onEntryProcessed = onProcessed;
+		}
+
+
+		public void OnBunchHandled(Action<object> onBunch)
+		{
+			// no handling for dicom
 		}
 	}
 }

@@ -15,7 +15,9 @@ namespace DBSetup.Common.Models
 
 		void OnPreHandler(Action<String, object> onPreHandle);
 		void OnStepHandler(Action<String> onStep);
-		void OnErrorHandler(Action<Exception> onError);
+		void OnBunchHandled(Action<object> onBunch);
+
+		void OnErrorHandler(Func<Exception, object, object> onError);
 
 		/// <summary>
 		/// 

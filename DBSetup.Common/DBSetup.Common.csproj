@@ -152,6 +152,7 @@
     <Compile Include="Services\NoUIExecutor.cs" />
     <Compile Include="Services\SimpleIoC.cs" />
     <Compile Include="Services\VesrionService.cs" />
+    <Compile Include="SQL\SQLSectionHandler.cs" />
     <Compile Include="Statements\DicomDataStatement.cs" />
     <Compile Include="Statements\IDataStatement.cs" />
     <Compile Include="Statements\SqlStatement.cs" />

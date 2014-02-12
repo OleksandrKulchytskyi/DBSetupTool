@@ -395,7 +395,7 @@ namespace DBSetup
 					case "btnRun":
 						if (pressedBtn.Text.Equals(_runString, StringComparison.OrdinalIgnoreCase))
 						{
-							CurrentRunStatus = DBSetup.RunStatus.RUNNING;
+							CurrentRunStatus = RunStatus.RUNNING;
 							pressedBtn.Text = _stopString;
 							DisableScriptEditing(true);
 							DisableStepsButtons(true);
@@ -403,7 +403,7 @@ namespace DBSetup
 						}
 						else if (pressedBtn.Text.Equals(_stopString, StringComparison.OrdinalIgnoreCase))
 						{
-							CurrentRunStatus = DBSetup.RunStatus.STOPPED;
+							CurrentRunStatus = RunStatus.STOPPED;
 							pressedBtn.Text = _runString;
 							DisableScriptEditing(false);
 							DisableStepsButtons(false);
@@ -412,7 +412,7 @@ namespace DBSetup
 						break;
 
 					case "btnStepOverSource":
-						CurrentRunStatus = DBSetup.RunStatus.STEPSOURCE;
+						CurrentRunStatus = RunStatus.STEPSOURCE;
 						DisableStepsAndChangeRun(true, false);
 
 						//if (btnRun.Text.IndexOf(_runString, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -422,7 +422,7 @@ namespace DBSetup
 						break;
 
 					case "btnRunOverSql":
-						CurrentRunStatus = DBSetup.RunStatus.STEPSTATEMENT;
+						CurrentRunStatus = RunStatus.STEPSTATEMENT;
 						_signalEvent.Set();
 
 						break;
@@ -523,7 +523,7 @@ namespace DBSetup
 
 					_statementIndex = i;
 					_currentStatement = StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements[i];
-					CurrentRunStatus = CurrentRunStatus;
+					//CurrentRunStatus = CurrentRunStatus;
 
 					if (_cts.IsCancellationRequested || CurrentRunStatus == RunStatus.TERMINATED)
 						goto Cancel;
@@ -570,7 +570,12 @@ namespace DBSetup
 						//CurrentRunStatus = RunStatus.RUNNING;
 						if (handler.Handle(_currentStatement.ContentRoot))
 						{
-
+							txtExecutionLog.ExecAction(() =>
+							{
+								string scriptExecuted = string.Format("Executed: {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+								txtExecutionLog.AppendText(scriptExecuted);
+								Log.Instance.Info(scriptExecuted);
+							});
 						}
 						else
 						{
@@ -786,7 +791,7 @@ namespace DBSetup
 				WaitForUser();
 				_isHadlerFirstlyInvoked = false;
 			}
-			else if (CurrentRunStatus == RunStatus.STEPSTATEMENT)
+			else if (CurrentRunStatus == RunStatus.STEPSTATEMENT || CurrentRunStatus == RunStatus.STOPPED)
 			{
 				_signalEvent.Reset();
 				WaitForUser();

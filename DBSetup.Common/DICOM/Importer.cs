@@ -1,18 +1,17 @@
 ﻿using DBSetup.Common.DICOM.Configuration;
 using DBSetup.Common.DICOM.Data;
-using DBSetup.Common;
+using DBSetup.Common.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 namespace DBSetup.Common.DICOM
 {
-	public class Importer : IDisposable
+	public class Importer : IDisposable, ICancelable
 	{
 		private bool disposed = false;
+		private volatile bool isCancelled = false;
 
 		//DICOM DB context
 		private PS360DICOMTablesDataContext _context;
@@ -22,9 +21,9 @@ namespace DBSetup.Common.DICOM
 		private Action<string, string, object> entryProcessing;
 
 		/// <summary>
-		/// Delay between Importer operations in seconds.
+		/// Delay between Importer operations(in ms).
 		/// </summary>
-		public int OperationsDelayTime { get; set; }
+		public int DelayBetweenOpeartions { get; set; }
 
 		/// <summary>
 		/// Ctor
@@ -41,6 +40,11 @@ namespace DBSetup.Common.DICOM
 				throw new ArgumentNullException("Logger parameter cannot be a null.");
 			_logger = logger;
 			_context = new PS360DICOMTablesDataContext(String.Format("Server={0};Database={1};User Id={2};Password={3}", server, dbName, username, password));
+		}
+
+		public void Cancel()
+		{
+			isCancelled = true;
 		}
 
 		/// <summary>
@@ -70,7 +74,7 @@ namespace DBSetup.Common.DICOM
 					return;
 				}
 
-				System.Threading.Thread.Sleep(OperationsDelayTime);
+				System.Threading.Thread.Sleep(DelayBetweenOpeartions);
 
 				int srTemplateTypeID = GetTemplateTypeID(filename);
 				if (srTemplateTypeID == 0)
@@ -78,7 +82,7 @@ namespace DBSetup.Common.DICOM
 					_logger.Error("Creating the SR template type record in the database.");
 					return;
 				}
-				System.Threading.Thread.Sleep(OperationsDelayTime);
+				System.Threading.Thread.Sleep(DelayBetweenOpeartions);
 
 				int srTemplateID = GetTemplateID(filename, srTemplateTypeID, deviceID, dicomMFgroupelement);
 				if (srTemplateTypeID == 0)
@@ -96,8 +100,8 @@ namespace DBSetup.Common.DICOM
 					int row = 0;
 					int added = 0;
 					int updated = 0;
-					int time = OperationsDelayTime - 10;
-					while ((line = reader.ReadLine()) != null)
+					int time = DelayBetweenOpeartions - 25;
+					while (!isCancelled && ((line = reader.ReadLine()) != null))
 					{
 						// tokenize
 						row++;
@@ -186,15 +190,17 @@ namespace DBSetup.Common.DICOM
 							hasError = true;
 							break;
 						}
-					}
+					}//end of while loop statement
 
-					if (!hasError)
+					if (!hasError && !isCancelled)
 					{
 						_context.SubmitChanges();
 						_logger.Info((row - 1) + " rows were processed from " + filename);
 						_logger.Info(added + " DICOM Merge Fields were added");
 						_logger.Info(updated + " DICOM Merge Fields were updated");
 					}
+
+					ThrowIfCancelled();
 				}
 			}
 			catch (IOException ex)
@@ -211,13 +217,21 @@ namespace DBSetup.Common.DICOM
 			}
 		}
 
+		public void SetOnEntryProcessing(Action<string, string, object> onEntryProcessing)
+		{
+			if (onEntryProcessing != null)
+				entryProcessing = onEntryProcessing;
+		}
+
 		protected int GetDeviceID()
 		{
+			ThrowIfCancelled();
 			int result = 0;
-			var devices = _context.DICOMDevices.Where(x => x.Manufacturer.Equals(Utils.GetAppSetting("MANUFACTURER", "Philips Medical Systems")) &&
-				x.Model.Equals(Utils.GetAppSetting("MODEL", "EPIQ 7C")) && x.Version.Equals(Utils.GetAppSetting("VERSION", "EPIQ 7G_1.0.0.2071")));
 
 			OnActionProcessing("Retrieving Device ID", null, null);
+
+			var devices = _context.DICOMDevices.Where(x => x.Manufacturer.Equals(Utils.GetAppSetting("MANUFACTURER", "Philips Medical Systems")) &&
+				x.Model.Equals(Utils.GetAppSetting("MODEL", "EPIQ 7C")) && x.Version.Equals(Utils.GetAppSetting("VERSION", "EPIQ 7G_1.0.0.2071")));
 
 			if (devices == null || devices.Count() == 0)
 			{
@@ -242,6 +256,7 @@ namespace DBSetup.Common.DICOM
 
 		protected int GetTemplateTypeID(string filename)
 		{
+			ThrowIfCancelled();
 			int result = 0;
 			OnActionProcessing("Retrieving TemplateTypeID", filename, null);
 			// based on the file name, we will determine if the template is an OB, GYN, Adult Echo, or Vasc
@@ -313,6 +328,8 @@ namespace DBSetup.Common.DICOM
 
 		protected int GetTemplateID(string filename, int srTemplateID, int deviceID, DICOMMergeFieldElements dicomlist)
 		{
+			ThrowIfCancelled();
+
 			int result = 0;
 			string name = String.Empty;
 			string description = String.Empty;
@@ -422,12 +439,6 @@ namespace DBSetup.Common.DICOM
 			return result;
 		}
 
-		public void SetOnEntryProcessing(Action<string, string, object> onEntryProcessing)
-		{
-			if (onEntryProcessing != null)
-				entryProcessing = onEntryProcessing;
-		}
-
 		private void OnActionProcessing(string action, string file, object state)
 		{
 			if (this.entryProcessing != null)
@@ -440,6 +451,14 @@ namespace DBSetup.Common.DICOM
 		{
 			if (disposed)
 				throw new ObjectDisposedException("Importer has benn disposed. Cannot access to the disposed object.");
+		}
+
+		private void ThrowIfCancelled()
+		{
+			if (isCancelled)
+			{
+				throw new DicomOperationCancelledException("Dicom workflow has been cancelled.");
+			}
 		}
 
 		protected virtual void OnDisposose(bool disposing)
@@ -455,6 +474,5 @@ namespace DBSetup.Common.DICOM
 			OnDisposose(true);
 			GC.SuppressFinalize(this);
 		}
-
 	}
 }

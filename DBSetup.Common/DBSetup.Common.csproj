@@ -101,12 +101,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PS360DICOMTables.dbml</DependentUpon>
     </Compile>
+    <Compile Include="DICOM\DicomOperationCancelledException.cs" />
     <Compile Include="DICOM\DicomSectionHandler.cs" />
     <Compile Include="DICOM\Importer.cs" />
     <Compile Include="Exceptions\ConfigFileException.cs" />
     <Compile Include="Exceptions\SqlServerException.cs" />
     <Compile Include="Helpers\GenericWeakReference.cs" />
     <Compile Include="Helpers\LineParser.cs" />
+    <Compile Include="Helpers\ObjectPool.cs" />
     <Compile Include="Helpers\SafeCollection.cs" />
     <Compile Include="Helpers\SectionBaseExtension.cs" />
     <Compile Include="Helpers\StringExtension.cs" />

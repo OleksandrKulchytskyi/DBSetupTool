@@ -6,7 +6,15 @@ using System.Text;
 
 namespace DBSetup.Common.Models
 {
-	public interface ISectionHandler
+	public interface ICancelable
+	{
+		/// <summary>
+		/// Cancel execution workflow
+		/// </summary>
+		void Cancel();
+	}
+
+	public interface ISectionHandler : ICancelable
 	{
 		object Parameters { get; set; }
 		ILog Logger { get; set; }
@@ -14,6 +22,8 @@ namespace DBSetup.Common.Models
 		bool Handle(ISection entity);
 
 		void OnPreHandler(Action<String, object> onPreHandle);
+
+		void OnOutputReceived(Action<string> onOutput);
 		void OnStepHandler(Action<String> onStep);
 		void OnBunchHandled(Action<object> onBunch);
 

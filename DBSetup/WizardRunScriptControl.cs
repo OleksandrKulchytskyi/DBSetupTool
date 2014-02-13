@@ -56,13 +56,9 @@ namespace DBSetup
 
 		private WizardMain rootForm;
 		private IDataStatement _currentStatement;
-		private bool _requireUserInteruption = false;
-		private bool _isExceptionalState = false;
 		private bool _isHadlerFirstlyInvoked = false;
 
 		private int _statementIndex = -1;
-		private int _SqlPartIndex = -1;
-		private string[] _SQLToBeExecuted;
 
 		private StateDBSettings _dbSettings;
 		private SqlConnection _sqlConnection;
@@ -237,6 +233,8 @@ namespace DBSetup
 		private ManualResetEvent _signalEvent;
 		private Thread _mainRunner; //main execution thread
 
+		private ISectionHandler currentHandler;
+
 		//ctor
 		public WizardRunScriptControl()
 		{
@@ -277,8 +275,16 @@ namespace DBSetup
 			groupBox1.Enabled = true;
 			Log.Instance.Info(StringsContainer.Instance.LisOfSqlStatemenetsSuccess);
 			StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements = result;
-			StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements.Insert(0, new SqlDataStatement(GetSetupSQLScripts(),
-					StringsContainer.Instance.ConfigScriptAndUserDataMsg.Substring(0, StringsContainer.Instance.ConfigScriptAndUserDataMsg.IndexOf("("))));
+
+			int indx = StringsContainer.Instance.ConfigScriptAndUserDataMsg.IndexOf("(");
+			string setupText = StringsContainer.Instance.ConfigScriptAndUserDataMsg.Substring(0, indx);
+			SectionBase section = new SqlLink() { Text = setupText, FileName = setupText };
+			section.Handler = new SQLSectionHandler();
+
+			IDataStatement newSQl = new SqlDataStatement(PrepareNewSetupSQLScripts(), setupText);
+			newSQl.ContentRoot = section;
+
+			StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements.Insert(0, newSQl);
 
 			_dbSettings = StateContainer.Instance.GetConcreteInstance<RunScriptState>().DbConSettings;
 			_sqlSettings = new SqlConnectionSettings(_dbSettings.ServerName, _dbName, _dbSettings.UserName, _dbSettings.Password);
@@ -316,12 +322,6 @@ namespace DBSetup
 
 		private void ProceedNextStep()
 		{
-			if (_SQLToBeExecuted != null && _SQLToBeExecuted.Length > 0)
-			{
-				Array.Resize(ref _SQLToBeExecuted, 1);
-				_SQLToBeExecuted = null;
-			}
-
 			this.RevertCtrlPlusA();
 
 			if (_sqlSettings != null) _sqlSettings.Dispose();
@@ -372,8 +372,9 @@ namespace DBSetup
 					_signalEvent.Dispose();
 					_signalEvent = null;
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
+					Log.Instance.Warn(ex.Message);
 				}
 				finally { GC.Collect(); }
 
@@ -493,7 +494,7 @@ namespace DBSetup
 
 			using (_sqlConnection = new SqlConnection(builder.ToString()))
 			{
-				if (_sqlConnection.State != System.Data.ConnectionState.Open)
+				if (_sqlConnection.State != System.Data.ConnectionState.Open && _sqlConnection.State != System.Data.ConnectionState.Connecting)
 					_sqlConnection.Open();
 
 				#region perform initial log info
@@ -532,16 +533,17 @@ namespace DBSetup
 					//handle DICOM sections
 					if (!IsFirstRun && _currentStatement.Type == StatementType.Dicom)
 					{
-						ISectionHandler handler = _currentStatement.ContentRoot.Handler;
-						if (handler != null)
+						currentHandler = _currentStatement.ContentRoot.Handler;
+						if (currentHandler != null)
 						{
-							handler.Logger = Log.Instance;
-							handler.Parameters = _sqlSettings;
-							handler.OnPreHandler(OnPreDicomHandler);
-							handler.OnErrorHandler(OnErrorHandler);
-							handler.OnStepHandler(OnDicomStepHandler);
-							handler.OnEntryProcessing(OnDicomEntryProcessing);
-							if (handler.Handle(_currentStatement.ContentRoot))
+							currentHandler.Logger = Log.Instance;
+							currentHandler.Parameters = _sqlSettings;
+							currentHandler.OnPreHandler(OnPreDicomHandler);
+							currentHandler.OnErrorHandler(OnErrorHandler);
+							currentHandler.OnStepHandler(OnDicomStepHandler);
+							currentHandler.OnEntryProcessing(OnDicomEntryProcessing);
+
+							if (currentHandler.Handle(_currentStatement.ContentRoot))
 								txtExecutionLog.ExecAction(() =>
 								{
 									string scriptExecuted = string.Format("Executed: {0} {1}", _currentStatement.DataFile, Environment.NewLine);
@@ -555,22 +557,21 @@ namespace DBSetup
 									txtExecutionLog.AppendText(scriptExecuted);
 									Log.Instance.Info(scriptExecuted);
 								});
-
-							continue;
 						}
 					}
 					//handle SQL section
-					else if (!IsFirstRun && _currentStatement.Type == StatementType.Sql)
+					else if (_currentStatement.Type == StatementType.Sql)
 					{
 						_isHadlerFirstlyInvoked = true;
-						ISectionHandler handler = _currentStatement.ContentRoot.Handler;
-						handler.Logger = Log.Instance;
-						handler.Parameters = new Tuple<SqlConnection, IDataStatement>(_sqlConnection, _currentStatement);
-						handler.OnStepHandler(OnSQLStep);
-						handler.OnPreHandler(OnPreSqlStage);
-						handler.OnErrorHandler(OnSqlError);
-						//CurrentRunStatus = RunStatus.RUNNING;
-						if (handler.Handle(_currentStatement.ContentRoot))
+						currentHandler = _currentStatement.ContentRoot.Handler;
+						currentHandler.Logger = Log.Instance;
+						currentHandler.Parameters = new Tuple<SqlConnection, IDataStatement>(_sqlConnection, _currentStatement);
+						currentHandler.OnPreHandler(OnPreSqlStage);
+						currentHandler.OnOutputReceived(OnSqlEngineOutput);
+						currentHandler.OnStepHandler(OnSQLStep);
+						currentHandler.OnErrorHandler(OnSqlError);
+
+						if (currentHandler.Handle(_currentStatement.ContentRoot))
 						{
 							txtExecutionLog.ExecAction(() =>
 							{
@@ -589,127 +590,10 @@ namespace DBSetup
 							});
 						}
 						_signalEvent.Reset();
-						continue;
 					}
 					#endregion
 
-					if (!IsFirstRun && _currentStatement != null && _statementIndex > 0)
-					{
-						//check if run status is not equals Continue (set after user have been pressed yes button)
-						if (CurrentRunStatus != RunStatus.CONTINUE)
-						{
-							_SqlPartIndex = 0;
-							_SQLToBeExecuted = (_currentStatement as SqlDataStatement).SplitByGoStatementWithComments();
-						}
-						else //clear flag back to exceptional state
-							CurrentRunStatus = RunStatus.ERROR;
-
-						this.ExecAction(() =>
-							{
-								if (i == 0)
-									txtCurrentStep.ExecAction(() => txtCurrentStep.Text = string.Format(StringsContainer.Instance.ConfigScriptAndUserDataMsg,
-																										_SqlPartIndex + 1, _SQLToBeExecuted.Length));
-								else
-									txtCurrentStep.ExecAction(() => txtCurrentStep.Text = string.Format(StringsContainer.Instance.SqlCurrentStepMsg,
-																										_currentStatement.DataFile, _SqlPartIndex + 1, _SQLToBeExecuted.Length));
-							});
-					}//end if case, when it's not a first run and statement greater than 0
-
-					WaitForUserInputIfNeeded();
-
-					if (_cts.IsCancellationRequested) break;
-
-					do
-					{
-						if (_cts.IsCancellationRequested) break;
-
-						try
-						{
-							while ((_requireUserInteruption && CurrentRunStatus == RunStatus.ERROR && !IsFirstRun))
-							{
-								Application.DoEvents();
-								_signalEvent.WaitOne();
-							}
-
-							if (_cts.IsCancellationRequested) break;
-
-							if (_SQLToBeExecuted != null && _SqlPartIndex != -1 &&
-								CurrentRunStatus != RunStatus.ERROR && _isExceptionalState)
-							{
-								string newSql = string.Empty;
-								txtScriptToRun.ExecAction(() => newSql = txtScriptToRun.Text);
-								Thread.Sleep(scriptSleepTimeout);
-								_SQLToBeExecuted[_SqlPartIndex] = newSql;
-							}
-
-							ProcessSqlStatements();
-
-							ExceptionOccurs = 0;
-							_isExceptionalState = false;
-							_requireUserInteruption = false;
-						}
-						catch (SqlException ex)
-						{
-							DisableStepsAndChangeRun(false, true);
-							DisableScriptEditing(false);
-							Log.Instance.Warn(ex.Message);
-
-							this.ExecAction(() =>
-							{
-								string failMsg = string.Format("Fail: {0} {1} Message: {2}{1}", _currentStatement.DataFile, Environment.NewLine, ex.Message);
-								Log.Instance.Error(failMsg);
-								txtExecutionLog.AppendText(failMsg);
-								MessageBox.Show(rootForm, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-							});
-
-							CurrentRunStatus = RunStatus.ERROR;
-							_signalEvent.Reset();
-
-							_isExceptionalState = true;
-							_requireUserInteruption = true;
-							ExceptionOccurs++;
-						}
-					}//end do parentheses
-					while ((CurrentRunStatus == RunStatus.ERROR && !_cts.IsCancellationRequested) &&
-						(ExceptionOccurs != _maxRetriesCount));
-
-					if ((CurrentRunStatus == RunStatus.ERROR) && (ExceptionOccurs == _maxRetriesCount))
-					{
-						ExceptionOccurs = 0;
-						_requireUserInteruption = true;
-						IsTriesExceed = true;
-						bool needExit = false;
-
-						this.ExecAction(() =>
-							{
-								if (MessageBox.Show(rootForm, StringsContainer.Instance.MaxTryCountIsExceeded, string.Empty, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) !=
-									 DialogResult.Yes)
-								{
-									needExit = true;
-									string execTerminatedMsg = string.Format("Execution process was terminated! {0}", Environment.NewLine);
-									Log.Instance.Warn(execTerminatedMsg);
-									txtExecutionLog.AppendText(execTerminatedMsg);
-								}
-							});
-
-						if (needExit)
-						{
-							CurrentRunStatus = RunStatus.TERMINATED;
-							break;
-						}
-						else
-							CurrentRunStatus = RunStatus.CONTINUE;
-					}
-
-					if (CurrentRunStatus != RunStatus.CONTINUE)
-						txtExecutionLog.ExecAction(() =>
-						{
-							string scriptExecuted = string.Format("Executed: {0} {1}", _currentStatement.DataFile, Environment.NewLine);
-							txtExecutionLog.AppendText(scriptExecuted);
-							Log.Instance.Info(scriptExecuted);
-						});
-
-					if (_cts.IsCancellationRequested) break;
+					//WaitForUserInputIfNeeded();
 				}// end for loop statement
 
 				if (CurrentRunStatus != RunStatus.TERMINATED)
@@ -717,31 +601,27 @@ namespace DBSetup
 
 			Cancel:
 
-				if (_currentStatement != null)
-					_currentStatement = null;
-				if (_SQLToBeExecuted != null)
-				{
-					_SQLToBeExecuted = null;
-					_SqlPartIndex = -1;
-				}
 				txtExecutionLog.ExecAction(() =>
 				{
 					string msgEndTime = string.Format("End time: {0} {1}", DateTime.Now.ToString(_dateTimeFormat), Environment.NewLine);
 					Log.Instance.Info(msgEndTime);
 					txtExecutionLog.AppendText(msgEndTime);
-					txtCurrentStep.Clear();
-					txtScriptToRun.Clear();
+
 					btnNext.Enabled = true;
 					btnCancel.Enabled = false;
+
+					txtCurrentStep.Clear();
+					txtScriptToRun.Clear();
+					txtCurrentStep.Enabled = false;
+					txtScriptToRun.Enabled = false;
 				});
 
 				SetButtonsEnabled(false);
-
 				btnNext.ExecAction(() => btnNext.Enabled = true);
 
 				try
 				{
-					if (_sqlConnection.State == System.Data.ConnectionState.Open)
+					if (_sqlConnection.State == System.Data.ConnectionState.Open && _sqlConnection.State != System.Data.ConnectionState.Closed)
 						_sqlConnection.Close();
 
 					var type = StateContainer.Instance.GetConcreteInstance<States.DbSetupState>().DatabaseSetupType;
@@ -779,9 +659,16 @@ namespace DBSetup
 		}
 
 		#region SQL handler callbacks
+
 		private void OnPreSqlStage(string arg1, object arg2)
 		{
 			txtScriptToRun.ExecAction(() => txtScriptToRun.Text = arg1);
+		}
+
+		private void OnSqlEngineOutput(string output)
+		{
+			if (output != null)
+				txtExecutionLog.ExecAction(() => txtExecutionLog.AppendText(output));
 		}
 
 		private void OnSQLStep(string state)
@@ -800,19 +687,8 @@ namespace DBSetup
 				_signalEvent.Reset();
 				WaitForUser();
 			}
-		}
 
-		private void WaitForUser(bool wait = true)
-		{
-			this.ExecAction(() =>
-			{
-				if (btnRun.Text.IndexOf(_stopString, StringComparison.OrdinalIgnoreCase) >= 0)
-					btnRun.Text = _runString;
-			});
-			DisableStepsAndChangeRun(false, true);
-			DisableScriptEditing(false);
-			if (wait)
-				_signalEvent.WaitOne();
+			CancelHandlerExecution();
 		}
 
 		private object OnSqlError(Exception exc, object state)
@@ -831,21 +707,10 @@ namespace DBSetup
 
 			txtScriptToRun.ExecAction(() => edited = txtScriptToRun.Text);
 			return edited;
-		} 
+		}
 		#endregion
 
 		#region DICOM handler callbacks
-		private void OnDicomEntryProcessing(string action, string file, object state)
-		{
-			this.ExecAction(() =>
-			{
-				if (action.IndexOf("Processing", StringComparison.OrdinalIgnoreCase) != -1 && state != null)
-					txtScriptToRun.Text = (state as string);
-				else
-					txtScriptToRun.Text = action;
-
-			});
-		}
 
 		private void OnPreDicomHandler(string arg1, object arg2)
 		{
@@ -856,6 +721,32 @@ namespace DBSetup
 				txtExecutionLog.AppendText(beginMsg);
 				txtScriptToRun.Text = string.Empty;
 			});
+
+			if (CurrentRunStatus == RunStatus.STEPSOURCE)
+			{
+				_signalEvent.Reset();
+				WaitForUser();
+			}
+		}
+
+		private void OnDicomEntryProcessing(string action, string file, object state)
+		{
+			this.ExecAction(() =>
+			{
+				if (action.IndexOf("Processing", StringComparison.OrdinalIgnoreCase) != -1 && state != null)
+					txtScriptToRun.Text = (state as string);
+				else
+					txtScriptToRun.Text = action;
+
+			});
+
+			if (CurrentRunStatus == RunStatus.STEPSTATEMENT || CurrentRunStatus == RunStatus.STOPPED)
+			{
+				_signalEvent.Reset();
+				WaitForUser();
+			}
+
+			CancelHandlerExecution();
 		}
 
 		private void OnDicomStepHandler(string file)
@@ -880,233 +771,26 @@ namespace DBSetup
 			});
 
 			return result;
-		} 
+		}
 		#endregion
 
-		private void ProcessSqlStatements()
+		private void WaitForUser(bool wait = true)
 		{
-			if (_currentStatement != null)
+			this.ExecAction(() =>
 			{
-				//case when we have fixed some script and need to continue execution
-				if (_SqlPartIndex != -1 && _SQLToBeExecuted != null && !_cts.IsCancellationRequested)
-				{
-					for (int i = _SqlPartIndex; i < _SQLToBeExecuted.Length; i++)
-					{
-						_SqlPartIndex = i;
-
-						if (_cts.IsCancellationRequested)
-							break;
-
-						if (StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements.FindIndex(x => x.Equals(_currentStatement)) == 0)
-							txtCurrentStep.ExecAction(() => txtCurrentStep.Text = string.Format(StringsContainer.Instance.ConfigScriptAndUserDataMsg, i + 1, _SQLToBeExecuted.Length));
-						else
-							txtCurrentStep.ExecAction(() => txtCurrentStep.Text = string.Format(StringsContainer.Instance.SqlCurrentStepMsg,
-																								_currentStatement.DataFile, i + 1, _SQLToBeExecuted.Length));
-
-						string sql = DisplayScriptsToBeExecuted(i);
-
-						if (CurrentRunStatus == RunStatus.STOPPED ||
-							(CurrentRunStatus != RunStatus.RUNNING &&
-							CurrentRunStatus != RunStatus.STEPSOURCE &&
-							CurrentRunStatus != RunStatus.ERROR &&
-							CurrentRunStatus == RunStatus.STEPSTATEMENT && !_isExceptionalState))
-						{
-							DisableStepsAndChangeRun(false, true);
-							_signalEvent.WaitOne();
-						}
-
-						if (CurrentRunStatus == RunStatus.STEPSTATEMENT)
-						{
-							DisableStepsButtons(true);
-							DisableScriptEditing(true);
-						}
-						else if (CurrentRunStatus == RunStatus.STEPSOURCE)
-							DisableScriptEditing(true);
-
-						ExecuteSql(sql);
-						sql = null;
-						//cleaning-up exceptions counter
-						if (ExceptionOccurs > 0) ExceptionOccurs = 0;
-
-						if (CurrentRunStatus == RunStatus.STEPSTATEMENT)
-						{
-							DisableScriptEditing(false);
-							DisableStepsAndChangeRun(false, true);
-						}
-
-						_isExceptionalState = false;
-						_signalEvent.Reset();
-						CurrentRunStatus = CurrentRunStatus;
-					}//end for
-
-					_SQLToBeExecuted = null;
-					_SqlPartIndex = -1;
-					return;
-				}//end if (case when we have fixed some script and need to continue execution)
-
-				_SQLToBeExecuted = (_currentStatement as SqlDataStatement).SplitByGoStatementWithComments();
-
-				//case, when user do not fixed any scripts (clean workflow)
-				for (int i = 0; i < _SQLToBeExecuted.Length; i++)
-				{
-					_SqlPartIndex = i;
-
-					if (_cts.IsCancellationRequested)
-						break;
-
-					if (StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements.FindIndex(x => x.Equals(_currentStatement)) == 0)
-						txtCurrentStep.ExecAction(() => txtCurrentStep.Text = string.Format(StringsContainer.Instance.ConfigScriptAndUserDataMsg, i + 1, _SQLToBeExecuted.Length));
-					else
-						txtCurrentStep.ExecAction(() => txtCurrentStep.Text = string.Format(StringsContainer.Instance.SqlCurrentStepMsg,
-																							_currentStatement.DataFile, i + 1, _SQLToBeExecuted.Length));
-
-					int retry = 0;
-					try
-					{
-						string sql = DisplayScriptsToBeExecuted(i);
-
-						if (CurrentRunStatus == RunStatus.STOPPED ||
-							(CurrentRunStatus != RunStatus.RUNNING &&
-							CurrentRunStatus != RunStatus.STEPSOURCE &&
-							CurrentRunStatus != RunStatus.ERROR &&
-							CurrentRunStatus == RunStatus.STEPSTATEMENT && !_isExceptionalState))
-						{
-							DisableStepsAndChangeRun(false, true);
-							_signalEvent.WaitOne();
-						}
-
-						if (CurrentRunStatus == RunStatus.STEPSTATEMENT)
-						{
-							DisableStepsButtons(true);
-							DisableScriptEditing(true);
-						}
-						else if (CurrentRunStatus == RunStatus.STEPSOURCE)
-							DisableScriptEditing(true);
-
-						ExecuteSql(sql);
-						sql = null;
-
-						//cleaning-up exceptions counter
-						if (ExceptionOccurs > 0) ExceptionOccurs = 0;
-
-						if (CurrentRunStatus == RunStatus.STEPSTATEMENT)
-						{
-							DisableScriptEditing(false);
-							DisableStepsAndChangeRun(false, true);
-						}
-
-						_isExceptionalState = false;
-						CurrentRunStatus = CurrentRunStatus;
-						_signalEvent.Reset();
-						IsFirstRun = false;
-
-						_requireUserInteruption = false;
-					}
-					catch (SqlException)
-					{
-						CurrentRunStatus = RunStatus.ERROR;
-						_isExceptionalState = true;
-						IsFirstRun = false;
-						_requireUserInteruption = true;
-						retry++;
-						throw;
-					}
-					catch (Exception)
-					{
-						CurrentRunStatus = RunStatus.ERROR;
-						IsFirstRun = false;
-						_requireUserInteruption = true;
-						retry++;
-						throw;
-					}
-				}//end for
-
-				_SQLToBeExecuted = null;
-				_SqlPartIndex = -1;
-			}// end if _currentStatement != null
-		}
-
-		private string DisplayScriptsToBeExecuted(int i)
-		{
-			string sql = GetRidOfGoStatement(_SQLToBeExecuted[i]);
-			txtScriptToRun.ExecAction(() =>
-			{
-				txtScriptToRun.Clear();
-				txtScriptToRun.AppendText(sql);
+				if (btnRun.Text.IndexOf(_stopString, StringComparison.OrdinalIgnoreCase) >= 0)
+					btnRun.Text = _runString;
 			});
-
-			return sql;
+			DisableStepsAndChangeRun(false, true);
+			DisableScriptEditing(false);
+			if (wait)
+				_signalEvent.WaitOne();
 		}
 
-		private void ExecuteSql(string sql)
+		private void CancelHandlerExecution()
 		{
-			if (!string.IsNullOrEmpty(sql) && !string.IsNullOrWhiteSpace(sql))
-			{
-				using (var command = _sqlConnection.CreateCommand())
-				{
-					if (sql.IndexOf("select", StringComparison.OrdinalIgnoreCase) != -1 &&
-						sql.IndexOf("@@version", StringComparison.OrdinalIgnoreCase) != -1 &&
-						StateContainer.Instance.GetConcreteInstance<DbSetupState>().DatabaseSetupType == DbSetupType.New)
-					{
-						command.CommandText = sql;
-						object data = command.ExecuteScalar();
-						if (data != null && data is string)
-						{
-							txtExecutionLog.ExecAction(() =>
-							{
-								string msg = string.Format("{0} {1}", data as string, Environment.NewLine);
-								txtExecutionLog.AppendText(msg);
-								Log.Instance.Info(msg);
-							});
-						}
-						return;
-					}
-
-					string ctrlSql = null;
-					txtScriptToRun.ExecAction(() => ctrlSql = txtScriptToRun.Text);
-					if (!string.IsNullOrEmpty(ctrlSql) &&
-						string.Compare(sql, ctrlSql, StringComparison.OrdinalIgnoreCase) != 0)
-						command.CommandText = ctrlSql;
-					else
-						command.CommandText = sql;
-					//add some trick , default command timeout was 30 secs.
-					command.CommandTimeout = sqlCommandTimeout;
-					int rowsAffected = command.ExecuteNonQuery();
-				}
-				Thread.Sleep(scriptSleepTimeout);
-			}//end if
-			else
-				Log.Instance.Warn("Sql string is empty");
-		}
-
-		private string GetRidOfGoStatement(string sql)
-		{
-			StringBuilder sb = new StringBuilder();
-
-			using (var sr = new System.IO.StringReader(sql))
-			{
-				string line = string.Empty;
-				bool isGoFound = false;
-				while ((line = sr.ReadLine()) != null)
-				{
-					if (line.ContainsOnly("GO"))
-					{
-						isGoFound = true;
-						continue;
-					}
-					else if (isGoFound && line.StartsWithIgnoreSpaces(Environment.NewLine))
-					{
-						isGoFound = false;
-						continue;
-					}
-
-					sb.AppendLine(line);
-				}
-				sql = sb.ToString();
-				sb.Clear();
-				sb = null;
-			}
-			return sql;
+			if (currentHandler != null && _cts.IsCancellationRequested)
+				currentHandler.Cancel();
 		}
 
 		#endregion workflow execution
@@ -1119,7 +803,7 @@ namespace DBSetup
 			return StateContainer.Instance.GetConcreteInstance<RunScriptState>().StatementFactory.Value.Generate();
 		}
 
-		private string GetSetupSQLScripts()
+		private string PrepareNewSetupSQLScripts()
 		{
 			StringBuilder buffer = new StringBuilder();
 			States.DbSetupType setupType = (States.StateContainer.Instance[3] as States.DbSetupState).DatabaseSetupType;

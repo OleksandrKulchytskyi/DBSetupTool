@@ -2,8 +2,6 @@
 using DBSetup.Common.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DBSetup.Common.DICOM
 {
@@ -14,6 +12,9 @@ namespace DBSetup.Common.DICOM
 		private Func<Exception, object, object> onError;
 
 		private Action<string, string, object> onEntryProcessed;
+		private volatile bool isCancelled = false;
+
+		private Importer curreantImporter = null;
 
 		public object Parameters
 		{
@@ -53,28 +54,34 @@ namespace DBSetup.Common.DICOM
 						NormalizePath(item);
 					}
 
-					Importer dicomImporter = null;
 					foreach (var item in DICOMList)
 					{
+						if (isCancelled)
+							break;
+
 						try
 						{
-							dicomImporter = new Importer(settings.ServerName, settings.DatabaseName, settings.UserName, settings.Password, Logger);
-							dicomImporter.OperationsDelayTime = 50;
-							dicomImporter.SetOnEntryProcessing(onEntryProcessed);
-							dicomImporter.Process(dicomLink.CSVFilePath, !dicomLink.IsActive, dicomLink.IsActive, item);
+							curreantImporter = new Importer(settings.ServerName, settings.DatabaseName, settings.UserName, settings.Password, Logger);
+							curreantImporter.DelayBetweenOpeartions = 50;
+							curreantImporter.SetOnEntryProcessing(onEntryProcessed);
+							curreantImporter.Process(dicomLink.CSVFilePath, !dicomLink.IsActive, dicomLink.IsActive, item);
 						}
+						catch (DicomOperationCancelledException ex) { Logger.Warn(ex.Message); }
 						catch (Exception ex)
 						{
 							object state = DispatchOnError(ex, null);
 							if (state == null)
 								result = false;
 							if (Logger != null)
-								Logger.Error("Error occurred during DICOM import operation.", ex);
+								Logger.Error("Error occurred during the DICOM import operation.", ex);
 						}
 						finally
 						{
-							if (dicomImporter != null)
-								dicomImporter.Dispose();
+							if (curreantImporter != null)
+							{
+								curreantImporter.Dispose();
+								curreantImporter = null;
+							}
 						}
 						//TODO: Omit commnet here if we need to stop execusion in case of Exception.
 						//if (!result) break;
@@ -122,7 +129,6 @@ namespace DBSetup.Common.DICOM
 				this.onPreHandle = onPreHandle;
 		}
 
-
 		public void OnStepHandler(Action<string> onStep)
 		{
 			if (onStep != null)
@@ -145,6 +151,21 @@ namespace DBSetup.Common.DICOM
 		public void OnBunchHandled(Action<object> onBunch)
 		{
 			// no handling for dicom
+		}
+
+		public void OnOutputReceived(Action<string> onOutput)
+		{
+			// no handling for dicom
+		}
+
+
+		public void Cancel()
+		{
+			if (isCancelled) return;
+
+			isCancelled = true;
+			if (curreantImporter != null)
+				curreantImporter.Cancel();
 		}
 	}
 }

@@ -29,7 +29,7 @@ namespace DBSetup.Common.Helpers
 		/// Default method to be called whenever ans instance should be disposed.<para/>
 		/// Used when the MaxCapacity is reached or when the Clear method is called.
 		/// </summary>
-		public static Action<T> DefaultInstanceDispose = null;
+		public static Action<T> DefaultInstanceDisposeClear = null;
 
 		/// <summary>
 		/// Removes a stored object from the pool and return it.
@@ -75,10 +75,11 @@ namespace DBSetup.Common.Helpers
 			if (m_bag.Count < MaxCapacity)
 			{
 				m_bag.Push(item);
+				DefaultInstanceDisposeClear(item);
 			}
-			else if (DefaultInstanceDispose != null)
+			else if (DefaultInstanceDisposeClear != null)
 			{
-				DefaultInstanceDispose(item);
+				DefaultInstanceDisposeClear(item);
 			}
 		}
 
@@ -89,12 +90,12 @@ namespace DBSetup.Common.Helpers
 		/// </summary>
 		public static void Clear()
 		{
-			if (DefaultInstanceDispose != null)
+			if (DefaultInstanceDisposeClear != null)
 			{
 				T item;
 				while (m_bag.TryPop(out item))
 				{
-					DefaultInstanceDispose(item);
+					DefaultInstanceDisposeClear(item);
 				}
 			}
 			m_bag.Clear();

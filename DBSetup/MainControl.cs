@@ -110,7 +110,7 @@ namespace DBSetup
 			if (MessageBox.Show(mainForm, StringsContainer.Instance.ExitConfirmation, StringsContainer.Instance.ExitConfirmationTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 				== System.Windows.Forms.DialogResult.Yes)
 			{
-				Program.ISExitRequired = true;
+				Program.IsExitRequired = true;
 				Application.Exit();
 			}
 		}

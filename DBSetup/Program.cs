@@ -16,7 +16,7 @@ namespace DBSetup
 		private const string _msgEnd = "Application ends.";
 		private const string _msgEndSuccess = "Application ends - Success.";
 		private const string _msgEndFail = "Application ends - Fail.";
-		internal static Nullable<bool> ISExitRequired;
+		internal static Nullable<bool> IsExitRequired;
 
 		private static string[] parameters = null;
 
@@ -169,10 +169,11 @@ namespace DBSetup
 			StateContainer.Instance.AddState(1, new StateDBSettings());
 
 			var sqlsTask = Task.Factory.StartNew<List<string>>(() => SqlServerHelper.GetSQLsServerInstances(true));
-			sqlsTask.RegisterFaultedHandler(OnError);
 			sqlsTask.RegisterSucceededHandler(OnRetrieved);
+			sqlsTask.RegisterFaultedHandler(OnError);
 
-			System.Threading.Thread.Sleep(600);//Necessary delay for proper SQL Server population
+			//Necessary delay for proper SQL Server population
+			System.Threading.Thread.Sleep(600);
 			Application.Run(new WizardMain());
 		}
 

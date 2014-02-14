@@ -70,7 +70,7 @@ namespace DBSetup
 			if ((sender as Button).Text.Equals(_exitBtnText, StringComparison.OrdinalIgnoreCase))
 			{
 				UnsubscribeFromLoadEvent();
-				Program.ISExitRequired = true;
+				Program.IsExitRequired = true;
 				Application.Exit();
 				return;
 			}
@@ -143,10 +143,10 @@ namespace DBSetup
 			{
 				UnsubscribeFromLoadEvent();
 				this.RevertCtrlPlusA();
-				Program.ISExitRequired = true;
+				Program.IsExitRequired = true;
 				return true;
 			}
-			Program.ISExitRequired = false;
+			Program.IsExitRequired = false;
 			return false;
 		}
 

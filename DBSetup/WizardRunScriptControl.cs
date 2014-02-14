@@ -234,7 +234,7 @@ namespace DBSetup
 
 				if (_sqlSettings != null) _sqlSettings.Dispose();
 
-				Program.ISExitRequired = true;
+				Program.IsExitRequired = true;
 				Application.Exit();
 			}
 			else
@@ -300,7 +300,7 @@ namespace DBSetup
 				}
 				finally { GC.Collect(); }
 
-				Program.ISExitRequired = true;
+				Program.IsExitRequired = true;
 				Application.Exit();
 			}
 		}

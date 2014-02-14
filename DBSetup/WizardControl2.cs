@@ -93,10 +93,10 @@ namespace DBSetup
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 			{
 				this.RevertCtrlPlusA();
-				Program.ISExitRequired = true;
+				Program.IsExitRequired = true;
 				return true;
 			}
-			Program.ISExitRequired = false;
+			Program.IsExitRequired = false;
 			return false;
 		}
 	}

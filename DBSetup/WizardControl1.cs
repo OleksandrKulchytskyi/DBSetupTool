@@ -277,7 +277,7 @@ namespace DBSetup
 		{
 			//this.RevertCtrlPlusA();
 			UnsubscribeFromEvents();
-			Program.ISExitRequired = true;
+			Program.IsExitRequired = true;
 			Application.Exit();
 		}
 
@@ -298,7 +298,7 @@ namespace DBSetup
 			{
 				UnsubscribeFromEvents();
 				mainForm = null;
-				Program.ISExitRequired = true;
+				Program.IsExitRequired = true;
 				Application.Exit();
 			}
 		}

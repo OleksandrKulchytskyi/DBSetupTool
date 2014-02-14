@@ -17,7 +17,7 @@ namespace DBSetup
 
 		private void WizardMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (Program.ISExitRequired.HasValue && Program.ISExitRequired.Value)
+			if (Program.IsExitRequired.HasValue && Program.IsExitRequired.Value)
 			{
 				e.Cancel = false;
 				if (this.Controls.Count == 1 && this.Controls[0] is WizardRunScriptControl)

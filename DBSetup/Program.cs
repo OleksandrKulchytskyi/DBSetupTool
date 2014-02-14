@@ -1,7 +1,6 @@
 ﻿using DBSetup.Common;
 using DBSetup.Common.Helpers;
 using DBSetup.Common.Native;
-using DBSetup.Helpers;
 using DBSetup.States;
 using System;
 using System.Collections.Generic;
@@ -28,9 +27,9 @@ namespace DBSetup
 		private static void Main()
 		{
 			parameters = Environment.GetCommandLineArgs();
+			GUIConsoleWriter writer = null;
 			Application.ThreadException += Application_ThreadException;
 			Application.ApplicationExit += Application_ApplicationExit;
-			GUIConsoleWriter writer = null;
 
 			if (parameters.Length > 1)
 			{
@@ -94,8 +93,7 @@ namespace DBSetup
 							}
 							catch (System.ComponentModel.Win32Exception ex)
 							{
-								Log.Instance.Warn("Fail to attach the console.{0}{1}".
-											  FormatWith(Environment.NewLine, ex));
+								Log.Instance.Warn("Fail to attach the console.{0}{1}".FormatWith(Environment.NewLine, ex));
 							}
 							finally
 							{

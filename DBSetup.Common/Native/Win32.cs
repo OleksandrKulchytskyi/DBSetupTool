@@ -11,13 +11,13 @@ namespace DBSetup.Common.Native
 	{
 		private const string _kernel = "kernel32.dll";
 
-		[DllImport(_kernel)]
+		[DllImport(_kernel, CharSet = CharSet.Unicode)]
 		private static extern bool AttachConsole(int dwProcessId);
 
-		[DllImport(_kernel, SetLastError = true)]
+		[DllImport(_kernel, SetLastError = true, CharSet = CharSet.Unicode)]
 		internal static extern int AllocConsole();
 
-		[DllImport(_kernel)]
+		[DllImport(_kernel, CharSet = CharSet.Unicode)]
 		private static extern bool FreeConsole();
 
 		private const int ATTACH_PARENT_PROCESS = -1;
@@ -49,7 +49,7 @@ namespace DBSetup.Common.Native
 	// This always writes to the parent console window and also to a redirected stdout if there is one.
 	// It would be better to do the relevant thing (eg write to the redirected file if there is one, otherwise
 	// write to the console) but it doesn't seem possible.
-	public sealed class GUIConsoleWriter : IDisposable, IConsoleWriter
+	public sealed class GUIConsoleWriter : IConsoleWriter, IDisposable
 	{
 		private const string _kernel = "kernel32.dll";
 		private int _disposed = 0;
@@ -59,21 +59,21 @@ namespace DBSetup.Common.Native
 		private const UInt32 STD_ERROR_HANDLE = 0xFFFFFFF4;
 		private const UInt32 DUPLICATE_SAME_ACCESS = 2;
 
-		[DllImport(_kernel)]
+		[DllImport(_kernel, CharSet = CharSet.Unicode)]
 		private static extern bool GetFileInformationByHandle(SafeFileHandle hFile, out BY_HANDLE_FILE_INFORMATION lpFileInformation);
-		[DllImport(_kernel)]
+		[DllImport(_kernel, CharSet = CharSet.Unicode)]
 		private static extern SafeFileHandle GetStdHandle(UInt32 nStdHandle);
-		[DllImport(_kernel)]
+		[DllImport(_kernel, CharSet = CharSet.Unicode)]
 		private static extern bool SetStdHandle(UInt32 nStdHandle, SafeFileHandle hHandle);
-		[DllImport(_kernel)]
+		[DllImport(_kernel, CharSet = CharSet.Unicode)]
 		private static extern bool DuplicateHandle(IntPtr hSourceProcessHandle, SafeFileHandle hSourceHandle, IntPtr hTargetProcessHandle,
 		out SafeFileHandle lpTargetHandle, UInt32 dwDesiredAccess, Boolean bInheritHandle, UInt32 dwOptions);
 
-		[DllImport(_kernel)]
+		[DllImport(_kernel, CharSet = CharSet.Unicode)]
 		private static extern uint AttachConsole(UInt32 dwProcessId);
-		[DllImport(_kernel, SetLastError = true)]
+		[DllImport(_kernel, SetLastError = true, CharSet = CharSet.Unicode)]
 		private static extern int AllocConsole();
-		[DllImport(_kernel)]
+		[DllImport(_kernel, CharSet = CharSet.Unicode)]
 		private static extern uint FreeConsole();
 
 		//private const int ATTACH_PARENT_PROCESS = -1;
@@ -164,6 +164,7 @@ namespace DBSetup.Common.Native
 					if (!hStdErrDup.IsInvalid && !hStdErrDup.IsClosed) hStdErrDup.Close();
 					if (!hStdOut.IsInvalid && !hStdOut.IsClosed) hStdOut.Close();
 					if (!hStdOutDup.IsInvalid && !hStdOutDup.IsClosed) hStdOutDup.Close();
+
 					//make handles rootless
 					hStdErr = null;
 					hStdErrDup = null;
@@ -179,7 +180,7 @@ namespace DBSetup.Common.Native
 						_stdOutWriter.Dispose();
 					}
 				}
-				catch (Exception ex) { Log.Instance.Error("Dispose", ex); }
+				catch { }
 				finally
 				{
 					GC.SuppressFinalize(this);

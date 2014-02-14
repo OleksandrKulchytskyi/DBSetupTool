@@ -10,6 +10,8 @@ namespace DBSetup.Common.DICOM
 {
 	public class Importer : IDisposable, ICancelable
 	{
+		private static readonly int outputLength;
+		
 		private bool disposed = false;
 		private volatile bool isCancelled = false;
 
@@ -24,6 +26,20 @@ namespace DBSetup.Common.DICOM
 		/// Delay between Importer operations(in ms).
 		/// </summary>
 		public int DelayBetweenOpeartions { get; set; }
+
+		static Importer()
+		{
+			if (System.Configuration.ConfigurationManager.AppSettings.AllKeys.Contains("DICOM.OutputLength"))
+			{
+				string value = System.Configuration.ConfigurationManager.AppSettings["DICOM.OutputLength"];
+				if (value == null)
+					outputLength = 40;
+				else
+					int.TryParse(value, out outputLength);
+			}
+			else
+				outputLength = 40;
+		}
 
 		/// <summary>
 		/// Ctor
@@ -100,7 +116,7 @@ namespace DBSetup.Common.DICOM
 					int row = 0;
 					int added = 0;
 					int updated = 0;
-					int time = DelayBetweenOpeartions - 25;
+					int time = DelayBetweenOpeartions - 30;
 					while (!isCancelled && ((line = reader.ReadLine()) != null))
 					{
 						// tokenize
@@ -111,7 +127,7 @@ namespace DBSetup.Common.DICOM
 							// skip the header row
 							if (row > 1)
 							{
-								OnActionProcessing("Processing CSV line.", filename, line.Substring(0, 40));
+								OnActionProcessing("Processing CSV line.", filename, line.Substring(0, outputLength));
 								System.Threading.Thread.Sleep(time < 0 ? 10 : time);
 
 								int DICOMMergeFieldID = Int32.Parse(tok[0]);
@@ -461,17 +477,19 @@ namespace DBSetup.Common.DICOM
 			}
 		}
 
-		protected virtual void OnDisposose(bool disposing)
+		protected virtual void Dispose(bool disposing)
 		{
-			if (_context != null && disposing)
-				_context.Dispose();
+			if (disposing)
+			{
+				if (_context != null && disposing)
+					_context.Dispose();
+			}
 		}
 
 		public void Dispose()
 		{
 			ThrowIfDisposed();
-
-			OnDisposose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 	}

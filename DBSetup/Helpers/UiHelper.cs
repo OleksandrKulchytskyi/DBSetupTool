@@ -100,14 +100,14 @@ namespace DBSetup.Helpers
 		private class Win32Api
 		{
 			private const string _user32 = "user32.dll";
-			[DllImport(_user32)]
+			[DllImport(_user32, CharSet = CharSet.Unicode)]
 			private static extern int FindWindow(string lpClassName, string lpWindowName);
-			[DllImport(_user32)]
+			[DllImport(_user32, CharSet = CharSet.Unicode)]
 			private static extern int SendMessage(int hWnd, uint Msg, int wParam, int lParam);
 			/// <summary>
 			/// Find window by Caption only. Note you must pass IntPtr.Zero as the first parameter.
 			/// </summary>
-			[DllImport(_user32, EntryPoint = "FindWindow", SetLastError = true)]
+			[DllImport(_user32, EntryPoint = "FindWindow", SetLastError = true, CharSet = CharSet.Unicode)]
 			private static extern IntPtr FindWindowByCaption(IntPtr ZeroOnly, string lpWindowName);
 
 			public const int WM_SYSCOMMAND = 0x0112;

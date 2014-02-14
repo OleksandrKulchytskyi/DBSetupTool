@@ -2,7 +2,6 @@
 using DBSetup.Common.ModelBuilder;
 using DBSetup.Common.Models;
 using DBSetup.Common.Statements;
-using DBSetup.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -20,22 +19,21 @@ namespace DBSetup.Common.Services
 {
 	public sealed class NoUIExecutor : IExecutor
 	{
-		private enum DbSetupType : int
+		internal enum DbSetupType : int
 		{
 			New = 0,
 			Upgrade,
 			LoadSetup
 		}
 
+		private const string _dateTimeFormat = "dd-MM-yyyy hh:mm:ss";
 		private const string _FinalSection = "Finalization";
 		private const string msg1 = "configuration script and user entered data ({0} of {1})";
 		private const int scriptSleepTimeout = 35; //delay after script ends it's execution (ms)
-		//Time to wait before SQL command will be out of execution process (sec)
-		//TTP:  TTP 4963 - SHOWSTOPPER- Database Upgrade fails for DB version 107,
-		//forced to set this parameter to infinite timeout
-		private const int sqlCommandTimeout = 0;
 
-		private CompositionContainer _container = null;
+		private CompositionContainer _container;
+		private IGlobalState _global;
+		private ISqlConnectionSettings _sqlSettings;
 
 		[Export(typeof(string))]
 		internal string _pathToINI { get; private set; }
@@ -63,23 +61,23 @@ namespace DBSetup.Common.Services
 		private string _populatePassword;
 		#endregion
 
-		private List<SectionBase> _parsingResult = null;
-		private Language _currentLanguage = null;
+		private List<SectionBase> _parsingResult;
+		private Language _currentLanguage;
 
-		private SectionBase _dbSettings = null;
+		private SectionBase _dbSettings;
 
 		[Export(typeof(SectionBase))]
 		internal SectionBase _currentSetup { get; private set; }
 
 		private DbSetupType _currentSetupType;
 
-		private IVersionService versionService = null;
-		private SetupScriptDocument _scriptDocument = null;
+		private IVersionService versionService;
+		private SetupScriptDocument _scriptDocument;
 
 		[Import(typeof(IDataStatementFactory))]
 		public Lazy<IDataStatementFactory> StatementFactory { get; set; }
 
-		private List<IDataStatement> _sqlStatements = null;
+		private List<IDataStatement> _dataStatements;
 
 		private int _latestComm4Version = -1;
 		private volatile uint _dbIsUpToDate = 0;
@@ -114,6 +112,10 @@ namespace DBSetup.Common.Services
 			_sqlServer = xmlDoc.Root.Element("SqlSever").Element("Server").Value;
 			_sqlUser = xmlDoc.Root.Element("SqlSever").Element("User").Value;
 			_sqlPassword = xmlDoc.Root.Element("SqlSever").Element("Password").Value;
+
+			_sqlSettings = new SqlConnectionSettings(_sqlServer, _sqlDbName, _sqlUser, _sqlPassword);
+			_global = ServiceLocator.Instance.GetService<IGlobalState>();
+			_global.SetState<string>("rootPath", Path.GetDirectoryName(_pathToINI));
 
 			_setupLanguage = xmlDoc.Root.Element("Setup").Element("Language").Value;
 			_setupType = xmlDoc.Root.Element("Setup").Element("Type").Value;
@@ -400,6 +402,7 @@ namespace DBSetup.Common.Services
 								Log.Instance.Info("Database is set to be overwritten.");
 								_currentSetup = newSetup;
 								_currentSetupType = DbSetupType.New;
+								_global.SetState<SectionBase>("setupType", newSetup);
 							}
 						}
 						return;
@@ -417,6 +420,7 @@ namespace DBSetup.Common.Services
 					{
 						Log.Instance.Info("Proper upgrade type has been successfully found.");
 						_currentSetup = upgradeType;
+						_global.SetState<SectionBase>("setupType", upgradeType);
 						_currentSetupType = DbSetupType.Upgrade;
 					}
 				}
@@ -433,6 +437,7 @@ namespace DBSetup.Common.Services
 					{
 						Log.Instance.Info("New setup has been successfully found.");
 						_currentSetup = newSetup;
+						_global.SetState<SectionBase>("setupType", newSetup);
 						_currentSetupType = DbSetupType.New;
 					}
 				}
@@ -470,7 +475,7 @@ namespace DBSetup.Common.Services
 
 		#region Scripts execution logic
 		private readonly CancellationTokenSource _cts; // cancellation source
-		private Task _scriptsExecutor = null; //main execution thread
+		private Task _scriptsExecutor; //main execution thread
 
 		private void RunScript(SqlConnectionStringBuilder strBuilder)
 		{
@@ -486,7 +491,7 @@ namespace DBSetup.Common.Services
 			try
 			{
 				mainTask.Wait();
-				_sqlStatements = mainTask.Result;
+				_dataStatements = mainTask.Result;
 				Log.Instance.Info("Sql statements have been successfully generated.");
 			}
 			catch (Exception ex)
@@ -503,7 +508,13 @@ namespace DBSetup.Common.Services
 				_container = null;
 			}
 
-			_sqlStatements.Insert(0, new SqlDataStatement(GetSetupSQLScripts(), msg1.Substring(0, msg1.IndexOf("("))));
+			int indx = msg1.IndexOf("(");
+			string setupText = msg1.Substring(0, indx);
+			SectionBase section = new SqlLink() { Text = setupText, FileName = setupText };
+			section.Handler = new SQLSectionHandler();
+			IDataStatement newSQl = new SqlDataStatement(GetSetupSQLScripts(), setupText);
+			newSQl.ContentRoot = section;
+			_dataStatements.Insert(0, newSQl);
 
 			_scriptsExecutor = new Task(ExecuteWorkflow, strBuilder, TaskCreationOptions.LongRunning);
 			_scriptsExecutor.Start();
@@ -772,147 +783,130 @@ namespace DBSetup.Common.Services
 			changedPair = pair;
 		}
 
-		private SqlConnection _sqlConnection = null;
+		private SqlConnection _sqlConnection;
 		private int _statementIndex = -1;
-		private IDataStatement _currentStatement = null;
-		private int _SqlPartIndex = -1;
-		private string[] _SQLsToExecute = null;
+		private IDataStatement _currentStatement;
+		private ISectionHandler currentHandler;
 
 		private void ExecuteWorkflow(object state)
 		{
 			SqlConnectionStringBuilder builder = (state as SqlConnectionStringBuilder);
+			builder.MaxPoolSize = 20;
+			builder.Pooling = true;
 
 			using (_sqlConnection = new SqlConnection(builder.ToString()))
 			{
-				if (_sqlConnection.State == System.Data.ConnectionState.Closed)
+				if (_sqlConnection.State != System.Data.ConnectionState.Open && _sqlConnection.State != System.Data.ConnectionState.Connecting)
 					_sqlConnection.Open();
 
-				for (int i = 0; i < _sqlStatements.Count; i++)
+				#region perform initial log info
+				Log.Instance.Info(string.Format("Log file: {0} {1} {1}",
+						System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), _logLocation), Environment.NewLine));
+
+				string compName = string.Format("Computer: {0} {1}", Environment.MachineName, Environment.NewLine);
+				Log.Instance.Info(compName);
+
+				string startTime = string.Format("Start time: {0} {1}", DateTime.Now.ToString(_dateTimeFormat), Environment.NewLine);
+				Log.Instance.Info(startTime);
+
+				#endregion perform initial log info
+
+				for (int i = 0; i < _dataStatements.Count; i++)
 				{
 					_statementIndex = i;
-					_currentStatement = _sqlStatements[i];
+					_currentStatement = _dataStatements[i];
 					Log.Instance.Info("Begin to execute {0}".FormatWith(_currentStatement.DataFile));
-					ProcessSqlStatements();
+
+					#region new handling mechanism
+					//handle DICOM sections
+					if (_currentStatement.Type == StatementType.Dicom)
+					{
+						currentHandler = _currentStatement.ContentRoot.Handler;
+						if (currentHandler != null)
+						{
+							currentHandler.Logger = Log.Instance;
+							currentHandler.Parameters = _sqlSettings;
+							currentHandler.OnErrorHandler(OnErrorHandler);
+
+							if (currentHandler.Handle(_currentStatement.ContentRoot))
+							{
+								string scriptExecuted = string.Format("Executed: {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+								Log.Instance.Info(scriptExecuted);
+							}
+							else
+							{
+								string scriptExecuted = string.Format("Executed with error(s): {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+								Log.Instance.Info(scriptExecuted);
+							}
+						}
+					}
+					//handle SQL section
+					else if (_currentStatement.Type == StatementType.Sql)
+					{
+						currentHandler = _currentStatement.ContentRoot.Handler;
+						currentHandler.Logger = Log.Instance;
+						currentHandler.Parameters = new Tuple<SqlConnection, IDataStatement>(_sqlConnection, _currentStatement);
+						currentHandler.OnOutputReceived(OnSqlEngineOutput);
+						currentHandler.OnErrorHandler(OnSqlError);
+
+						if (currentHandler.Handle(_currentStatement.ContentRoot))
+						{
+							string scriptExecuted = string.Format("Executed: {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+							Log.Instance.Info(scriptExecuted);
+						}
+						else
+						{
+							string scriptExecuted = string.Format("Executed with error(s): {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+							Log.Instance.Info(scriptExecuted);
+						}
+					}
+					#endregion
+
 					Log.Instance.Info("End execute {0}".FormatWith(_currentStatement.DataFile));
-					GC.Collect();
-				}
+				}// end for loop statement
+
+				string msgEndTime = string.Format("End time: {0} {1}", DateTime.Now.ToString(_dateTimeFormat), Environment.NewLine);
+				Log.Instance.Info(msgEndTime);
 
 				try
 				{
 					if (_sqlConnection.State == System.Data.ConnectionState.Open &&
+						_sqlConnection.State != System.Data.ConnectionState.Closed &&
 								_sqlConnection.State != System.Data.ConnectionState.Broken)
 						_sqlConnection.Close();
 				}
 				catch (SqlException ex)
 				{
-					Log.Instance.Error(ex.Message);
-					throw;
+					Log.Instance.Error("Error has been occurred while closing SQL connection", ex);
 				}
+				finally
+				{
+					GC.Collect();
+				}
+			}//end using SqlConnection
+		}
+
+		private void OnSqlEngineOutput(string output)
+		{
+			if (output != null)
+			{
+				Log.Instance.Info(output);
 			}
 		}
 
-		private void ProcessSqlStatements()
+		private object OnSqlError(Exception exc, object state)
 		{
-			if (_currentStatement != null && _currentStatement is SqlDataStatement)
-			{
-				_SQLsToExecute = (_currentStatement as SqlDataStatement).SplitByGoStatementWithComments();
-
-				for (int i = 0; i < _SQLsToExecute.Length; i++)
-				{
-					_SqlPartIndex = i;
-
-					if (_cts.IsCancellationRequested)
-						break;
-
-					if (_sqlStatements.FindIndex(x => x.Equals(_currentStatement)) == 0)
-					{
-						//txtCurrentStep.ExecAction(() => txtCurrentStep.Text = string.Format(StringsContainer.Instance.ConfigScriptAndUserDataMsg, i + 1, _SQLsToExecute.Length));
-					}
-					else
-					{
-						//txtCurrentStep.ExecAction(() => txtCurrentStep.Text = string.Format(StringsContainer.Instance.SqlCurrentStepMsg,
-						//																	_currentStatement.SqlFile, i + 1, _SQLsToExecute.Length));
-					}
-
-					try
-					{
-						string sql = GetRidOfGoStatement(_SQLsToExecute[i]);
-						ExecuteSql(sql);
-						sql = null;
-					}
-					catch (SqlException ex)
-					{
-						Log.Instance.Error("ProcessSqlStatements", ex);
-						throw;
-					}
-					catch (Exception ex)
-					{
-						Log.Instance.Error("ProcessSqlStatements", ex);
-						throw;
-					}
-				}//end for
-
-				_SQLsToExecute = null;
-				_SqlPartIndex = -1;
-			}// end if _currentStatement != null
+			string failMsg = string.Format("Fail: {0} {1} Message: {2}{1}", _currentStatement.DataFile, Environment.NewLine, exc.Message);
+			Log.Instance.Error(failMsg);
+			return null;
 		}
 
-		private string GetRidOfGoStatement(string sql)
+		private object OnErrorHandler(Exception ex, object state)
 		{
-			StringBuilder sb = new StringBuilder();
-			using (var sr = new System.IO.StringReader(sql))
-			{
-				string line = string.Empty;
-				bool isGoFound = false;
-				while ((line = sr.ReadLine()) != null)
-				{
-					if (line.ContainsOnly("GO"))
-					{
-						isGoFound = true;
-						continue;
-					}
-					else if (isGoFound && line.StartsWithIgnoreSpaces(Environment.NewLine))
-					{
-						isGoFound = false;
-						continue;
-					}
-					sb.AppendLine(line);
-				}
-				sql = sb.ToString();
-				sb.Clear();
-				sb = null;
-			}
-			return sql;
-		}
+			string failMsg = string.Format("Fail: {0} {1} Message: {2}{1}", _currentStatement.DataFile, Environment.NewLine, ex.Message);
+			Log.Instance.Error(failMsg);
 
-		private void ExecuteSql(string sql)
-		{
-			if (!string.IsNullOrEmpty(sql) && !string.IsNullOrWhiteSpace(sql))
-			{
-				using (var command = _sqlConnection.CreateCommand())
-				{
-					if (sql.IndexOf("select", StringComparison.OrdinalIgnoreCase) != -1 &&
-						sql.IndexOf("@@version", StringComparison.OrdinalIgnoreCase) != -1 &&
-						_currentSetupType == DbSetupType.New)
-					{
-						command.CommandText = sql;
-						object data = command.ExecuteScalar();
-						if (data != null && data is string)
-						{
-							string msg = string.Format("{0} {1}", data as string, Environment.NewLine);
-							Log.Instance.Info(msg);
-						}
-						return;
-					}
-
-					command.CommandTimeout = sqlCommandTimeout;//add some trick , default command timeout was 30 secs.
-					command.CommandText = sql;
-					int rowsAffected = command.ExecuteNonQuery();
-				}
-				Thread.Sleep(scriptSleepTimeout);
-			}//end if
-			else
-				Log.Instance.Warn("Sql string is empty");
+			return null;
 		}
 
 		private void ProcessFinalSteps(SqlConnectionStringBuilder strBuilder)

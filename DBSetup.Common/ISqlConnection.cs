@@ -17,7 +17,7 @@ namespace DBSetup.Common
 		string Password { get; set; }
 	}
 
-	public class SqlConnectionSettings : ISqlConnectionSettings
+	public sealed class SqlConnectionSettings : ISqlConnectionSettings
 	{
 		private bool _disposed = false;
 

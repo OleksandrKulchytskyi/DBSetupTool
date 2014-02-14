@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DBSetup.Common.DICOM
 {
-	public class DicomSectionHandler : ISectionHandler
+	public sealed class DicomSectionHandler : ISectionHandler, IDisposable
 	{
 		private Action<string, object> onPreHandle;
 		private Action<string> onStep;
@@ -15,6 +15,7 @@ namespace DBSetup.Common.DICOM
 		private volatile bool isCancelled = false;
 
 		private Importer curreantImporter = null;
+		private bool disposed = false;
 
 		public object Parameters
 		{
@@ -147,7 +148,6 @@ namespace DBSetup.Common.DICOM
 				this.onEntryProcessed = onProcessed;
 		}
 
-
 		public void OnBunchHandled(Action<object> onBunch)
 		{
 			// no handling for dicom
@@ -158,7 +158,6 @@ namespace DBSetup.Common.DICOM
 			// no handling for dicom
 		}
 
-
 		public void Cancel()
 		{
 			if (isCancelled) return;
@@ -166,6 +165,19 @@ namespace DBSetup.Common.DICOM
 			isCancelled = true;
 			if (curreantImporter != null)
 				curreantImporter.Cancel();
+		}
+
+		public void Dispose()
+		{
+			if (disposed)
+				return;
+			disposed = true;
+			GC.SuppressFinalize(this);
+			if (curreantImporter != null)
+			{
+				curreantImporter.Dispose();
+				curreantImporter = null;
+			}
 		}
 	}
 }

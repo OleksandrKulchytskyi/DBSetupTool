@@ -9,7 +9,8 @@ namespace DBSetup.Common
 	public sealed class Log : SingletonBase<Log>, ILog, IDisposable
 	{
 		private bool _isDisposed = false;
-		private log4net.ILog _Logger = null;
+		private log4net.ILog _Logger;
+
 		private Log()
 		{
 			_Logger = LogManager.GetLogger(typeof(Log).FullName);

@@ -324,7 +324,8 @@ namespace DBSetup
 		{
 			this.RevertCtrlPlusA();
 
-			if (_sqlSettings != null) _sqlSettings.Dispose();
+			if (_sqlSettings != null)
+				_sqlSettings.Dispose();
 
 			if (rootForm != null)
 			{
@@ -490,8 +491,6 @@ namespace DBSetup
 			builder.MaxPoolSize = 20;
 			builder.Pooling = true;
 
-			IsTriesCountExceeded = false;
-
 			using (_sqlConnection = new SqlConnection(builder.ToString()))
 			{
 				if (_sqlConnection.State != System.Data.ConnectionState.Open && _sqlConnection.State != System.Data.ConnectionState.Connecting)
@@ -592,8 +591,6 @@ namespace DBSetup
 						_signalEvent.Reset();
 					}
 					#endregion
-
-					//WaitForUserInputIfNeeded();
 				}// end for loop statement
 
 				if (CurrentRunStatus != RunStatus.TERMINATED)
@@ -640,24 +637,6 @@ namespace DBSetup
 			}//end using SqlConnection
 		}
 
-		private void WaitForUserInputIfNeeded()
-		{
-			//if user has stopped execution and it is not a first run or execution mode is on step over source just wait for user input
-			if ((CurrentRunStatus == RunStatus.STOPPED && !IsFirstRun) ||
-					(CurrentRunStatus != RunStatus.RUNNING && CurrentRunStatus != RunStatus.ERROR &&
-					 CurrentRunStatus != RunStatus.STEPSTATEMENT && CurrentRunStatus == RunStatus.STEPSOURCE))
-			{
-				this.ExecAction(() =>
-				{
-					if (btnRun.Text.IndexOf(_stopString, StringComparison.OrdinalIgnoreCase) >= 0)
-						btnRun.Text = _runString;
-				});
-				DisableStepsAndChangeRun(false, true);
-				DisableScriptEditing(false);
-				_signalEvent.WaitOne(); //waits for user input
-			}
-		}
-
 		#region SQL handler callbacks
 
 		private void OnPreSqlStage(string arg1, object arg2)
@@ -668,7 +647,10 @@ namespace DBSetup
 		private void OnSqlEngineOutput(string output)
 		{
 			if (output != null)
+			{
+				Log.Instance.Info(output);
 				txtExecutionLog.ExecAction(() => txtExecutionLog.AppendText(output));
+			}
 		}
 
 		private void OnSQLStep(string state)
@@ -760,7 +742,6 @@ namespace DBSetup
 
 		private object OnErrorHandler(Exception ex, object state)
 		{
-			object result = null;
 			this.ExecAction(() =>
 			{
 				string failMsg = string.Format("Fail: {0} {1} Message: {2}{1}", _currentStatement.DataFile, Environment.NewLine, ex.Message);
@@ -770,7 +751,7 @@ namespace DBSetup
 
 			});
 
-			return result;
+			return null;
 		}
 		#endregion
 
@@ -1084,7 +1065,5 @@ namespace DBSetup
 				ProceedNextStep();
 			}
 		}
-
-		public bool IsTriesCountExceeded { get; set; }
 	}
 }

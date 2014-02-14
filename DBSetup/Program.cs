@@ -81,7 +81,19 @@ namespace DBSetup
 							{
 								Log.Instance.Warn(ex.Message);
 							}
-
+							executor.OnStep((msg) =>
+							{
+								if (msg == null) return;
+								try
+								{
+									using (GUIConsoleWriter output = new GUIConsoleWriter())
+									{
+										output.InitHandles();
+										output.WriteLine(msg as string);
+									}
+								}
+								catch { }
+							});
 							executor.Execute();
 
 							try

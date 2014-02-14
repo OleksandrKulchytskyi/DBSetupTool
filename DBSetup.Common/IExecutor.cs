@@ -1,9 +1,11 @@
-﻿
+﻿using System;
+
 namespace DBSetup.Common
 {
 	public interface IExecutor
 	{
-		void SetParameters(string config);
 		void Execute();
+		void OnStep(Action<object> onStep);
+		void SetParameters(string config);
 	}
 }

@@ -31,6 +31,8 @@ namespace DBSetup.Common.Services
 		private const string msg1 = "configuration script and user entered data ({0} of {1})";
 		private const int scriptSleepTimeout = 35; //delay after script ends it's execution (ms)
 
+		private Action<object> onStepHandler;
+
 		private CompositionContainer _container;
 		private IGlobalState _global;
 		private ISqlConnectionSettings _sqlSettings;
@@ -167,6 +169,12 @@ namespace DBSetup.Common.Services
 
 				RunScript(strBuilder);
 			}
+		}
+
+		public void OnStep(Action<object> onStep)
+		{
+			if (onStep != null)
+				this.onStepHandler = onStep;
 		}
 
 		#region internal implementation
@@ -815,7 +823,12 @@ namespace DBSetup.Common.Services
 				{
 					_statementIndex = i;
 					_currentStatement = _dataStatements[i];
-					Log.Instance.Info("Begin to execute {0}".FormatWith(_currentStatement.DataFile));
+					string beginMsg = "Begin to execute {0}".FormatWith(_currentStatement.DataFile);
+					Log.Instance.Info(beginMsg);
+					if (onStepHandler != null)
+					{
+						onStepHandler(beginMsg);
+					}
 
 					#region new handling mechanism
 					//handle DICOM sections

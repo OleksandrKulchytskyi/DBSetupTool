@@ -44,7 +44,6 @@ namespace DBSetup
 		private const string _stopString = "Stop";
 		private const string _dateTimeFormat = "dd-MM-yyyy hh:mm:ss";
 		private const string _logLocation = @"Log\DbSetupLog.txt";
-		private const int _maxRetriesCount = 5;
 
 		//delay after script ends it's execution (ms)
 		private const int scriptSleepTimeout = 60;
@@ -105,88 +104,10 @@ namespace DBSetup
 			}
 		}
 
-		private bool _isTriesExceed = false;
-		private bool IsTriesExceed
-		{
-			get
-			{
-				bool isLockTaken = false;
-				try
-				{
-					Monitor.Enter(_lockObj, ref isLockTaken);
-					return _isTriesExceed;
-				}
-				finally
-				{
-					if (isLockTaken)
-					{
-						Monitor.Pulse(_lockObj);
-						Monitor.Exit(_lockObj);
-					}
-				}
-			}
-			set
-			{
-				bool isLockTaken = false;
-				try
-				{
-					Monitor.Enter(_lockObj, ref isLockTaken);
-					_isTriesExceed = value;
-				}
-				finally
-				{
-					if (isLockTaken)
-					{
-						Monitor.Pulse(_lockObj);
-						Monitor.Exit(_lockObj);
-					}
-				}
-			}
-		}
-
 		//Check if execution workflow is resides in state pending user input
 		public bool IsEventPaused
 		{
 			get { return !_signalEvent.WaitOne(3); }
-		}
-
-		private int _exceptionOccurs = 0;
-		private int ExceptionOccurs
-		{
-			get
-			{
-				bool isLockTaken = false;
-				try
-				{
-					Monitor.Enter(_lockObj, ref isLockTaken);
-					return _exceptionOccurs;
-				}
-				finally
-				{
-					if (isLockTaken)
-					{
-						Monitor.Pulse(_lockObj);
-						Monitor.Exit(_lockObj);
-					}
-				}
-			}
-			set
-			{
-				bool isLockTaken = false;
-				try
-				{
-					Monitor.Enter(_lockObj, ref isLockTaken);
-					_exceptionOccurs = value;
-				}
-				finally
-				{
-					if (isLockTaken)
-					{
-						Monitor.Pulse(_lockObj);
-						Monitor.Exit(_lockObj);
-					}
-				}
-			}
 		}
 
 		private RunStatus _curRunStatus;

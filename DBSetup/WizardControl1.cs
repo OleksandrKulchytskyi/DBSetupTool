@@ -54,12 +54,12 @@ namespace DBSetup
 
 				loadingTask.RegisterSucceededHandler(OnLoadingSucceeded, TaskScheduler.FromCurrentSynchronizationContext());
 			}
-			else if (StateContainer.Instance[1] != null && StateContainer.Instance.GetConcreteInstance<StateDBSettings>().LocaSqlInstances.Count > 0)
+			else if (StateContainer.Instance[1] != null && StateContainer.Instance.GetState<StateDBSettings>().LocaSqlInstances.Count > 0)
 			{
 				if (cmbSLQInstances.Items.Count > 0)
 					cmbSLQInstances.Items.Clear();
 
-				foreach (string Item in StateContainer.Instance.GetConcreteInstance<StateDBSettings>().LocaSqlInstances)
+				foreach (string Item in StateContainer.Instance.GetState<StateDBSettings>().LocaSqlInstances)
 				{
 					cmbSLQInstances.Items.Add(Item);
 				}
@@ -132,10 +132,10 @@ namespace DBSetup
 				dataSource = cmbSLQInstances.Text;
 			}
 
-			StateContainer.Instance.GetConcreteInstance<StateDBSettings>().UserName = txtUserName.Text.Trim();
-			StateContainer.Instance.GetConcreteInstance<StateDBSettings>().ServerName = cmbSLQInstances.SelectedItem != null ?
+			StateContainer.Instance.GetState<StateDBSettings>().UserName = txtUserName.Text.Trim();
+			StateContainer.Instance.GetState<StateDBSettings>().ServerName = cmbSLQInstances.SelectedItem != null ?
 																						(cmbSLQInstances.SelectedItem as string).Trim() : dataSource.Trim();
-			StateContainer.Instance.GetConcreteInstance<StateDBSettings>().Password = txtPassword.Text.Trim();
+			StateContainer.Instance.GetState<StateDBSettings>().Password = txtPassword.Text.Trim();
 			dataSource = string.IsNullOrEmpty(dataSource) ? (cmbSLQInstances.SelectedItem as string).Trim() : dataSource.Trim();
 
 			var strBuilder = new System.Data.SqlClient.SqlConnectionStringBuilder();
@@ -181,9 +181,9 @@ namespace DBSetup
 				StateContainer.Instance.AddState(2, sqlServerReportState);
 			else
 			{
-				StateContainer.Instance.GetConcreteInstance<SqlServerReportState>().Comm4Version = sqlServerReportState.Comm4Version;
-				StateContainer.Instance.GetConcreteInstance<SqlServerReportState>().SQLVersion = sqlServerReportState.SQLVersion;
-				StateContainer.Instance.GetConcreteInstance<SqlServerReportState>().IsComm4Exists = sqlServerReportState.IsComm4Exists;
+				StateContainer.Instance.GetState<SqlServerReportState>().Comm4Version = sqlServerReportState.Comm4Version;
+				StateContainer.Instance.GetState<SqlServerReportState>().SQLVersion = sqlServerReportState.SQLVersion;
+				StateContainer.Instance.GetState<SqlServerReportState>().IsComm4Exists = sqlServerReportState.IsComm4Exists;
 			}
 
 			if (CheckForComm1())
@@ -204,9 +204,9 @@ namespace DBSetup
 			if (!(StateContainer.Instance[2] as SqlServerReportState).IsComm4Exists)
 			{
 				var strBuilder = new System.Data.SqlClient.SqlConnectionStringBuilder();
-				strBuilder.DataSource = StateContainer.Instance.GetConcreteInstance<StateDBSettings>().ServerName;
-				strBuilder.UserID = StateContainer.Instance.GetConcreteInstance<StateDBSettings>().UserName;
-				strBuilder.Password = StateContainer.Instance.GetConcreteInstance<StateDBSettings>().Password;
+				strBuilder.DataSource = StateContainer.Instance.GetState<StateDBSettings>().ServerName;
+				strBuilder.UserID = StateContainer.Instance.GetState<StateDBSettings>().UserName;
+				strBuilder.Password = StateContainer.Instance.GetState<StateDBSettings>().Password;
 				if (SqlServerHelper.CheckDatabaseExists(strBuilder.ToString(), "Comm1"))
 				{
 					if (MessageBox.Show(mainForm, "Would you like to rename the Comm1 database to the Comm4 ?", "Rename", MessageBoxButtons.YesNo, MessageBoxIcon.Information) ==

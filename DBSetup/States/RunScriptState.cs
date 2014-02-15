@@ -10,6 +10,7 @@ namespace DBSetup.States
 {
 	internal sealed class RunScriptState : IState, IDisposable
 	{
+		private readonly string _name = "RunScriptState";
 		private CompositionContainer _container = null;
 		private uint disposed = 0;
 
@@ -17,8 +18,6 @@ namespace DBSetup.States
 		{
 			IsSuccessed = -1;
 		}
-
-		private readonly string _name = "RunScriptState";
 
 		public string Name
 		{
@@ -59,14 +58,14 @@ namespace DBSetup.States
 
 					_container = new CompositionContainer(agCatalog);
 
-					_container.ComposeParts(this, StateContainer.Instance.GetConcreteInstance<DbSetupState>(),
-											StateContainer.Instance.GetConcreteInstance<ConfigFileState>(),
-											StateContainer.Instance.GetConcreteInstance<StateDBSettings>());
+					_container.ComposeParts(this, StateContainer.Instance.GetState<DbSetupState>(),
+											StateContainer.Instance.GetState<ConfigFileState>(),
+											StateContainer.Instance.GetState<StateDBSettings>());
 				}
 			}
 			catch (CompositionException ex)
 			{
-				Log.Instance.Fatal("Fail to compose parts", ex);
+				Log.Instance.Fatal("Fail to compose parts.", ex);
 				throw;
 			}
 
@@ -75,7 +74,7 @@ namespace DBSetup.States
 				var val = StatementFactory.Value;
 				if ((val as Common.ModelBuilder.DataStatementsFactory).SelectedSetupConfig != null)
 				{
-					Log.Instance.Info("MEF initialization has been successfully performed");
+					Log.Instance.Info("MEF initialization has been successfully performed.");
 				}
 			}
 		}
@@ -86,15 +85,14 @@ namespace DBSetup.States
 				return;
 			disposed = 0;
 
+			if (DataStatements != null && DataStatements.Count > 0)
+				DataStatements.Clear();
+
 			if (_container != null)
 			{
 				_container.Dispose();
 				_container = null;
 			}
-
-			if (DataStatements != null && DataStatements.Count > 0)
-				DataStatements.Clear();
-
 		}
 	}
 }

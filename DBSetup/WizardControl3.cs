@@ -320,11 +320,11 @@ namespace DBSetup
 
 			bool needToContinue = false;
 
-			if (StateContainer.Instance.GetConcreteInstance<DbSetupState>().DatabaseSetupType == DbSetupType.New)
+			if (StateContainer.Instance.GetState<DbSetupState>().DatabaseSetupType == DbSetupType.New)
 			{
 				needToContinue = true;
 
-				if (StateContainer.Instance.GetConcreteInstance<SqlServerReportState>().IsComm4Exists)
+				if (StateContainer.Instance.GetState<SqlServerReportState>().IsComm4Exists)
 				{
 					if (MessageBox.Show(rootControl, StringsContainer.Instance.DbIsExistsMessage, "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
 						 MessageBoxDefaultButton.Button2) == DialogResult.No)
@@ -332,7 +332,7 @@ namespace DBSetup
 					Helpers.UiHelper.CloseWindow("Overwrite?");
 				}
 			}
-			else if (StateContainer.Instance.GetConcreteInstance<DbSetupState>().DatabaseSetupType == DbSetupType.Upgrade)
+			else if (StateContainer.Instance.GetState<DbSetupState>().DatabaseSetupType == DbSetupType.Upgrade)
 				needToContinue = true;
 
 			if (!needToContinue)

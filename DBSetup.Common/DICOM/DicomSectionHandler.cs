@@ -79,10 +79,7 @@ namespace DBSetup.Common.DICOM
 						finally
 						{
 							if (curreantImporter != null)
-							{
 								curreantImporter.Dispose();
-								curreantImporter = null;
-							}
 						}
 						//TODO: Omit commnet here if we need to stop execusion in case of Exception.
 						//if (!result) break;

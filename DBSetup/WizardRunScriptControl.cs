@@ -107,7 +107,7 @@ namespace DBSetup
 		//Check if execution workflow is resides in state pending user input
 		public bool IsEventPaused
 		{
-			get { return !_signalEvent.WaitOne(3); }
+			get { return !_signalEvent.WaitOne(1); }
 		}
 
 		private RunStatus _curRunStatus;
@@ -191,11 +191,21 @@ namespace DBSetup
 			mainTask.RegisterSucceededHandler(OnMainSucceed, TaskScheduler.FromCurrentSynchronizationContext());
 		}
 
+		private void WizardRunScriptControl_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control && e.KeyCode == Keys.N)
+			{
+				ProceedNextStep();
+			}
+			else if (e.Control && e.KeyCode == Keys.T)
+				ConfirmCancellation(false);
+		}
+
 		private void OnMainSucceed(List<IDataStatement> result)
 		{
 			groupBox1.Enabled = true;
 			Log.Instance.Info(StringsContainer.Instance.LisOfSqlStatemenetsSuccess);
-			StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements = result;
+			StateContainer.Instance.GetState<RunScriptState>().DataStatements = result;
 
 			int indx = StringsContainer.Instance.ConfigScriptAndUserDataMsg.IndexOf("(");
 			string setupText = StringsContainer.Instance.ConfigScriptAndUserDataMsg.Substring(0, indx);
@@ -205,9 +215,9 @@ namespace DBSetup
 			IDataStatement newSQl = new SqlDataStatement(PrepareNewSetupSQLScripts(), setupText);
 			newSQl.ContentRoot = section;
 
-			StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements.Insert(0, newSQl);
+			StateContainer.Instance.GetState<RunScriptState>().DataStatements.Insert(0, newSQl);
 
-			_dbSettings = StateContainer.Instance.GetConcreteInstance<RunScriptState>().DbConSettings;
+			_dbSettings = StateContainer.Instance.GetState<RunScriptState>().DbConSettings;
 			_sqlSettings = new SqlConnectionSettings(_dbSettings.ServerName, _dbName, _dbSettings.UserName, _dbSettings.Password);
 			_mainRunner.Start();
 		}
@@ -229,8 +239,9 @@ namespace DBSetup
 		{
 			if ((sender as Button).Text.IndexOf("Exit") != -1)
 			{
-				this.Load -= WizardRunScriptControl_Load;
 				rootForm = null;
+				this.Load -= WizardRunScriptControl_Load;
+				StateContainer.Instance.GetState<RunScriptState>().DataStatements.Clear();
 
 				if (_sqlSettings != null) _sqlSettings.Dispose();
 
@@ -255,11 +266,11 @@ namespace DBSetup
 
 				try
 				{
-					StateContainer.Instance.GetConcreteInstance<RunScriptState>().IsSuccessed = 1;
+					StateContainer.Instance.GetState<RunScriptState>().IsSuccessed = 1;
 
-					if (StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements != null &&
-						StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements.Count > 0)
-						StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements.Clear();
+					if (StateContainer.Instance.GetState<RunScriptState>().DataStatements != null &&
+						StateContainer.Instance.GetState<RunScriptState>().DataStatements.Count > 0)
+						StateContainer.Instance.GetState<RunScriptState>().DataStatements.Clear();
 
 					_signalEvent.Dispose();
 					_signalEvent = null;
@@ -279,29 +290,42 @@ namespace DBSetup
 			ConfirmCancellation();
 		}
 
-		private void ConfirmCancellation()
+		private void ConfirmCancellation(bool withExit = true)
 		{
 			if (MessageBox.Show(rootForm, StringsContainer.Instance.ExitConfirmation, StringsContainer.Instance.ExitConfirmationTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 				== System.Windows.Forms.DialogResult.Yes)
 			{
-				StateContainer.Instance.GetConcreteInstance<RunScriptState>().IsSuccessed = -1;
-				this.RevertCtrlPlusA();
+				StateContainer.Instance.GetState<RunScriptState>().IsSuccessed = -1;
+
 				_cts.Cancel();
-				CurrentRunStatus = RunStatus.STOPPED;
+				CancelHandlerExecution();
+				this.RevertCtrlPlusA();
 
 				try
 				{
-					_signalEvent.Dispose();
-					_signalEvent = null;
+					if (CurrentRunStatus == RunStatus.STEPSOURCE || CurrentRunStatus == RunStatus.STEPSTATEMENT)
+					{
+						if (IsEventPaused)
+						{
+							_signalEvent.Reset();
+							_signalEvent.Set();
+						}
+					}
 				}
 				catch (Exception ex)
 				{
 					Log.Instance.Warn(ex.Message);
 				}
-				finally { GC.Collect(); }
+				finally
+				{
+					CurrentRunStatus = RunStatus.CANCELLED;
+				}
 
-				Program.IsExitRequired = true;
-				Application.Exit();
+				if (withExit)
+				{
+					Program.IsExitRequired = true;
+					Application.Exit();
+				}
 			}
 		}
 
@@ -437,13 +461,14 @@ namespace DBSetup
 
 				#endregion perform initial log info
 
-				for (int i = 0; i < StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements.Count; i++)
+				int count = StateContainer.Instance.GetState<RunScriptState>().DataStatements.Count;
+				for (int i = 0; i < count; i++)
 				{
 					if (CurrentRunStatus == RunStatus.CONTINUE)
 						i--; //returns to the exceptional state and try to re-execute from the last saved point
 
 					_statementIndex = i;
-					_currentStatement = StateContainer.Instance.GetConcreteInstance<RunScriptState>().DataStatements[i];
+					_currentStatement = StateContainer.Instance.GetState<RunScriptState>().DataStatements[i];
 					//CurrentRunStatus = CurrentRunStatus;
 
 					if (_cts.IsCancellationRequested || CurrentRunStatus == RunStatus.TERMINATED)
@@ -466,14 +491,14 @@ namespace DBSetup
 							if (currentHandler.Handle(_currentStatement.ContentRoot))
 								txtExecutionLog.ExecAction(() =>
 								{
-									string scriptExecuted = string.Format("Executed: {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+									string scriptExecuted = string.Format("Executed: {0}{1}", _currentStatement.DataFile, Environment.NewLine);
 									txtExecutionLog.AppendText(scriptExecuted);
 									Log.Instance.Info(scriptExecuted);
 								});
 							else
 								txtExecutionLog.ExecAction(() =>
 								{
-									string scriptExecuted = string.Format("Executed with error(s): {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+									string scriptExecuted = string.Format("Executed with error(s): {0}{1}", _currentStatement.DataFile, Environment.NewLine);
 									txtExecutionLog.AppendText(scriptExecuted);
 									Log.Instance.Info(scriptExecuted);
 								});
@@ -495,7 +520,7 @@ namespace DBSetup
 						{
 							txtExecutionLog.ExecAction(() =>
 							{
-								string scriptExecuted = string.Format("Executed: {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+								string scriptExecuted = string.Format("Executed: {0}{1}", _currentStatement.DataFile, Environment.NewLine);
 								txtExecutionLog.AppendText(scriptExecuted);
 								Log.Instance.Info(scriptExecuted);
 							});
@@ -504,7 +529,7 @@ namespace DBSetup
 						{
 							txtExecutionLog.ExecAction(() =>
 							{
-								string scriptExecuted = string.Format("Executed with error(s): {0} {1}", _currentStatement.DataFile, Environment.NewLine);
+								string scriptExecuted = string.Format("Executed with error(s): {0}{1}", _currentStatement.DataFile, Environment.NewLine);
 								txtExecutionLog.AppendText(scriptExecuted);
 								Log.Instance.Info(scriptExecuted);
 							});
@@ -514,14 +539,14 @@ namespace DBSetup
 					#endregion
 				}// end for loop statement
 
-				if (CurrentRunStatus != RunStatus.TERMINATED)
+				if (CurrentRunStatus != RunStatus.TERMINATED && CurrentRunStatus != RunStatus.CANCELLED)
 					CurrentRunStatus = RunStatus.FINISHED;
 
 			Cancel:
 
 				txtExecutionLog.ExecAction(() =>
 				{
-					string msgEndTime = string.Format("End time: {0} {1}", DateTime.Now.ToString(_dateTimeFormat), Environment.NewLine);
+					string msgEndTime = string.Format("End time: {0}{1}", DateTime.Now.ToString(_dateTimeFormat), Environment.NewLine);
 					Log.Instance.Info(msgEndTime);
 					txtExecutionLog.AppendText(msgEndTime);
 
@@ -532,24 +557,31 @@ namespace DBSetup
 					txtScriptToRun.Clear();
 					txtCurrentStep.Enabled = false;
 					txtScriptToRun.Enabled = false;
+
+					if (CurrentRunStatus == RunStatus.CANCELLED)
+					{
+						string cancelledMessage = string.Format("Workflow has been cancelled {0}{1}", DateTime.Now.ToString(_dateTimeFormat), Environment.NewLine);
+						Log.Instance.Info(cancelledMessage);
+						txtExecutionLog.AppendText(cancelledMessage);
+						btnNext.Text = "Exit";
+					}
 				});
 
 				SetButtonsEnabled(false);
-				btnNext.ExecAction(() => btnNext.Enabled = true);
 
 				try
 				{
 					if (_sqlConnection.State == System.Data.ConnectionState.Open && _sqlConnection.State != System.Data.ConnectionState.Closed)
 						_sqlConnection.Close();
 
-					var type = StateContainer.Instance.GetConcreteInstance<States.DbSetupState>().DatabaseSetupType;
+					var type = StateContainer.Instance.GetState<States.DbSetupState>().DatabaseSetupType;
 					if (type == DbSetupType.Upgrade)
 						this.ExecAction(() => btnNext.Text = "Exit");
 
 				}
 				catch (SqlException ex)
 				{
-					Log.Instance.Error("Error has been occurred while closing SQL connection", ex);
+					Log.Instance.Error("Error has been occurred while closing SQL connection.", ex);
 				}
 				finally
 				{
@@ -702,7 +734,7 @@ namespace DBSetup
 		private List<IDataStatement> GenerateStatements()
 		{
 			this.ExecAction(() => groupBox1.Enabled = false);
-			return StateContainer.Instance.GetConcreteInstance<RunScriptState>().StatementFactory.Value.Generate();
+			return StateContainer.Instance.GetState<RunScriptState>().StatementFactory.Value.Generate();
 		}
 
 		private string PrepareNewSetupSQLScripts()
@@ -718,7 +750,7 @@ namespace DBSetup
 			string logPath = string.Empty;
 			int dbSize = 0, dbGrowthSize = 0, logSize = 0, logGrowthSize = 0;
 
-			var settingsDB = States.StateContainer.Instance.GetConcreteInstance<States.DbSetupState>();
+			var settingsDB = States.StateContainer.Instance.GetState<States.DbSetupState>();
 			if (settingsDB != null)
 			{
 				DbName = System.IO.Path.GetFileNameWithoutExtension(settingsDB.DbFileName);
@@ -813,7 +845,7 @@ namespace DBSetup
 
 				#region in case when SQL Server version is less then SQL Server 2012
 
-				if (StateContainer.Instance.GetConcreteInstance<SqlServerReportState>().SQLVersion.IndexOf("2012", StringComparison.Ordinal) == -1)
+				if (StateContainer.Instance.GetState<SqlServerReportState>().SQLVersion.IndexOf("2012", StringComparison.Ordinal) == -1)
 				{
 					ChangePairValue(ref pair, settingsDB.DatabaseConfiguration.Children.OfType<SettingsPair>().FirstOrDefault(
 									x => x.Key.Equals("SelectIntoBulkCopy", StringComparison.OrdinalIgnoreCase)));
@@ -978,13 +1010,5 @@ namespace DBSetup
 		}
 
 		#endregion Helpers
-
-		private void WizardRunScriptControl_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Control && e.KeyCode == Keys.N)
-			{
-				ProceedNextStep();
-			}
-		}
 	}
 }

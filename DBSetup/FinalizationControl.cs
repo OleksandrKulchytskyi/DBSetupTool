@@ -160,7 +160,7 @@ namespace DBSetup
 			if (_initialized == 1) return;
 
 			_initialized = 1;
-			var finalState = StateContainer.Instance.GetConcreteInstance<FinalState>();
+			var finalState = StateContainer.Instance.GetState<FinalState>();
 			if (finalState != null)
 			{
 				finalState.HealthSystemName = txtHealthSystem.Text;
@@ -169,13 +169,13 @@ namespace DBSetup
 			}
 
 			_sqlConn = new SqlConnection();
-			_dbSettings = StateContainer.Instance.GetConcreteInstance<StateDBSettings>();
+			_dbSettings = StateContainer.Instance.GetState<StateDBSettings>();
 			SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
 			sqlBuilder.DataSource = _dbSettings.ServerName;
 			sqlBuilder.UserID = _dbSettings.UserName;
 			sqlBuilder.Password = _dbSettings.Password;
 
-			sqlBuilder.InitialCatalog = Path.GetFileNameWithoutExtension(StateContainer.Instance.GetConcreteInstance<DbSetupState>().DbFileName);
+			sqlBuilder.InitialCatalog = Path.GetFileNameWithoutExtension(StateContainer.Instance.GetState<DbSetupState>().DbFileName);
 			sqlBuilder.MaxPoolSize = 20;
 			sqlBuilder.Pooling = true;
 
@@ -261,7 +261,7 @@ namespace DBSetup
 			scriptBuilder = null;
 
 			IDataStatementFactory factory = null;
-			var runScriptState = StateContainer.Instance.GetConcreteInstance<RunScriptState>();
+			var runScriptState = StateContainer.Instance.GetState<RunScriptState>();
 			if (runScriptState != null && runScriptState.StatementFactory != null && runScriptState.StatementFactory.Value != null)
 				factory = runScriptState.StatementFactory.Value;
 			else

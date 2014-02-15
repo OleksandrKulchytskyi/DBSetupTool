@@ -7,7 +7,7 @@ namespace DBSetup.States
 {
 	internal class StateContainer : SingletonBase<StateContainer>
 	{
-		private Dictionary<int, IState> _States = null;
+		private readonly Dictionary<int, IState> _States;
 		private bool _isExitRequired = false;
 
 		private StateContainer()
@@ -36,7 +36,7 @@ namespace DBSetup.States
 			set { _isExitRequired = value; }
 		}
 
-		public T GetConcreteInstance<T>()
+		public T GetState<T>()
 		{
 			return _States.Values.OfType<T>().FirstOrDefault();
 		}

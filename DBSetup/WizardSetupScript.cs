@@ -52,9 +52,9 @@ namespace DBSetup
 				if (StateContainer.Instance[4] == null)
 					StateContainer.Instance.AddState(4, new States.SetupScriptState());
 				txtSetupScript.Text = string.Empty;
-				StateContainer.Instance.GetConcreteInstance<SetupScriptState>().DocumentText = builder.GetDocumentResult();
+				StateContainer.Instance.GetState<SetupScriptState>().DocumentText = builder.GetDocumentResult();
 
-				using (var sr = new System.IO.StringReader(StateContainer.Instance.GetConcreteInstance<SetupScriptState>().DocumentText.GetDocumentText()))
+				using (var sr = new System.IO.StringReader(StateContainer.Instance.GetState<SetupScriptState>().DocumentText.GetDocumentText()))
 				{
 					string line = null;
 					while ((line = sr.ReadLine()) != null)
@@ -123,7 +123,7 @@ namespace DBSetup
 				if (StateContainer.Instance[5] == null)
 					StateContainer.Instance.AddState(5, new RunScriptState());
 
-				StateContainer.Instance.GetConcreteInstance<RunScriptState>().ComposeParts();
+				StateContainer.Instance.GetState<RunScriptState>().ComposeParts();
 
 				ClearDocText();
 				txtSetupScript.Clear();
@@ -165,10 +165,10 @@ namespace DBSetup
 
 		private void ClearDocText()
 		{
-			if (StateContainer.Instance.GetConcreteInstance<States.SetupScriptState>().DocumentText != null)
+			if (StateContainer.Instance.GetState<States.SetupScriptState>().DocumentText != null)
 			{
-				StateContainer.Instance.GetConcreteInstance<States.SetupScriptState>().DocumentText.Clear();
-				StateContainer.Instance.GetConcreteInstance<States.SetupScriptState>().DocumentText = null;
+				StateContainer.Instance.GetState<States.SetupScriptState>().DocumentText.Clear();
+				StateContainer.Instance.GetState<States.SetupScriptState>().DocumentText = null;
 			}
 		}
 
